@@ -39,7 +39,7 @@ const Header = ({ setHidden, Hidden }) => {
       <div className="p:flex justify-between w-full mx-2 items-center relative d:hidden">
         <div
           className=" flex items-center justify-center border-b border-gray-800 py-3"
-          onClick={() => setHidden(!Hidden)}
+          onClick={() => setHidden(!  Hidden)}
         >
           <img
             src="https://image-sn.s3.amazonaws.com/Russo+Tech.png"

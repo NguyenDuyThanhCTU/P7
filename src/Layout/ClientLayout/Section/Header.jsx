@@ -5,6 +5,8 @@ import { MdOutlineFormatListBulleted } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
 import { useData } from "../../../Context/DataProviders";
 import DropDown from "../Item/DropDown";
+import { AiFillCaretRight } from "react-icons/ai";
+import { DropDownItems } from "../../../Utils/temp";
 
 const Header = () => {
   const [isSelected, setIsSelected] = useState(0);
@@ -130,39 +132,66 @@ const Header = () => {
             className="scrollable-element h-[200px] w-[200px] bg-red-500 absolute top-[0] left-[0] transform transition-transform duration-300"
             style={{ top: `${elementTop}px` }}
           > */}
-              {HeaderItems.map((items, idx) => (
-                <div className="relative" key={idx}>
-                  <Link to={items.link}>
-                    <button
-                      className={`uppercase text-[18px] ${
-                        IsTranslate
-                          ? ` ${
-                              isSelected === idx
-                                ? "text-mainpink"
-                                : "text-black"
-                            }`
-                          : `text-white`
-                      }
+              {HeaderItems.map((items, idx) => {
+                const sort = DropDownItems.filter(
+                  (item) => item.parent === items.link
+                );
 
-                       `}
-                      onClick={() => {
-                        setIsSelected(idx);
-                      }}
-                    >
-                      {items.name}
-                    </button>
-                  </Link>
-                  <div
-                    className={` ${
-                      isSelected === idx
-                        ? IsTranslate
-                          ? "w-full bg-mainpink"
-                          : "w-full bg-white"
-                        : "w-0"
-                    }  duration-500 h-2 rounded-3xl absolute -bottom-[23px]`}
-                  ></div>
-                </div>
-              ))}
+                return (
+                  <div className="relative" key={idx}>
+                    <Link to={items.link}>
+                      <div className="group">
+                        <div
+                          className={`uppercase text-[18px] flex items-center justify-between  gap-2  hover:text-mainpink duration-500  ${
+                            IsTranslate
+                              ? ` ${
+                                  isSelected === idx
+                                    ? "text-mainpink"
+                                    : "text-black"
+                                }`
+                              : `text-white`
+                          }
+  
+                         `}
+                          onClick={() => {
+                            setIsSelected(idx);
+                          }}
+                        >
+                          <p> {items.name}</p>
+                          {sort.length > 0 && (
+                            <AiFillCaretRight className="group-hover:rotate-90 duration-500" />
+                          )}
+                        </div>
+                        {sort.length > 0 && (
+                          <div className="group-hover:block hidden">
+                            <div className="absolute h-5 w-full bg-none"></div>
+                            <div className="absolute  mt-5 w-max h-auto  shadow-xl rounded-lg bg-white  ">
+                              {sort.map((items, idx) => (
+                                <div>
+                                  <Link to={`/${items.link}`}>
+                                    <div className="py-4 px-8 font-light text-black hover:text-white hover:bg-mainpink">
+                                      {items.name}
+                                    </div>
+                                  </Link>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </Link>
+                    <div
+                      className={` ${
+                        isSelected === idx
+                          ? IsTranslate
+                            ? "w-full bg-mainpink"
+                            : "w-full bg-white"
+                          : "w-0"
+                      }  duration-500 h-2 rounded-3xl absolute -bottom-[23px]`}
+                    ></div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

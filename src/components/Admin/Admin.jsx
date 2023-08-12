@@ -26,14 +26,22 @@ const Admin = () => {
       <div className="flex w-full">
         <div
           className={`overflow-hidden ${
-            Hidden ? "flex-[0]" : "flex-[30%]"
-          } duration-500 `}
+            Hidden ? "flex-[0]" : "flex-[40%]"
+          } duration-500  d:hidden p:block `}
+        >
+          <Sidebar />
+        </div>
+        <div
+          className={`overflow-hidden flex-[20%]
+          d:block p:hidden`}
         >
           <Sidebar />
         </div>
         <div className="flex-[80%]  bg-[#292929] ">
           <Header setHidden={setHidden} Hidden={Hidden} />
-          <div>{/* <Content /> */}</div>
+          <div>
+            <Content />
+          </div>
         </div>
       </div>
     </div>
