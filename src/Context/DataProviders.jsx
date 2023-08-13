@@ -18,6 +18,8 @@ export const DataProviders = ({ children }) => {
   const [HeaderAdmin, setHeaderAdmin] = useState();
 
   const [accounts, setAccounts] = useState("");
+  //
+  const [CartItems, setCartItems] = useState([]);
 
   //Services
   const [Products, setProducts] = useState([]);
@@ -28,6 +30,8 @@ export const DataProviders = ({ children }) => {
   return (
     <DataContext.Provider
       value={{
+        setCartItems,
+        CartItems,
         detailOrders,
         orders,
         setDetailOrders,

@@ -8,10 +8,12 @@ import Hotline from "./Section/Hotline";
 import OnTop from "./Section/OnTop";
 import Copyright from "./Section/Copyright";
 import Footer from "./Section/Footer";
+import ShopCart from "./Section/ShopCart";
+import { useLocation } from "react-router-dom";
 
 const ClientLayout = ({ children }) => {
   const { TradeMarkData } = useData();
-
+  const location = useLocation();
   return (
     <>
       <Helmet>
@@ -24,12 +26,19 @@ const ClientLayout = ({ children }) => {
         {/* <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> */}
       </Helmet>
       <Loading />
+      <Header />
+      {location.pathname === "/" ? (
+        <>
+          {" "}
+          <div className=" ">{children}</div>
+        </>
+      ) : (
+        <>
+          <div className="w-[1250px] mx-auto my-16 ">{children}</div>
+        </>
+      )}
 
-      <div>
-        <Header />
-        <div className=" ">{children}</div>
-        <Footer />
-      </div>
+      <Footer />
       <div>
         <OnTop />
         <Hotline />

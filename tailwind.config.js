@@ -16,6 +16,7 @@ module.exports = {
         LexendDeca: ["Lexend Deca", "sans-serif"],
         Montserrat: ["Montserrat", "sans-serif"],
         NunitoSans: ["Nunito Sans", "sans-serif"],
+        SVNDancing: ["SVN-Dancing", "sans-serif"],
       },
       colors: {
         //Dashboard

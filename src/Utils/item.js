@@ -116,7 +116,7 @@ export const SocialMediaDashboard = [
     icon: "SiZalo",
     image:
       "https://atpsoftware.vn/wp-content/uploads//2020/03/20211208103735_id_zalo-1.jpg",
-    style: "hover:text-blue-400 hover:bg-white w-10",
+    style: "hover:text-blue-400 hover:bg-white",
   },
   {
     title: "Facebook cá nhân",
@@ -176,7 +176,7 @@ export const SocialMediaCustom = [
     icon: "SiZalo",
     image:
       "https://atpsoftware.vn/wp-content/uploads//2020/03/20211208103735_id_zalo-1.jpg",
-    style: "hover:text-blue-600 hover:bg-white w-10",
+    style: "hover:text-blue-600 hover:bg-white ",
   },
   {
     id: 1,
@@ -312,3 +312,18 @@ export const TypeProductItems = [
   },
 ];
 //Custom
+
+export const SortProductItems = [
+  {
+    name: "Tất cả",
+  },
+  {
+    name: "Mới về",
+  },
+  {
+    name: "Khuyến mãi",
+  },
+  {
+    name: "Bán chạy",
+  },
+];

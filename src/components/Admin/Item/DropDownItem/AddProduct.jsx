@@ -18,8 +18,12 @@ const AddProduct = ({}) => {
   const [error, setError] = useState(false);
   const [Title, setTitle] = useState();
   const [Content, setContent] = useState();
-  const [TitleType, setTitleType] = useState("Thiết kế - Thi công nội thất");
-  const [ContentType, setContentType] = useState("");
+  const [Price, setPrice] = useState();
+  //
+  const [isType, setIsType] = useState("");
+  const [isTypeParams, setIsTypeParams] = useState("");
+  const [isParent, setIsParent] = useState("");
+  const [isParentParams, setIsParentParams] = useState("");
 
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
   const { productTypes } = useData();
@@ -31,18 +35,23 @@ const AddProduct = ({}) => {
   };
 
   const HandleSubmit = () => {
-    if (!ContentType || !TitleType || !Content || !Title || !imageUrl) {
+    if (!imageUrl || !isParentParams || !isTypeParams) {
       notification["error"]({
         message: "Lỗi !!!",
         description: `Vui lòng bổ sung đầy đủ thông tin !`,
       });
     } else {
       const data = {
-        image: imageUrl,
         title: Title,
         content: Content,
-        parentType: TitleType,
-        type: ContentType,
+        price: Price,
+        type: isType,
+        image: imageUrl,
+        params: isTypeParams,
+        parent: isParent,
+        parentParams: isParentParams,
+        state: true,
+        sale: {},
       };
       console.log(data);
       addDocument("products", data).then(() => {
@@ -84,6 +93,27 @@ const AddProduct = ({}) => {
         });
     } else {
       setError(true);
+    }
+  };
+
+  const HandleParentChange = (e) => {
+    const selectedName = e.target.value;
+    setIsParent(selectedName);
+    const selectedItem = TypeProductItems.find(
+      (item) => item.name === selectedName
+    );
+    if (selectedItem) {
+      setIsParentParams(selectedItem.params);
+    }
+  };
+  const HandleTypeChange = (e) => {
+    const selectedName = e.target.value;
+    setIsType(selectedName);
+    const selectedItem = productTypes.find(
+      (item) => item.name === selectedName
+    );
+    if (selectedItem) {
+      setIsTypeParams(selectedItem.params);
     }
   };
 
@@ -139,9 +169,20 @@ const AddProduct = ({}) => {
                       <p className="text-gray-400  text-center mt-10 text-sm leading-10">
                         Định dạng jpg hoặc png <br />
                       </p>
-                      <p className="bg-[#0047AB] hover:bg-[#0000FF] text-center mt-8 rounded text-white text-md font-medium p-2 w-52 outline-none">
-                        Chọn từ thiết bị
-                      </p>
+                      <div className="flex flex-col gap-2 items-center">
+                        <p className="bg-[#0047AB] hover:bg-[#0000FF] text-center mt-8 rounded text-white text-md font-medium p-2 w-52 outline-none">
+                          Chọn từ thiết bị
+                        </p>
+                        <p className="text-red-500 italic">Hoặc</p>
+                        <div className="">
+                          <Input
+                            text="Liên kết hình ảnh"
+                            Value={imageUrl}
+                            setValue={setImageUrl}
+                            Input={true}
+                          />
+                        </div>
+                      </div>
                     </div>
                     <input
                       type="file"
@@ -162,16 +203,21 @@ const AddProduct = ({}) => {
               <div class=" w-[700px] flex flex-col  items-center">
                 <div className="grid grid-cols-2 gap-5 w-full">
                   <div className="  flex flex-col gap-3">
-                    <Input text="Tiêu đề" Value={Title} setValue={setTitle} />
                     <Input
-                      text="Nội dung"
-                      Value={Content}
-                      setValue={setContent}
+                      text="Tên sản phẩm"
+                      Value={Title}
+                      setValue={setTitle}
                     />
                     <Input
-                      text="Liên kết hình ảnh"
-                      Value={imageUrl}
-                      setValue={setImageUrl}
+                      text="Giá sản phẩm"
+                      Value={Price}
+                      setValue={setPrice}
+                      Input={true}
+                    />
+                    <Input
+                      text="Mô tả sản phẩm"
+                      Value={Content}
+                      setValue={setContent}
                     />
                   </div>
                   <div className="  flex flex-col gap-3">
@@ -181,9 +227,7 @@ const AddProduct = ({}) => {
                       </label>
                       <select
                         className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
-                        onChange={(e) => {
-                          setTitleType(e.target.value);
-                        }}
+                        onChange={HandleParentChange}
                       >
                         {TypeProductItems.map((item, idx) => (
                           <option
@@ -202,12 +246,10 @@ const AddProduct = ({}) => {
                       </label>
                       <select
                         className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
-                        onChange={(e) => {
-                          setContentType(e.target.value);
-                        }}
+                        onChange={HandleTypeChange}
                       >
                         {productTypes
-                          ?.filter((item) => item.type === TitleType)
+                          ?.filter((item) => item.parent === isParentParams)
                           .map((item, idx) => (
                             <option
                               key={idx}

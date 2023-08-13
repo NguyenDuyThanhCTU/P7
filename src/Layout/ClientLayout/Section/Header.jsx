@@ -5,8 +5,10 @@ import { MdOutlineFormatListBulleted } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
 import { useData } from "../../../Context/DataProviders";
 import DropDown from "../Item/DropDown";
-import { AiFillCaretRight } from "react-icons/ai";
-import { DropDownItems } from "../../../Utils/temp";
+import { AiFillCaretRight, AiOutlineSearch } from "react-icons/ai";
+
+import { BsCart3 } from "react-icons/bs";
+import { FiSearch } from "react-icons/fi";
 
 const Header = () => {
   const [isSelected, setIsSelected] = useState(0);
@@ -15,7 +17,7 @@ const Header = () => {
   const [elementTop, setElementTop] = useState(95);
   const [IsTranslate, setTranslate] = useState(false);
   const targetPosition = 1;
-  const { TradeMarkData, ContactData } = useData();
+  const { TradeMarkData, ContactData, productTypes } = useData();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,8 +46,8 @@ const Header = () => {
       <div className="bg-white ">
         <div className=" bg-none h-full relative  bg-white ">
           <div className=" w-full    text-[#1b365d] h-[92px] z-50 p:hidden d:flex justify-center">
-            <div className="flex justify-be  items-center w-[1100px] gap-10">
-              <div className="flex items-center gap-2">
+            <div className="flex justify-between first-letter: items-center w-[1100px] ">
+              <div className="flex items-center gap-10">
                 <Link to="/">
                   <img
                     src={TradeMarkData.websiteLogo}
@@ -53,24 +55,30 @@ const Header = () => {
                     className="w-[110px]"
                   />
                 </Link>
+                <div className=" text-[#2d94c4]">
+                  <div className="flex items-center flex-col">
+                    <h3 className="uppercase text-[24px] font-bold">
+                      HẢO NGÔ NAIL
+                    </h3>
+                    <span className="text-redPrimmary">
+                      Uy tín - Chất lượng - Giá rẻ
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="flex gap-36 text-[#2d94c4]">
-                <div className="flex items-center flex-col">
-                  <h3 className="uppercase text-[24px] font-bold">
-                    CƠ KHÍ TRUNG HIẾU
-                  </h3>
-                  <span className="text-redPrimmary">
-                    Uy tín - Chất lượng - Giá rẻ
-                  </span>
+
+              <div className="flex gap-14 items-center">
+                <div className="relative text-black group  cursor-pointer">
+                  <input
+                    type="text"
+                    className="p-2 px-4 outline-none rounded-full bg-white border-mainpink border w-[300px]"
+                  />
+                  <FiSearch className="inline-block bg-white w-[36px] h-[36px] p-2 font-bold rounded-full text-[#F67D08] absolute right-[4px] bottom-[3px] group-hover:-right-10 duration-300" />
+                  <p className="bg-white absolute top-2 left-4 group-hover:-top-3 group-hover:left-5 px-2 duration-300">
+                    Tìm kiếm
+                  </p>
                 </div>
-                <div>
-                  <p className="text-[#1d5f7e]"> Điện thoại</p>
-                  <span className="text-redPrimmary">{ContactData.phone}</span>
-                </div>
-                <div>
-                  <p className="text-[#1d5f7e]"> Email</p>
-                  <span className="text-redPrimmary">{ContactData.gmail}</span>
-                </div>
+                <BsCart3 className="text-[22px] " />
               </div>
             </div>
           </div>
@@ -133,13 +141,13 @@ const Header = () => {
             style={{ top: `${elementTop}px` }}
           > */}
               {HeaderItems.map((items, idx) => {
-                const sort = DropDownItems.filter(
+                const sort = productTypes.filter(
                   (item) => item.parent === items.link
                 );
 
                 return (
                   <div className="relative" key={idx}>
-                    <Link to={items.link}>
+                    <Link to={`/${items.link}`}>
                       <div className="group">
                         <div
                           className={`uppercase text-[18px] flex items-center justify-between  gap-2  hover:text-mainpink duration-500  ${

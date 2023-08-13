@@ -9,11 +9,14 @@ export const StateProvider = ({ children }) => {
 
   //custom
   const [isLoading, setIsLoading] = useState(false);
+  const [OpenCart, setOpenCart] = useState(false);
 
   return (
     <StateContext.Provider
       value={{
         isLoading,
+        OpenCart,
+        setOpenCart,
         setIsLoading,
         isSelected,
         setSelected,

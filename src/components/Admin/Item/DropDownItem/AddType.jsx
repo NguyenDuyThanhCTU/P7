@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 
 import { Popconfirm, message, notification } from "antd";
@@ -14,10 +14,12 @@ import {
   delDocument,
 } from "../../../../Config/Services/Firebase/FireStoreDB";
 import { TypeProductItems } from "../../../../Utils/item";
+import diacritic from "diacritic";
 
 const AddType = () => {
   const [Name, setName] = useState("");
-  const [isTitle, setTitle] = useState("Thiết kế - Thi công nội thất");
+  const [Params, setIsParams] = useState("");
+  const [Parent, setParent] = useState("");
 
   const { setIsRefetch, setIsUploadProduct } = useStateProvider();
   const { productTypes } = useData();
@@ -27,18 +29,19 @@ const AddType = () => {
   };
 
   const HandleSubmit = () => {
-    if (!Name) {
+    if (!Parent) {
       notification["error"]({
         message: "Lỗi !",
         description: `
-            Vui lòng nhập thông tin trước khi THÊM MỚI !`,
+            Vui lòng chọn mục cần thêm !`,
       });
     } else {
       const data = {
         name: Name,
-        type: isTitle,
+        params: Params,
+        parent: Parent,
       };
-
+      console.log(data);
       addDocument("productTypes", data).then(() => {
         notification["success"]({
           message: "Thành công!",
@@ -59,6 +62,32 @@ const AddType = () => {
       });
     });
     setIsRefetch("deleted");
+  };
+
+  const convertToCodeFormat = (text) => {
+    const textWithoutDiacritics = diacritic.clean(text);
+    return textWithoutDiacritics.replace(/\s+/g, "-").toLowerCase();
+  };
+
+  useEffect(() => {
+    const handleChange = () => {
+      const userInput = Name;
+      const formattedCode = convertToCodeFormat(userInput);
+      if (formattedCode) {
+        setIsParams(formattedCode);
+      }
+    };
+    handleChange();
+  }, [Name]);
+
+  const handleTitleChange = (e) => {
+    const selectedName = e.target.value;
+    const selectedItem = TypeProductItems.find(
+      (item) => item.name === selectedName
+    );
+    if (selectedItem) {
+      setParent(selectedItem.params);
+    }
   };
 
   return (
@@ -156,10 +185,7 @@ const AddType = () => {
                   </label>
                   <select
                     className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
-                    onChange={(e) => {
-                      setTitle(e.target.value);
-                    }}
-                    value={isTitle}
+                    onChange={handleTitleChange}
                   >
                     {TypeProductItems.map((item, idx) => (
                       <option
