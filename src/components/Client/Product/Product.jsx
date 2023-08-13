@@ -29,7 +29,9 @@ const Product = () => {
   };
   return (
     <div className="flex gap-3 ">
-      <Category />
+      <div>
+        <Category />
+      </div>
       <div className="w-full">
         <div className="w-full flex justify-center items-center font-SVNDancing text-[50px] ">
           <h3 className="  ">

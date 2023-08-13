@@ -327,3 +327,30 @@ export const SortProductItems = [
     name: "Bán chạy",
   },
 ];
+
+export const SupportItems = [
+  {
+    name: "Hợp tác khách hàng",
+    params: "hop-tac-khach-hang",
+    image:
+      "http://thegioiphukiennails39.com/upload/news/160x120x1/967674219839.png",
+  },
+  {
+    name: "Hỗ trợ khách hàng 24/7",
+    params: "ho-tro-khach-hang",
+    image:
+      "http://thegioiphukiennails39.com/upload/news/160x120x1/982922980577.png",
+  },
+  {
+    name: "Vận chuyển nhanh",
+    params: "van-chuyen-nhanh",
+    image:
+      "http://thegioiphukiennails39.com/upload/news/160x120x1/990650370144.png",
+  },
+  {
+    name: "Hàng chính hãng",
+    params: "hang-chinh-hang",
+    image:
+      "http://thegioiphukiennails39.com/upload/news/160x120x1/403180229055.png",
+  },
+];

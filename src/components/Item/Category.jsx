@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Category = () => {
   const { productTypes } = useData();
   return (
-    <div className="border w-[270px] font-LexendDeca">
+    <div className="border w-[270px] font-LexendDeca ">
       <div className="w-full text-center py-3 bg-mainblue text-white text-[20px]">
         <h3>Danh mục sản phẩm</h3>
       </div>
