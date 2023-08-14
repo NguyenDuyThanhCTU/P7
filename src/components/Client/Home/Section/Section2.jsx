@@ -42,7 +42,69 @@ const Section2 = () => {
           ))}
         </div>
       </div>
-      <div className="mt-10">
+      <div className="mt-10 d:hidden p:flex items-center justify-center">
+        <Swiper
+          spaceBetween={30}
+          centeredSlides={true}
+          slidesPerView={1}
+          loop={true}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+          }}
+          modules={[Autoplay, Pagination]}
+          className="mySwiper"
+        >
+          {Products.map((items, idx) => (
+            <>
+              <SwiperSlide>
+                {" "}
+                <div className="">
+                  <div className="p-2 cursor-pointer flex flex-col items-center">
+                    <Link to={`/san-pham/${items.id}`}>
+                      <div className="rounded-lg w-[220px] h-[220px]  overflow-hidden ">
+                        <img
+                          src={items.image}
+                          alt="product image"
+                          className="w-full h-full hover:scale-110 duration-500 object-cover "
+                        />
+                      </div>
+                    </Link>
+                    <div className="px-2 text-center mt-2 flex flex-col gap-2 font-LexendDeca">
+                      <Link to={`/san-pham/${items.id}`}>
+                        <p className="hover:text-mainblue">{items.title}</p>
+                      </Link>
+                      <div className="text-red-500 ">
+                        {items.price ? (
+                          <>
+                            {" "}
+                            {items.price}
+                            <sup>VNĐ</sup>
+                          </>
+                        ) : (
+                          <>Liên hệ</>
+                        )}
+                      </div>
+                      <div
+                        className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white"
+                        onClick={() => HandleOrder(items.id)}
+                      >
+                        <AiOutlineShoppingCart />
+                        <p>Mua ngay</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </SwiperSlide>
+            </>
+          ))}
+        </Swiper>
+      </div>
+      <div className="mt-10 d:block p:hidden">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -62,10 +124,10 @@ const Section2 = () => {
           {Products.map((items, idx) => (
             <>
               <SwiperSlide>
-                <Link to={`/san-pham/${items.id}`}>
-                  {" "}
-                  <div>
-                    <div className="p-2 cursor-pointer">
+                {" "}
+                <div className="pb-5">
+                  <div className="p-2 cursor-pointer flex flex-col items-center">
+                    <Link to={`/san-pham/${items.id}`}>
                       <div className="rounded-lg w-[220px] h-[220px]  overflow-hidden ">
                         <img
                           src={items.image}
@@ -73,36 +135,40 @@ const Section2 = () => {
                           className="w-full h-full hover:scale-110 duration-500 object-cover "
                         />
                       </div>
-                      <div className="px-2 text-center mt-2 flex flex-col gap-2 font-LexendDeca">
-                        <p className="hover:text-mainblue">{items.title}</p>
-                        <div className="text-red-500 ">
-                          {items.price ? (
-                            <>
-                              {" "}
-                              {items.price}
-                              <sup>VNĐ</sup>
-                            </>
-                          ) : (
-                            <>Liên hệ</>
-                          )}
-                        </div>
-                        <div
-                          className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white"
-                          onClick={() => HandleOrder(items.id)}
-                        >
-                          <AiOutlineShoppingCart />
-                          <p>Mua ngay</p>
-                        </div>
+                    </Link>
+                    <div className="px-2 text-center mt-2 flex flex-col gap-2 font-LexendDeca">
+                      <Link to={`/san-pham/${items.id}`}>
+                        <p className="hover:text-mainblue truncate2">
+                          {items.title}
+                        </p>
+                      </Link>
+                      <div className="text-red-500 ">
+                        {items.price ? (
+                          <>
+                            {" "}
+                            {items.price}
+                            <sup>VNĐ</sup>
+                          </>
+                        ) : (
+                          <>Liên hệ</>
+                        )}
+                      </div>
+                      <div
+                        className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white"
+                        onClick={() => HandleOrder(items.id)}
+                      >
+                        <AiOutlineShoppingCart />
+                        <p>Mua ngay</p>
                       </div>
                     </div>
                   </div>
-                </Link>
+                </div>
               </SwiperSlide>
             </>
           ))}
         </Swiper>
       </div>
-      <div className="bg-[url(http://thegioiphukiennails39.com/upload/photo/1366x252x1/phukiennails39_17453004062022.png)] h-[250px]"></div>
+      <div className="bg-[url(http://thegioiphukiennails39.com/upload/photo/1366x252x1/phukiennails39_17453004062022.png)] h-[250px] d:w-auto p:w-screen bg-contain bg-no-repeat"></div>
     </div>
   );
 };

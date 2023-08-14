@@ -24,12 +24,15 @@ export const DataProviders = ({ children }) => {
   //Services
   const [Products, setProducts] = useState([]);
   const [productTypes, setProductType] = useState([]);
+  const [branches, setBranches] = useState([]);
   const [orders, setOrders] = useState([]);
   const [detailOrders, setDetailOrders] = useState([]);
 
   return (
     <DataContext.Provider
       value={{
+        branches,
+        setBranches,
         setCartItems,
         CartItems,
         detailOrders,

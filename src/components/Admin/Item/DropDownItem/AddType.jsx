@@ -15,17 +15,21 @@ import {
 } from "../../../../Config/Services/Firebase/FireStoreDB";
 import { TypeProductItems } from "../../../../Utils/item";
 import diacritic from "diacritic";
+import { uploadImage } from "../Handle";
 
 const AddType = () => {
   const [Name, setName] = useState("");
   const [Params, setIsParams] = useState("");
-  const [Parent, setParent] = useState("");
-
+  const [Parent, setParent] = useState("cua-hang");
+  const [imageUrl, setImageUrl] = useState("");
   const { setIsRefetch, setIsUploadProduct } = useStateProvider();
   const { productTypes } = useData();
 
   const handleDiscard = () => {
     setName("");
+    setIsParams("");
+    setParent("cua-hang");
+    setImageUrl("");
   };
 
   const HandleSubmit = () => {
@@ -40,8 +44,9 @@ const AddType = () => {
         name: Name,
         params: Params,
         parent: Parent,
+        image: imageUrl,
       };
-      console.log(data);
+
       addDocument("productTypes", data).then(() => {
         notification["success"]({
           message: "Thành công!",
@@ -49,7 +54,7 @@ const AddType = () => {
         Thông tin đã được CẬP NHẬT !`,
         });
         setIsRefetch("addHomeType");
-        setName("");
+        handleDiscard();
       });
     }
   };
@@ -62,6 +67,12 @@ const AddType = () => {
       });
     });
     setIsRefetch("deleted");
+  };
+
+  const HandleUploadImage = (e, locate) => {
+    uploadImage(e, locate).then((data) => {
+      setImageUrl(data);
+    });
   };
 
   const convertToCodeFormat = (text) => {
@@ -176,7 +187,28 @@ const AddType = () => {
                   Value={Name}
                   setValue={setName}
                 />
-
+                <div className="flex   gap-2 items-center">
+                  <div className="">
+                    <Input
+                      text="Liên kết hình ảnh"
+                      Value={imageUrl}
+                      setValue={setImageUrl}
+                      Input={true}
+                    />
+                  </div>
+                  <p className="text-red-500 italic">Hoặc</p>
+                  <label>
+                    <p className="bg-[#0047AB] hover:bg-[#0000FF] mt-8  text-center rounded text-white text-md font-medium p-2 w-52 outline-none">
+                      Chọn từ thiết bị
+                    </p>
+                    <input
+                      type="file"
+                      onChange={(e) => HandleUploadImage(e, "Types")}
+                      className="w-0 h-0"
+                      id="fileInput"
+                    />
+                  </label>
+                </div>
                 <div
                   className={`flex flex-col gap-2 h-[100px] overflow-hidden`}
                 >

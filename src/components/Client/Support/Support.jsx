@@ -8,7 +8,7 @@ const Support = () => {
       <h3 className="w-full flex justify-center items-center font-SVNDancing text-[50px] ">
         Hỗ trợ khách hàng
       </h3>
-      <div className="grid grid-cols-2 gap-10">
+      <div className="grid d:grid-cols-2 gap-10 mt-5 p:grid-cols-1">
         {SupportItems.map((items, idx) => (
           <>
             <div className="flex gap-3 border-b pb-5 border-black relative">

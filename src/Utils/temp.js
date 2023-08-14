@@ -71,3 +71,61 @@ export const suggestItems = [
     name: "MÁY CHÀ GÓT ",
   },
 ];
+
+export const BranchesItems = [
+  {
+    branchName: "Vĩnh Long",
+    address:
+      "QL1A ,P.ĐÔNG THUẬN ,TX BÌNH MINH - VĨNH LONG ( CÁCH CẦU CẦN THƠ 500M )",
+    hotline: "0907379757",
+    map: "www.google.com/maps?q=10.04984188079834,105.83062744140625&z=14&t=m&mapclient=embed",
+  },
+  {
+    branchName: "Trà Vinh",
+    address: "QL53, Bến Có, Nguyệt Hóa, Châu Thành, Trà Vinh .",
+    hotline: "0907379757",
+    map: "www.google.com/maps?q=9.929701805114746,106.2911148071289&z=14&t=m&mapclient=embed",
+  },
+  {
+    branchName: "Cần Thơ",
+    address: "VÕ NGUYÊN GIÁP ,PHÚ AN ,PHÚ THỨ ,CÁI RĂNG ,TP CẦN THƠ ",
+    hotline: "0907379757",
+    map: "goo.gl/maps/7Lx4mEKSbZLXitey6",
+  },
+  {
+    branchName: "Cần Thơ",
+    address: "VÕ NGUYÊN GIÁP ,PHÚ AN ,PHÚ THỨ ,CÁI RĂNG ,TP CẦN THƠ ",
+    hotline: "0907379757",
+    map: "goo.gl/maps/7Lx4mEKSbZLXitey6",
+  },
+  {
+    branchName: "Cần Thơ",
+    address: "VÕ NGUYÊN GIÁP ,PHÚ AN ,PHÚ THỨ ,CÁI RĂNG ,TP CẦN THƠ ",
+    hotline: "0907379757",
+    map: "goo.gl/maps/7Lx4mEKSbZLXitey6",
+  },
+  {
+    branchName: "Cần Thơ",
+    address: "VÕ NGUYÊN GIÁP ,PHÚ AN ,PHÚ THỨ ,CÁI RĂNG ,TP CẦN THƠ ",
+    hotline: "0907379757",
+    map: "goo.gl/maps/7Lx4mEKSbZLXitey6",
+  },
+  {
+    branchName: "Cần Thơ",
+    address: "VÕ NGUYÊN GIÁP ,PHÚ AN ,PHÚ THỨ ,CÁI RĂNG ,TP CẦN THƠ ",
+    hotline: "0907379757",
+    map: "goo.gl/maps/7Lx4mEKSbZLXitey6",
+  },
+  {
+    branchName: "Cần Thơ",
+    address: "VÕ NGUYÊN GIÁP ,PHÚ AN ,PHÚ THỨ ,CÁI RĂNG ,TP CẦN THƠ ",
+    hotline: "0907379757",
+    map: "goo.gl/maps/7Lx4mEKSbZLXitey6",
+  },
+  {
+    branchName: "Cần Thơ",
+    address: "VÕ NGUYÊN GIÁP ,PHÚ AN ,PHÚ THỨ ,CÁI RĂNG ,TP CẦN THƠ ",
+    hotline: "0907379757",
+    map: "goo.gl/maps/7Lx4mEKSbZLXitey6",
+  },
+];

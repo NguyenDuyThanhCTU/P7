@@ -11,7 +11,7 @@ const Introduction = () => {
   return (
     <div>
       <div>
-        <h3 className="w-full flex justify-center items-center font-SVNDancing text-[50px] ">
+        <h3 className="w-full flex justify-center items-center font-SVNDancing text-[50px] text-center">
           {TradeMarkData.websiteName}
         </h3>
         <div className="mt-5 font-LexendDeca font-light text-[18px] gap-5 flex flex-col">

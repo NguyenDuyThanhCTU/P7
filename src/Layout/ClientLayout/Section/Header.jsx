@@ -85,11 +85,13 @@ const Header = () => {
 
           <div className="p:block d:hidden w-full  ">
             <div className="flex justify-between  items-center ">
-              <img
-                src={TradeMarkData.websiteLogo}
-                alt="logo"
-                className="h-[50px] m-5 "
-              />
+              <Link to="/">
+                <img
+                  src={TradeMarkData.websiteLogo}
+                  alt="logo"
+                  className="h-[50px] m-5 "
+                />
+              </Link>
               <div className="flex items-center text-[60px]">
                 {Hidden ? (
                   <RxCross1

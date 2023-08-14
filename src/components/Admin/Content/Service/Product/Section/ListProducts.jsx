@@ -23,7 +23,7 @@ const ListProducts = ({ name }) => {
   const { Products } = useData();
 
   const HandleDelete = (id) => {
-    delDocument("slide", id).then(() => {
+    delDocument("products", id).then(() => {
       notification["success"]({
         message: "Thành công!",
         description: `Yêu cầu của bạn đã được thực hiện thành công !`,
@@ -59,11 +59,8 @@ const ListProducts = ({ name }) => {
                           delay: 2500,
                           disableOnInteraction: false,
                         }}
-                        pagination={{
-                          clickable: true,
-                        }}
                         navigation={true}
-                        modules={[Autoplay, Pagination, Navigation]}
+                        modules={[Autoplay, Navigation]}
                         className="mySwiper"
                       >
                         {Products.map((items) => (

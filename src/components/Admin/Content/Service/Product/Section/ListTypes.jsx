@@ -21,8 +21,16 @@ const ListProduct = () => {
           <div className="h-[400px] w-[370px] border  rounded-2xl overflow-y-scroll ">
             <div className="flex flex-col cursor-pointer">
               {productTypes.map((items, idx) => (
-                <div>
-                  <div className="p-2">{items.name}</div>
+                <div className="flex gap-5 p-2 items-center">
+                  <div>{idx + 1}</div>
+                  <div className="w-10 h-10 overflow-hidden">
+                    <img
+                      src={items.image}
+                      alt="type"
+                      className="w-full h-full hover:scale-110 duration-300"
+                    />
+                  </div>
+                  <div className="p-1 truncate">{items.name}</div>
                 </div>
               ))}
             </div>

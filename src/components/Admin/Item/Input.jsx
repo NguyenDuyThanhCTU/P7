@@ -4,7 +4,7 @@ const Input = ({ text, Value, setValue, Input }) => {
   return (
     <div>
       <div class="mb-5">
-        <label class="block text-gray-700 text-sm font-bold mb-2">{text}</label>
+        <label class="block  text-sm font-bold mb-2">{text}</label>
 
         {Input ? (
           <>

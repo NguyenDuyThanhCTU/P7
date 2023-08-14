@@ -12,7 +12,6 @@ const Video = () => {
         </h3>
         <div className="flex">
           <UploadVideo />
-          <ListVideo />
         </div>
       </div>
     </div>

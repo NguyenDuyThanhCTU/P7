@@ -25,6 +25,7 @@ const ProductDetail = () => {
     const sort = Products.filter((item) => item.id === id);
     if (sort) {
       SetProduct(sort[0]);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [id, Products]);
 
@@ -43,7 +44,7 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 d:flex-row p:flex-col d:items-start p:items-center">
       <Category />
       <div className="w-full">
         <div>
@@ -52,7 +53,7 @@ const ProductDetail = () => {
               Chi tiết sản phẩm
             </h3>
           </div>
-          <div className="flex mt-5 gap-5 pb-5 border-b">
+          <div className="flex mt-5 gap-5 pb-5 border-b d:flex-row p:flex-col">
             <div className="h-[360px] w-[360px] overflow-hidden">
               <img
                 src={Product?.image}
@@ -111,7 +112,7 @@ const ProductDetail = () => {
               </div>
               <div>
                 <p>Mô tả:</p>
-                <p className="w-[615px]">{Product?.content}</p>
+                <p className="p:w-auto d:w-[615px]">{Product?.content}</p>
               </div>
             </div>
           </div>
@@ -122,7 +123,7 @@ const ProductDetail = () => {
               Sản phẩm cùng loại
             </h3>
           </div>
-          <div className="grid grid-cols-4 grid-rows-2 mt-5">
+          <div className="grid d:grid-cols-4 grid-rows-2 mt-5 p:grid-cols-2">
             {SortProduct?.map((items, idx) => (
               <>
                 <Link to={`/san-pham/${items.id}`}>

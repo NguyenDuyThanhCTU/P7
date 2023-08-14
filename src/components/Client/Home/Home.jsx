@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Section1 from "./Section/Section1";
 import Section2 from "./Section/Section2";
 import Section3 from "./Section/Section3";
 import { useData } from "../../../Context/DataProviders";
 import ShopCart from "../../../Layout/ClientLayout/Section/ShopCart";
+import { useStateProvider } from "../../../Context/StateProvider";
 
 const Home = () => {
   const { productTypes, Products } = useData();
+  const { OpenCart } = useStateProvider();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <div className="">
       <Section1 />
-      <div className="w-[1350px] mx-auto">
+      <div className="d:w-[1350px] mx-auto p:w-auto">
         <Section2 />
         {productTypes.map((items, idx) => {
           const sort = Products.filter((item) => item.params === items.params);
@@ -27,7 +32,11 @@ const Home = () => {
           );
         })}
       </div>
-      <div className="fixed bottom-36 right-[-52px] z-50">
+      <div
+        className={`fixed bottom-36 right-[-52px] ${
+          OpenCart ? " z-50" : "z-0"
+        }`}
+      >
         <ShopCart />
       </div>
     </div>

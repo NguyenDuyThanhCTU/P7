@@ -21,14 +21,14 @@ const ListOrder = () => {
           <p>STT</p>
           <p>Tên KH</p>
           <p>SĐT KH</p>
-          <p>Loại xe</p>
-          <p>Ảnh xe</p>
+          <p>Email</p>
+          <p>Địa</p>
           <p>Loại Pin</p>
           <p>Giá</p>
           <p>Thời gian</p>
           <p className="w-[100px]">Trạng thái</p>
         </div>
-        {orders.map((data, idx) => {
+        {/* {orders.map((data, idx) => {
           let Icon = IconMapping[data.state];
 
           return (
@@ -90,7 +90,7 @@ const ListOrder = () => {
               </div>
             </div>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

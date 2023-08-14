@@ -14,7 +14,7 @@ const App = () => {
         <StateProvider>
           <AuthProviders>
             <Fetch />
-            <Router>
+            <Router scrollBehavior="smooth">
               <Routes>
                 {AllRoutes.map((route, index) => {
                   let Layout = DefaultLayout;

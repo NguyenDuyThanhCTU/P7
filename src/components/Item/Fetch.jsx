@@ -21,6 +21,7 @@ const Fetch = () => {
     setProductType,
     setProducts,
     setOrders,
+    setBranches,
   } = useData();
 
   const { isRefetch, setIsRefetch } = useStateProvider();
@@ -69,6 +70,9 @@ const Fetch = () => {
     });
     getProducts("orders").then((data) => {
       setOrders(data.reverse());
+    });
+    getProducts("branches").then((data) => {
+      setBranches(data.reverse());
     });
   }, [isRefetch]);
   return <></>;

@@ -28,7 +28,7 @@ const Product = () => {
     setOpenCart(true);
   };
   return (
-    <div className="flex gap-3 ">
+    <div className="flex gap-3 d:flex-row p:flex-col p:items-center d:items-start">
       <div>
         <Category />
       </div>
@@ -40,7 +40,7 @@ const Product = () => {
             <div className="bg-[url(http://thegioiphukiennails39.com/assets/images/title_main.png)] w-full h-14 bg-no-repeat bg-contain"></div>
           </h3>
         </div>
-        <div className="grid grid-cols-4 grid-rows-5 mt-5">
+        <div className="grid d:grid-cols-4 p:grid-cols-2 grid-rows-5 mt-5">
           {SortProduct?.map((items, idx) => (
             <>
               <Link to={`/san-pham/${items.id}`}>

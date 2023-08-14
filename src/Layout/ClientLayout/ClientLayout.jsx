@@ -27,14 +27,16 @@ const ClientLayout = ({ children }) => {
       </Helmet>
       <Loading />
       <Header />
-      {location.pathname === "/" ? (
+      {location.pathname === "/" || location.pathname === "/lien-he" ? (
         <>
           {" "}
           <div className=" ">{children}</div>
         </>
       ) : (
         <>
-          <div className="w-[1250px] mx-auto my-16 ">{children}</div>
+          <div className="d:w-[1250px] p:w-auto p:mx-2 d:mx-auto my-16 ">
+            {children}
+          </div>
         </>
       )}
 

@@ -12,6 +12,7 @@ import { useStateProvider } from "../../../../Context/StateProvider";
 import { addDocument } from "../../../../Config/Services/Firebase/FireStoreDB";
 import { useData } from "../../../../Context/DataProviders";
 import { TypeProductItems } from "../../../../Utils/item";
+import { uploadImage } from "../Handle";
 
 const AddProduct = ({}) => {
   const [imageUrl, setImageUrl] = useState();
@@ -22,16 +23,21 @@ const AddProduct = ({}) => {
   //
   const [isType, setIsType] = useState("");
   const [isTypeParams, setIsTypeParams] = useState("");
-  const [isParent, setIsParent] = useState("");
-  const [isParentParams, setIsParentParams] = useState("");
+  const [isParent, setIsParent] = useState("Cửa Hàng");
+  const [isParentParams, setIsParentParams] = useState("cua-hang");
 
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
   const { productTypes } = useData();
 
   const handleDiscard = () => {
-    setContent("");
-    setTitle("");
     setImageUrl("");
+    setTitle("");
+    setContent("");
+    setPrice("");
+    setIsType("");
+    setIsTypeParams("");
+    setIsParent("Cửa Hàng");
+    setIsParentParams("cua-hang");
   };
 
   const HandleSubmit = () => {
@@ -53,7 +59,7 @@ const AddProduct = ({}) => {
         state: true,
         sale: {},
       };
-      console.log(data);
+
       addDocument("products", data).then(() => {
         notification["success"]({
           message: "Tải lên thành công!",
@@ -66,34 +72,10 @@ const AddProduct = ({}) => {
     }
   };
 
-  const uploadImage = async (e) => {
-    let selectImage = e.target.files[0];
-    const filetypes = ["image/jpeg", "image/jpg", "image/png"];
-
-    if (filetypes.includes(selectImage.type)) {
-      const storage = getStorage();
-      let storageRef = ref(storage, `${selectImage.name}`);
-
-      storageRef = ref(storage, `Products/${selectImage.name}`);
-
-      uploadBytes(storageRef, selectImage)
-        .then((snapshot) => {
-          console.log("Uploaded a blob or file!");
-
-          getDownloadURL(snapshot.ref)
-            .then((url) => {
-              setImageUrl(url);
-            })
-            .catch((error) => {
-              console.error("Error getting download URL:", error);
-            });
-        })
-        .catch((error) => {
-          console.error("Error uploading file:", error);
-        });
-    } else {
-      setError(true);
-    }
+  const HandleUploadImage = (e, locate) => {
+    uploadImage(e, locate).then((data) => {
+      setImageUrl(data);
+    });
   };
 
   const HandleParentChange = (e) => {
@@ -186,7 +168,7 @@ const AddProduct = ({}) => {
                     </div>
                     <input
                       type="file"
-                      onChange={(e) => uploadImage(e)}
+                      onChange={(e) => HandleUploadImage(e, "products")}
                       className="w-0 h-0"
                       id="fileInput"
                     />

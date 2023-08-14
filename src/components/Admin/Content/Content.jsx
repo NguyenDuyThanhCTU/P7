@@ -9,6 +9,7 @@ import Video from "./Video/Video";
 import Introduce from "./Service/Introduce/Introduce";
 import Product from "./Service/Product/Product";
 import Order from "./Service/Order/Order";
+import Branch from "./Service/Branch/Branch";
 
 const Persona = () => {
   const { isSelected } = useStateProvider();
@@ -38,8 +39,7 @@ const Persona = () => {
         ) : isSelected === 4 ? (
           <>
             <div className="p-5 px-10 flex justify-start gap-10">
-              {/* <Video /> */}
-              <></>
+              <Video />
             </div>
           </>
         ) : isSelected === 5 ? (
@@ -65,7 +65,7 @@ const Persona = () => {
         ) : isSelected === 8 ? (
           <>
             <div className="p-5 px-10 flex justify-start gap-10">
-              {/* <Video /> */}
+              <Branch />
               <></>
             </div>
           </>

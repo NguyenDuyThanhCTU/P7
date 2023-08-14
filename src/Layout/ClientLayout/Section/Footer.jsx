@@ -7,7 +7,7 @@ import { BiPhoneCall } from "react-icons/bi";
 import { AiOutlineMail } from "react-icons/ai";
 
 const Footer = () => {
-  const { TradeMarkData, ContactData } = useData();
+  const { TradeMarkData, ContactData, SocialMedia } = useData();
   return (
     <>
       <div className="bg-[url(http://thegioiphukiennails39.com/assets/images/bgf.png)] w-full d:h-[450px]   p:h-auto p:bg-cover">
@@ -49,14 +49,14 @@ const Footer = () => {
               <div className="flex mt-2 gap-2">
                 {SocialMediaCustom.map((items, idx) => {
                   let Icon = IconMapping[items.icon];
-
+                  let Point = SocialMedia[items.id];
                   return (
                     <div
                       key={idx}
                       className={`${items.style} p-2 border rounded-full hover:scale-110 duration-300 border-white text-white`}
                     >
                       {Icon && (
-                        <a href={`https:// `} target="_blank">
+                        <a href={`https://${Point}`} target="_blank">
                           <Icon />
                         </a>
                       )}
