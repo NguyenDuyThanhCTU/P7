@@ -7,7 +7,7 @@ import { BiPhoneCall } from "react-icons/bi";
 import { AiOutlineMail } from "react-icons/ai";
 
 const Footer = () => {
-  const { TradeMarkData, ContactData, SocialMedia } = useData();
+  const { TradeMarkData, ContactData, SocialMedia, branches } = useData();
   return (
     <>
       <div className="bg-[url(http://thegioiphukiennails39.com/assets/images/bgf.png)] w-full d:h-[450px]   p:h-auto p:bg-cover">
@@ -86,7 +86,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="grid d:grid-cols-2 grid-rows-2 gap-7 py-3 p:grid-cols-1">
-            {BranchItems.map((items, idx) => (
+            {branches.map((items, idx) => (
               <>
                 <div>
                   <h3 className="font-bold text-[18px]">

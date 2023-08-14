@@ -17,11 +17,11 @@ const ClientLayout = ({ children }) => {
   return (
     <>
       <Helmet>
-        <title>Thảo Ngô - Chuyên Sỉ & Lẻ Sơn Móng Tay Toàn Quốc</title>
+        <title>{TradeMarkData.websiteName}</title>
         <link rel="icon" href={TradeMarkData.websiteIco} />
         <meta
           name="description"
-          content="Thảo Ngô - Chuyên sỉ lẻ Sơn móng tay số lượng lớn - phụ kiện nail mi Toàn Quốc"
+          content="Thảo Ngô nail - Chuyên sỉ lẻ Sơn móng tay số lượng lớn - phụ kiện nail mi Toàn Quốc"
         />
         {/* <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /> */}
       </Helmet>

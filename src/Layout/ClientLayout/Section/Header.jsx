@@ -16,6 +16,7 @@ const Header = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [elementTop, setElementTop] = useState(95);
   const [IsTranslate, setTranslate] = useState(false);
+  const [Search, setSearch] = useState("");
   const targetPosition = 1;
   const { TradeMarkData, ContactData, productTypes } = useData();
 
@@ -58,7 +59,7 @@ const Header = () => {
                 <div className=" text-[#2d94c4]">
                   <div className="flex items-center flex-col">
                     <h3 className="uppercase text-[24px] font-bold">
-                      HẢO NGÔ NAIL
+                      THẢO NGÔ NAIL
                     </h3>
                     <span className="text-redPrimmary">
                       Uy tín - Chất lượng - Giá rẻ
@@ -71,12 +72,15 @@ const Header = () => {
                 <div className="relative text-black group  cursor-pointer">
                   <input
                     type="text"
+                    onChange={(e) => setSearch(e.target.value)}
                     className="p-2 px-4 outline-none rounded-full bg-white border-mainpink border w-[300px]"
                   />
-                  <FiSearch className="inline-block bg-white w-[36px] h-[36px] p-2 font-bold rounded-full text-[#F67D08] absolute right-[4px] bottom-[3px] group-hover:-right-10 duration-300" />
-                  <p className="bg-white absolute top-2 left-4 group-hover:-top-3 group-hover:left-5 px-2 duration-300">
+                  <Link to={`/loai-san-pham/${Search}`}>
+                    <FiSearch className="inline-block bg-white w-[36px] h-[36px] p-2 font-bold rounded-full text-[#F67D08] absolute right-[4px] bottom-[3px] group-hover:-right-10 duration-300" />
+                  </Link>
+                  <div className="bg-white absolute top-2 left-4 group-hover:-top-3 group-hover:left-5 px-2 duration-300">
                     Tìm kiếm
-                  </p>
+                  </div>
                 </div>
                 <BsCart3 className="text-[22px] " />
               </div>
@@ -111,37 +115,32 @@ const Header = () => {
                 Hidden ? "h-screen" : "h-0 "
               } w-full duration-700 bg-[rgba(253,253,253,0.9)] overflow-hidden`}
             >
-              {HeaderItems.map((items, idx) => (
-                <DropDown
-                  key={idx}
-                  content={items.name}
-                  link={items.link}
-                  setHidden={setHidden}
-                  idx={idx}
-                />
-              ))}
-              {/* <div className="mt-10">
-                <div className="border-2 rounded-md flex gap-1 items-center justify-center py-3 mx-5 text-[18px] italic text-[#1b365d] font-semibold">
-                  <BiUserCircle className="text-[25px]" />
-                  <p>Đăng nhập</p>
-                </div>
-              </div> */}
+              {HeaderItems.map((items, idx) => {
+                const sort = productTypes.filter(
+                  (item) => item.parent === items.link
+                );
+                return (
+                  <DropDown
+                    idx={idx}
+                    dropdown={sort}
+                    content={items.name}
+                    link={items.link}
+                    setHidden={setHidden}
+                  />
+                );
+              })}
             </div>
           </div>
 
           <div className="d:flex flex-col p:hidden w-full  items-center">
             <div
-              className={`fixed z-50 ${
+              className={`fixed z-10 ${
                 IsTranslate
                   ? `w-full bg-white text-black `
                   : " w-[1600px] bg-mainblue text-white  "
               }   duration-300 h-[69px] rounded-lg flex justify-center px-5  items-center text-normal font-semibold gap-16`}
               style={{ top: `${elementTop}px` }}
             >
-              {/* <div
-            className="scrollable-element h-[200px] w-[200px] bg-red-500 absolute top-[0] left-[0] transform transition-transform duration-300"
-            style={{ top: `${elementTop}px` }}
-          > */}
               {HeaderItems.map((items, idx) => {
                 const sort = productTypes.filter(
                   (item) => item.parent === items.link
@@ -149,7 +148,11 @@ const Header = () => {
 
                 return (
                   <div className="relative" key={idx}>
-                    <Link to={`/${items.link}`}>
+                    <Link
+                      to={`${
+                        items.params ? `/${items.params}` : `/${items.link}`
+                      }`}
+                    >
                       <div className="group">
                         <div
                           className={`uppercase text-[18px] flex items-center justify-between  gap-2  hover:text-mainpink duration-500  ${
@@ -173,12 +176,18 @@ const Header = () => {
                           )}
                         </div>
                         {sort.length > 0 && (
-                          <div className="group-hover:block hidden">
-                            <div className="absolute h-5 w-full bg-none"></div>
-                            <div className="absolute  mt-5 w-max h-auto  shadow-xl rounded-lg bg-white  ">
+                          <div className="group-hover:block hidden relative z-20">
+                            <div className="absolute h-10 w-full bg-none"></div>
+                            <div className="absolute  mt-5 w-max max-h-[300px]  shadow-xl rounded-b-lg bg-white  overflow-y-auto">
                               {sort.map((items, idx) => (
                                 <div>
-                                  <Link to={`/${items.link}`}>
+                                  <Link
+                                    to={`${
+                                      items.parent === "album-anh"
+                                        ? `/album-anh/${items.params}`
+                                        : `/loai-san-pham/${items.params}`
+                                    }`}
+                                  >
                                     <div className="py-4 px-8 font-light text-black hover:text-white hover:bg-mainpink">
                                       {items.name}
                                     </div>

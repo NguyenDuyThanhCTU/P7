@@ -4,6 +4,7 @@ import { AiOutlineDoubleRight } from "react-icons/ai";
 import { useData } from "../../../Context/DataProviders";
 import { RxCross2 } from "react-icons/rx";
 import { useStateProvider } from "../../../Context/StateProvider";
+import { Link } from "react-router-dom";
 
 const ShopCart = () => {
   const { OpenCart, setOpenCart } = useStateProvider();
@@ -122,9 +123,11 @@ const ShopCart = () => {
                       {totalAmount.toFixed(3)} <sup>VNĐ</sup>
                     </span>
                   </div>
-                  <div className="px-4 bg-mainblue py-1 text-white cursor-pointer">
-                    Đặt hàng
-                  </div>
+                  <Link to={"/gio-hang"}>
+                    <div className="px-4 bg-mainblue py-1 text-white cursor-pointer">
+                      Đặt hàng
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>

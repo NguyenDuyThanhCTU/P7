@@ -7,7 +7,7 @@ import {
   WebsiteSidebarAdmin,
 } from "../../../Utils/item";
 import { notification } from "antd";
-const Sidebar = () => {
+const Sidebar = ({}) => {
   const { isSelected, setSelected } = useStateProvider();
   // const HandleBlock = () => {
   //   notification["warning"]({
@@ -16,8 +16,12 @@ const Sidebar = () => {
   //     Website của bạn không hỗ trợ chức năng này !`,
   //   });
   // };
+
+  const HandleSelect = (idx) => {
+    setSelected(idx);
+  };
   return (
-    <div className="bg-black  h-[100vh] text-white border-r border-gray-800 overflow-y-scroll w-full pr-2">
+    <div className="bg-black  h-full text-white border-r border-gray-800 overflow-y-auto w-full pr-2">
       <div className="w-full flex items-center justify-center border-b border-gray-800 py-3">
         <img
           src="https://image-sn.s3.amazonaws.com/Russo+Tech.png"
@@ -40,7 +44,7 @@ const Sidebar = () => {
                   className={`flex gap-3 items-center cursor-pointer hover:scale-125 duration-300 ${
                     isSelected === idx ? "text-blue-400" : "border-white"
                   }`}
-                  onClick={() => setSelected(idx)}
+                  onClick={() => HandleSelect(idx)}
                 >
                   {Icon && (
                     <Icon
@@ -66,7 +70,7 @@ const Sidebar = () => {
                   className={`flex gap-3 items-center cursor-pointer hover:scale-125 duration-300 ${
                     isSelected === idx + 5 ? "text-blue-400" : "border-white"
                   }`}
-                  onClick={() => setSelected(idx + 5)}
+                  onClick={() => HandleSelect(idx + 5)}
                 >
                   {Icon && (
                     <Icon

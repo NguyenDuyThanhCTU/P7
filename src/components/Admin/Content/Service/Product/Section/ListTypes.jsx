@@ -12,13 +12,13 @@ const ListProduct = () => {
   const { productTypes } = useData();
 
   return (
-    <div className="w-[400px] shadow-2xl bg-[#353535]">
+    <div className="d:w-[400px] shadow-2xl bg-[#353535] p:w-auto">
       <div className="p-3">
         <div className="flex justify-between items-center text-[25px] p-3 flex-col gap-3">
           <p className="uppercase  text-center w-full from-yellow-400">
             Tùy chọn sản phẩm
           </p>
-          <div className="h-[400px] w-[370px] border  rounded-2xl overflow-y-scroll ">
+          <div className="h-[400px] p:w-[60vw] d:w-[370px] border  rounded-2xl overflow-y-scroll ">
             <div className="flex flex-col cursor-pointer">
               {productTypes.map((items, idx) => (
                 <div className="flex gap-5 p-2 items-center">

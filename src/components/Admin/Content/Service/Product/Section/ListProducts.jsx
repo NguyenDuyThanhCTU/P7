@@ -41,17 +41,17 @@ const ListProducts = ({ name }) => {
             {name}
           </h3>
         </div>
-        <div className="flex gap-5">
-          <div className="grid grid-cols-2 gap-10 cursor-pointer  h-[550px]  p-5 border">
-            <div className="shadow-2xl bg-[#353535] h-[300px] hover:shadow-gray-700 duration-300">
-              <div className=" h-[320px]">
+        <div className="flex gap-5 d:flex-row p:flex-col">
+          <div className="grid p:grid-cols-1 d:grid-cols-2 gap-10 cursor-pointer p:h-auto d:h-[550px]  p-5 border">
+            <div className="shadow-2xl bg-[#353535] p:h-auto d:h-[300px] hover:shadow-gray-700 duration-300">
+              <div className=" d:h-[320px] p:h-auto">
                 <div className="p-3">
                   <div className="flex justify-between items-center text-[25px] pb-3 flex-col gap-5">
                     <p className="uppercase text-white text-center w-full">
                       Danh sách hình ảnh sản phẩm
                     </p>
 
-                    <div className="h-[200px] w-full border  rounded-2xl  ">
+                    <div className="p:h-auto d:h-[200px] p:w-[60vw] d:w-full border  rounded-2xl  ">
                       <Swiper
                         spaceBetween={30}
                         centeredSlides={true}

@@ -90,7 +90,7 @@ const Section2 = () => {
                         )}
                       </div>
                       <div
-                        className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white"
+                        className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white px-2"
                         onClick={() => HandleOrder(items.id)}
                       >
                         <AiOutlineShoppingCart />
@@ -154,7 +154,7 @@ const Section2 = () => {
                         )}
                       </div>
                       <div
-                        className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white"
+                        className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white px-2"
                         onClick={() => HandleOrder(items.id)}
                       >
                         <AiOutlineShoppingCart />

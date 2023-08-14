@@ -11,7 +11,7 @@ import AdminDropDown from "./Item/AdminDropDown";
 const Admin = () => {
   const { verify } = useAuth();
 
-  const [Hidden, setHidden] = useState(false);
+  const [Hidden, setHidden] = useState(true);
   const navigate = useNavigate();
   useEffect(() => {
     if (!verify) {
@@ -38,8 +38,10 @@ const Admin = () => {
           <Sidebar />
         </div>
         <div className="flex-[80%]  bg-[#292929] ">
-          <Header setHidden={setHidden} Hidden={Hidden} />
-          <div>
+          <div className="d:relative p:fixed w-full z-20">
+            <Header setHidden={setHidden} Hidden={Hidden} />
+          </div>
+          <div className="d:mt-0 p:mt-16">
             <Content />
           </div>
         </div>

@@ -99,18 +99,18 @@ const Trademark = () => {
   };
 
   return (
-    <div className="bg-[#353535] text-white rounded-xl shadow-xl">
+    <div className="bg-[#353535] text-white rounded-xl shadow-xl w-auto">
       <div className="p-4 ">
         <h3 className="text-[25px] text-center ">Thương hiệu website</h3>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 w-full">
           <label>Tên website</label>
-          <div className="flex gap-5">
+          <div className="flex gap-5 d:flex-row p:flex-col w-auto justify-between">
             <div onClick={() => setSelected(5)} className="w-full">
               <input
                 placeholder={TradeMarkData.websiteName}
                 type="text"
-                className="px-4 py-2 text-black outline-none rounded-2xl bg-gray-300 w-full "
+                className="px-4 py-2 text-black outline-none rounded-2xl bg-gray-300 w-full"
                 onChange={(e) => setData(e.target.value)}
               />
             </div>
@@ -132,19 +132,22 @@ const Trademark = () => {
           </div>
         </div>
 
-        <div className="flex flex-row gap-3 mt-5">
+        <div className="flex d:flex-row gap-3 mt-5 p:flex-col">
           {ContactTrademark.map((items, idx) => {
             let Type = items.type;
             return (
               <div className="flex flex-col gap-3">
                 <label>{items.name}</label>
-                <div className="flex gap-5">
+                <div className="flex gap-5 d:flex-row p:flex-col">
                   {Type && (
-                    <div onClick={() => setSelected(idx)}>
+                    <div
+                      onClick={() => setSelected(idx)}
+                      className="p:w-full d:w-auto"
+                    >
                       <Type
                         placeholder={items.placeholder}
                         type="text"
-                        className="px-4 py-2 text-black outline-none rounded-2xl bg-gray-300 w-[240px] "
+                        className="px-4 py-2 text-black outline-none rounded-2xl bg-gray-300 w-full"
                         onChange={(e) => setData(e.target.value)}
                       />
                     </div>
@@ -168,10 +171,10 @@ const Trademark = () => {
             );
           })}
         </div>
-        <div className="flex gap-5">
+        <div className="flex gap-5 d:flex-row p:flex-col">
           <div>
             <label>
-              <div className="flex justify-center mt-10  h-[300px] w-[350px] border rounded-lg cursor-pointer">
+              <div className="flex justify-center mt-10  h-[300px] d:w-[350px] border rounded-lg cursor-pointer p:w-auto">
                 <img
                   src={`${LogoUrl ? LogoUrl : TradeMarkData.websiteLogo}`}
                   alt="logo"
@@ -209,7 +212,7 @@ const Trademark = () => {
 
           <div>
             <label>
-              <div className="flex justify-center mt-10  h-[300px] w-[350px] border rounded-lg cursor-pointer">
+              <div className="flex justify-center mt-10  h-[300px] d:w-[350px] border rounded-lg cursor-pointer p:w-auto">
                 <img
                   src={`${IcoUrl ? IcoUrl : TradeMarkData.websiteIco}`}
                   alt="logo"

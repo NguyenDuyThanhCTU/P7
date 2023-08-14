@@ -102,8 +102,8 @@ const Profile = () => {
        h-full
       z-50 absolute rounded-md duration-300`}
     >
-      <div className="w-[1500px] h-[700px] absolute bg-white bottom-[15%] left-[12%] flex font-LexendDeca cursor-pointer rounded-sm ">
-        <div className="flex justify-center w-full items-center gap-10 ">
+      <div className=" p:w-full p:h-full  d:w-[1500px] d:h-[700px] absolute bg-white d:bottom-[15%] d:left-[12%] p:bottom-0 p:left-0 flex font-LexendDeca cursor-pointer rounded-sm ">
+        <div className="flex justify-center w-full items-center gap-10 d:flex-row p:flex-col ">
           <div className="shadow-2xl">
             <label>
               <div className="flex justify-center mt-10  h-[300px] w-[350px] border rounded-lg cursor-pointer">
@@ -179,7 +179,7 @@ const Profile = () => {
           </div>
         </div>
         <AiFillCloseCircle
-          className="absolute -top-5 -right-5 text-[40px] border-white border-4 bg-black rounded-3xl text-white "
+          className="absolute d:-top-5 d:-right-5 p:top-0 p:right-0 text-[40px] border-white border-4 bg-black rounded-3xl text-white "
           onClick={() => {
             setIsUploadProduct("");
           }}

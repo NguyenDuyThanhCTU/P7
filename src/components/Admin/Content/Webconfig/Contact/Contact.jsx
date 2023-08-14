@@ -64,7 +64,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="bg-[#353535] text-white w-[400px] rounded-xl shadow-xl">
+    <div className="bg-[#353535] text-white d:w-[400px] rounded-xl shadow-xl p:w-auto ">
       <div className="p-4  ">
         <h3 className="text-[25px] text-center ">Thông tin liên hệ</h3>
         <div className="flex flex-col gap-3 mt-5">
@@ -73,13 +73,13 @@ const Contact = () => {
             return (
               <>
                 <label>{items.name}</label>
-                <div className="flex gap-5">
+                <div className="flex gap-5 p:flex-col d:flex-row w-full">
                   {Type && (
                     <div onClick={() => setSelected(idx)}>
                       <Type
                         placeholder={items.placeholder}
                         type="text"
-                        className="px-4 py-2 text-black outline-none rounded-2xl bg-gray-300 w-[240px] "
+                        className="px-4 py-2 text-black outline-none rounded-2xl bg-gray-300 d:w-[240px] p:w-full "
                         onChange={(e) => setData(e.target.value)}
                       />
                     </div>
@@ -104,6 +104,7 @@ const Contact = () => {
           })}
           <iframe
             src={ContactData.location}
+            className="d:w-[300px] d:h-[200px] p:w-[100px] p:h-[100px]"
             width="300"
             height="200"
             loading="lazy"

@@ -282,6 +282,7 @@ export const HeaderItems = [
   {
     name: "Album Ảnh",
     link: "album-anh",
+    params: "album-anh/tat-ca",
   },
   {
     name: "Tin làm đẹp",

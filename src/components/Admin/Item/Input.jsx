@@ -2,7 +2,7 @@ import React from "react";
 
 const Input = ({ text, Value, setValue, Input }) => {
   return (
-    <div>
+    <div className="w-full">
       <div class="mb-5">
         <label class="block  text-sm font-bold mb-2">{text}</label>
 

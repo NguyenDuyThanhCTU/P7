@@ -10,44 +10,20 @@ import ListSlide from "./ListSlide/ListSlide";
 import { useStateProvider } from "../../../../../Context/StateProvider";
 import { addDocument } from "../../../../../Config/Services/Firebase/FireStoreDB";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { uploadImage } from "../../../Item/Handle";
 
 const Section = ({ name, type }) => {
   const [imageUrl, setImageUrl] = useState();
-  const [error, setError] = useState(false);
+
   const [Data, setData] = useState();
   const [selected, setSelected] = useState(false);
   const { setIsRefetch } = useStateProvider();
 
-  const uploadImage = async (e) => {
-    let selectImage = e.target.files[0];
-    const filetypes = ["image/jpeg", "image/jpg", "image/png"];
-
-    if (filetypes.includes(selectImage.type)) {
-      const storage = getStorage();
-      const storageRef = ref(storage, `img/slide/${selectImage.name}`);
-
-      uploadBytes(storageRef, selectImage)
-        .then((snapshot) => {
-          console.log("Uploaded a blob or file!");
-
-          getDownloadURL(snapshot.ref)
-            .then((url) => {
-              setImageUrl(url);
-            })
-            .catch((error) => {
-              console.error("Error getting download URL:", error);
-            });
-        })
-        .catch((error) => {
-          console.error("Error uploading file:", error);
-        });
-    } else {
-      setError(true);
-    }
+  const HandleUploadImage = (e, locate) => {
+    uploadImage(e, locate).then((data) => {
+      setImageUrl(data);
+    });
   };
-  setTimeout(() => {
-    setError(false);
-  }, 3000);
 
   const HandleUpdate = () => {
     const data = {
@@ -75,10 +51,10 @@ const Section = ({ name, type }) => {
             {name}
           </h3>
         </div>
-        <div className="flex gap-5">
-          <div className="grid grid-cols-2 gap-10 cursor-pointer  h-[550px]  p-5 border">
-            <div className="shadow-2xl bg-[#353535] h-[300px] hover:shadow-gray-700 duration-300">
-              <div className="w-[480px] h-[320px]">
+        <div className="flex gap-5 d:flex-row p:flex-col ">
+          <div className="grid d:grid-cols-2 gap-10 cursor-pointer  h-[550px]  p-5 border p:grid-cols-1 flex-[70%]">
+            <div className="shadow-2xl bg-[#353535] p:h-auto d:h-[300px] hover:shadow-gray-700 duration-300">
+              <div className="w-auto p:h-auto d:h-[320px]">
                 <label className="cursor-pointer">
                   <div className="flex flex-col items-center justify-center h-full">
                     <div className="flex flex-col justify-center items-center">
@@ -92,6 +68,7 @@ const Section = ({ name, type }) => {
                     <p className="text-gray-400  text-center mt-10 text-sm leading-10">
                       Định dạng jpg hoặc png <br />
                     </p>
+                    g
                     <p className="bg-[#0047AB] hover:bg-[#0000FF] text-center mt-8 rounded text-white text-md font-medium p-2 w-52 outline-none">
                       Chọn từ thiết bị
                     </p>
@@ -100,7 +77,7 @@ const Section = ({ name, type }) => {
                     type="file"
                     name="upload-video"
                     className="w-0 h-0"
-                    onChange={(e) => uploadImage(e)}
+                    onChange={(e) => HandleUploadImage(e, "slides")}
                   />
                 </label>
               </div>
@@ -118,11 +95,6 @@ const Section = ({ name, type }) => {
                     />
                   </div>
                 </div>
-                {error && (
-                  <p className="text-center text-xl text-red-400 font-semibold mt-4 w-[260px]">
-                    Vui lòng chọn đúng định dạng
-                  </p>
-                )}
               </div>
               {selected || imageUrl ? (
                 <div className="mt-5">
@@ -140,13 +112,13 @@ const Section = ({ name, type }) => {
               )}
             </div>
             <div className="shadow-2xl bg-[#353535] h-auto hover:shadow-gray-700 duration-300">
-              <div className="w-[480px] h-[320px]">
+              <div className="w-auto h-full">
                 {imageUrl ? (
                   <>
                     <img
                       src={imageUrl}
                       alt=""
-                      className="w-[467px] h-full object-cover"
+                      className="w-auto h-full object-cover"
                     />
                   </>
                 ) : (
@@ -164,7 +136,6 @@ const Section = ({ name, type }) => {
               </div>
             </div>
           </div>
-
           <ListSlide />
         </div>
       </div>

@@ -11,7 +11,7 @@ export const DataProviders = ({ children }) => {
   const [Slides, setSlides] = useState([]);
 
   const [SocialMedia, setSocialMedia] = useState("");
-
+  const [Videos, setVideos] = useState([]);
   const [PostOther, setPostOther] = useState([]);
   const [PostCompany, setPostCompany] = useState([]);
 
@@ -31,6 +31,8 @@ export const DataProviders = ({ children }) => {
   return (
     <DataContext.Provider
       value={{
+        setVideos,
+        Videos,
         branches,
         setBranches,
         setCartItems,

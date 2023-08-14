@@ -34,7 +34,7 @@ const SocialMedia = () => {
         <h3 className="p-5 shadow-lg rounded-t-md text-[25px] bg-[#353535]">
           Các kênh truyền thông
         </h3>
-        <div className="p-5 grid grid-cols-4 gap-10 ">
+        <div className="p-5 grid d:grid-cols-4 d:gap-10 p:grid-cols-2 p:gap-2 ">
           {SocialMediaDashboard.map((items, idx) => {
             let Icon = IconMapping[items.icon];
             const SocialMediaItems = SocialMedia[idx];

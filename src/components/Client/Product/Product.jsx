@@ -22,7 +22,7 @@ const Product = () => {
   useEffect(() => {
     SetSortProduct(Products);
   }, []);
-  console.log(id);
+
   const HandleOrder = (id) => {
     setCartItems((prevItems) => [...prevItems, id]);
     setOpenCart(true);

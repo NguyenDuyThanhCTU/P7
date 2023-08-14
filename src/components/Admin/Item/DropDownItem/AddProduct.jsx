@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
@@ -29,15 +29,20 @@ const AddProduct = ({}) => {
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
   const { productTypes } = useData();
 
+  useEffect(() => {
+    const sort = productTypes.filter((item) => item.parent === isParentParams);
+
+    if (sort) {
+      setIsType(sort[0]?.name);
+      setIsTypeParams(sort[0]?.params);
+    }
+  }, [isParentParams]);
+
   const handleDiscard = () => {
     setImageUrl("");
     setTitle("");
     setContent("");
     setPrice("");
-    setIsType("");
-    setIsTypeParams("");
-    setIsParent("Cửa Hàng");
-    setIsParentParams("cua-hang");
   };
 
   const HandleSubmit = () => {
@@ -152,9 +157,17 @@ const AddProduct = ({}) => {
                         Định dạng jpg hoặc png <br />
                       </p>
                       <div className="flex flex-col gap-2 items-center">
-                        <p className="bg-[#0047AB] hover:bg-[#0000FF] text-center mt-8 rounded text-white text-md font-medium p-2 w-52 outline-none">
-                          Chọn từ thiết bị
-                        </p>
+                        <label>
+                          <p className="bg-[#0047AB] hover:bg-[#0000FF] mt-8  text-center rounded text-white text-md font-medium p-2 w-52 outline-none">
+                            Chọn từ thiết bị
+                          </p>
+                          <input
+                            type="file"
+                            onChange={(e) => HandleUploadImage(e, "products")}
+                            className="w-0 h-0"
+                            id="fileInput"
+                          />
+                        </label>
                         <p className="text-red-500 italic">Hoặc</p>
                         <div className="">
                           <Input
@@ -184,24 +197,32 @@ const AddProduct = ({}) => {
             <div className="flex items-center gap-10">
               <div class=" w-[700px] flex flex-col  items-center">
                 <div className="grid grid-cols-2 gap-5 w-full">
-                  <div className="  flex flex-col gap-3">
-                    <Input
-                      text="Tên sản phẩm"
-                      Value={Title}
-                      setValue={setTitle}
-                    />
-                    <Input
-                      text="Giá sản phẩm"
-                      Value={Price}
-                      setValue={setPrice}
-                      Input={true}
-                    />
-                    <Input
-                      text="Mô tả sản phẩm"
-                      Value={Content}
-                      setValue={setContent}
-                    />
-                  </div>
+                  {isParentParams === "album-anh" ? (
+                    <></>
+                  ) : (
+                    <>
+                      {" "}
+                      <div className="  flex flex-col gap-3">
+                        <Input
+                          text="Tên sản phẩm"
+                          Value={Title}
+                          setValue={setTitle}
+                        />
+                        <Input
+                          text="Giá sản phẩm"
+                          Value={Price}
+                          setValue={setPrice}
+                          Input={true}
+                        />
+                        <Input
+                          text="Mô tả sản phẩm"
+                          Value={Content}
+                          setValue={setContent}
+                        />
+                      </div>
+                    </>
+                  )}
+
                   <div className="  flex flex-col gap-3">
                     <div className="flex flex-col gap-2">
                       <label className="text-md font-medium ">

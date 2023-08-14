@@ -1,7 +1,6 @@
 import React from "react";
-
-import UploadVideo from "./UploadVideo/UploadVideo";
-import ListVideo from "./ListVideo/ListVideo";
+import UploadVideo from "./Section/UploadVideo";
+import ListVideo from "./Section/ListVideo";
 
 const Video = () => {
   return (
@@ -10,8 +9,11 @@ const Video = () => {
         <h3 className=" text-[35px] text-center font-bold mb-2 uppercase">
           Danh sách Video
         </h3>
-        <div className="flex">
-          <UploadVideo />
+        <div className="flex gap-5 mt-5 d:flex-row p:flex-col">
+          <div>
+            <UploadVideo />
+          </div>
+          <ListVideo />
         </div>
       </div>
     </div>

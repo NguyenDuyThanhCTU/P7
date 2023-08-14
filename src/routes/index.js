@@ -1,5 +1,6 @@
 import Admin from "../components/Admin/Admin";
 import Album from "../components/Client/Album/Album";
+import Cart from "../components/Client/Cart/Cart";
 import Contact from "../components/Client/Contact/Contact";
 import Home from "../components/Client/Home/Home";
 import Introduction from "../components/Client/Introduction/Introduction";
@@ -60,7 +61,7 @@ export const AllRoutes = [
     Layout: ClientLayout,
   },
   {
-    path: "/album-anh/",
+    path: "/album-anh/:id",
     component: Album,
     Layout: ClientLayout,
   },
@@ -77,6 +78,11 @@ export const AllRoutes = [
   {
     path: "/lien-he/",
     component: Contact,
+    Layout: ClientLayout,
+  },
+  {
+    path: "/gio-hang/",
+    component: Cart,
     Layout: ClientLayout,
   },
 ];
