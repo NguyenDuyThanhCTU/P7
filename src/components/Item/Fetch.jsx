@@ -15,14 +15,14 @@ const Fetch = () => {
     setContactData,
     setTradeMarkData,
     setAccounts,
-    setPostOther,
-    setPostCompany,
+
     //Service
     setProductType,
     setProducts,
     setOrders,
     setBranches,
     setVideos,
+    setPosts,
   } = useData();
 
   const { isRefetch, setIsRefetch } = useStateProvider();
@@ -54,12 +54,7 @@ const Fetch = () => {
     });
 
     getProducts("posts").then((data) => {
-      const otherItems = data.reverse().filter((item) => item.type === "Other");
-      setPostOther(otherItems);
-
-      const companyItems = data.filter((item) => item.type == "Company");
-
-      setPostCompany(companyItems);
+      setPosts(data.reverse());
     });
 
     getProducts("productTypes").then((data) => {
