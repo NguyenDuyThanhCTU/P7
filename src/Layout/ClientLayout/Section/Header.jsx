@@ -143,7 +143,7 @@ const Header = () => {
             >
               {HeaderItems.map((items, idx) => {
                 const sort = productTypes.filter(
-                  (item) => item.parent === items.link
+                  (item) => item.parentParams === items.link
                 );
 
                 return (

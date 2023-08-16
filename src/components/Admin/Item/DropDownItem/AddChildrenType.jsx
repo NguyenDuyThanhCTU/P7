@@ -10,8 +10,12 @@ import { MdDeleteForever } from "react-icons/md";
 import { useData } from "../../../../Context/DataProviders";
 import { useStateProvider } from "../../../../Context/StateProvider";
 import {
+  addAtArrayField,
+  addDataToArrayField,
   addDocument,
   delDocument,
+  deleteDataFromArrayField,
+  updateArrayFieldAtIndex,
 } from "../../../../Config/Services/Firebase/FireStoreDB";
 import { TypeProductItems } from "../../../../Utils/item";
 import diacritic from "diacritic";
@@ -24,8 +28,8 @@ const AddChildrenType = () => {
   const [ParentParams, setParentParams] = useState("cua-hang");
 
   const [imageUrl, setImageUrl] = useState("");
-  const [isSelected, setSelected] = useState(false);
-  const [childrenType, setChildrenType] = useState();
+  const [isSelected, setSelected] = useState(0);
+  const [isType, setType] = useState();
 
   const { setIsRefetch, setIsUploadProduct } = useStateProvider();
   const { productTypes, updateId } = useData();
@@ -33,15 +37,9 @@ const AddChildrenType = () => {
   useEffect(() => {
     const sort = productTypes.filter((item) => item.id === updateId);
     if (sort) {
+      setType(sort[0]);
     }
-  }, [updateId]);
-
-  const handleDiscard = () => {
-    setName("");
-    setIsParams("");
-    setParent("Cửa hàng");
-    setImageUrl("");
-  };
+  }, [updateId, productTypes, isType]);
 
   const HandleSubmit = () => {
     if (!Name) {
@@ -54,38 +52,34 @@ const AddChildrenType = () => {
       const data = {
         name: Name,
         params: Params,
-        parentName: Parent,
-        parentParams: ParentParams,
+        parentName: isType.name,
+        parentParams: isType.params,
         image: imageUrl,
-        children: [],
       };
 
-      addDocument("productTypes", data).then(() => {
-        notification["success"]({
-          message: "Thành công!",
-          description: `
+      addDataToArrayField("productTypes", updateId, "children", data).then(
+        () => {
+          notification["success"]({
+            message: "Thành công!",
+            description: `
         Thông tin đã được CẬP NHẬT !`,
-        });
-        setIsRefetch("addHomeType");
-        handleDiscard();
-      });
+          });
+          setIsRefetch("update children type");
+        }
+      );
     }
   };
 
-  const HandleDelete = (id) => {
-    delDocument("productTypes", id).then(() => {
-      notification["success"]({
-        message: "Success",
-        description: `Yêu cầu của bạn đã được thực hiện thành công !`,
-      });
-    });
-    setIsRefetch("deleted");
-  };
-
-  const HandleUploadImage = (e, locate) => {
-    uploadImage(e, locate).then((data) => {
-      setImageUrl(data);
-    });
+  const HandleDelete = (idx) => {
+    deleteDataFromArrayField("productTypes", updateId, "children", idx).then(
+      () => {
+        notification["success"]({
+          message: "Success",
+          description: `Yêu cầu của bạn đã được thực hiện thành công !`,
+        });
+        setIsRefetch("deleted");
+      }
+    );
   };
 
   const convertToCodeFormat = (text) => {
@@ -104,14 +98,11 @@ const AddChildrenType = () => {
     handleChange();
   }, [Name]);
 
-  const handleTitleChange = (e) => {
-    const selectedName = e.target.value;
-    setParent(selectedName);
-    const selectedItem = TypeProductItems.find(
-      (item) => item.name === selectedName
-    );
-    if (selectedItem) {
-      setParentParams(selectedItem.params);
+  const HandleSelected = (idx) => {
+    if (isSelected === idx) {
+      setSelected(0);
+    } else {
+      setSelected(idx);
     }
   };
 
@@ -135,7 +126,7 @@ const AddChildrenType = () => {
                 <p>Thời gian</p>
               </div>
               <div className="w-full border border-black h-[300px] overflow-y-scroll">
-                {productTypes?.map((data, idx) => (
+                {isType?.children.map((data, idx) => (
                   <div
                     key={idx}
                     className="grid  cols-4 items-center  my-5  ml-1  px-5 "
@@ -143,9 +134,9 @@ const AddChildrenType = () => {
                     <div className="relative ">
                       <FiEdit
                         className="text-red-600 hover:scale-125 duration-300 "
-                        onClick={() => setSelected(!isSelected)}
+                        onClick={() => HandleSelected(idx + 1)}
                       />
-                      {isSelected && (
+                      {isSelected === idx + 1 && (
                         <>
                           {" "}
                           <div className="w-[40px] bg-black opacity-90 absolute -top-2 h-8 left-5 rounded-lg">
@@ -154,7 +145,7 @@ const AddChildrenType = () => {
                                 title="Xóa sản phẩm"
                                 description="Bạn muốn xóa sản phẩm này?"
                                 onConfirm={() => {
-                                  HandleDelete(data.id);
+                                  HandleDelete(idx);
                                 }}
                                 onCancel={() => {
                                   message.error("Sản phẩm chưa được xóa!");

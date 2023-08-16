@@ -112,6 +112,14 @@ const AddType = () => {
     setIsUploadProduct("add-children-type");
   };
 
+  const HandleSelected = (idx) => {
+    if (isSelected === idx) {
+      setSelected(0);
+    } else {
+      setSelected(idx);
+    }
+  };
+
   return (
     <div
       className={`bg-[rgba(0,0,0,0.3)] w-full flex items-center justify-center 
@@ -140,9 +148,9 @@ const AddType = () => {
                     <div className="relative ">
                       <FiEdit
                         className="text-red-600 hover:scale-125 duration-300 "
-                        onClick={() => setSelected(!isSelected)}
+                        onClick={() => HandleSelected(idx + 1)}
                       />
-                      {isSelected && (
+                      {isSelected === idx + 1 && (
                         <>
                           {" "}
                           <div className="w-[80px] bg-black opacity-90 absolute -top-2 h-8 left-5 rounded-lg">

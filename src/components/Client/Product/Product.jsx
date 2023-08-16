@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Category from "../../Item/Category";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useData } from "../../../Context/DataProviders";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useStateProvider } from "../../../Context/StateProvider";
@@ -10,18 +10,20 @@ const Product = () => {
   const [SortProduct, SetSortProduct] = useState([]);
   const { setOpenCart } = useStateProvider();
   const { Products, setCartItems } = useData();
+  const location = useLocation();
   const { id } = useParams();
 
   useEffect(() => {
-    const sort = Products.filter((item) => item.params === id);
-    if (sort) {
-      SetSortProduct(sort);
+    let sort = [];
+    if (location.pathname === "/cua-hang") {
+      SetSortProduct(Products);
+    } else {
+      sort = Products.filter((item) => item.params === id);
+      if (sort) {
+        SetSortProduct(sort);
+      }
     }
   }, [id, Products]);
-
-  useEffect(() => {
-    SetSortProduct(Products);
-  }, []);
 
   const HandleOrder = (id) => {
     setCartItems((prevItems) => [...prevItems, id]);

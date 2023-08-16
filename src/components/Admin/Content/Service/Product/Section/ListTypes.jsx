@@ -21,11 +21,30 @@ const ListProduct = () => {
           <div className="h-[400px] p:w-[60vw] d:w-[370px] border  rounded-2xl overflow-y-scroll ">
             <div className="flex flex-col cursor-pointer">
               {productTypes.map((items, idx) => (
-                <div className="flex gap-2 p-2 items-center">
-                  <div>{idx + 1}</div>
+                <>
+                  <div className="flex gap-5 p-2 items-center">
+                    <div>{idx + 1}</div>
+                    <img
+                      src={items.image}
+                      alt="product type image"
+                      className="w-10 h-10"
+                    />
+                    <div className="p-1 truncate">{items.name}</div>
+                  </div>
 
-                  <div className="p-1 truncate">{items.name}</div>
-                </div>
+                  {items?.children.length > 0 && (
+                    <>
+                      {items?.children.map((items, idx) => (
+                        <>
+                          <div className="ml-10 text-[16px] flex  gap-3 items-center py-2">
+                            <div>{idx}</div>
+                            <div>{items.name}</div>
+                          </div>
+                        </>
+                      ))}
+                    </>
+                  )}
+                </>
               ))}
             </div>
           </div>
