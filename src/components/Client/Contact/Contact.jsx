@@ -29,31 +29,47 @@ const Contact = () => {
     setTitle("");
     setDescription("");
   };
-  const HandleUpload = () => {
-    if (!name || !phone || !address || !description) {
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
+    if (!phone || !name || !email || !title || !description) {
       notification["warning"]({
-        message: "Thao tác không thành công !",
+        message: "Thao tác KHÔNG thành công !",
         description: `
-            Vui lòng nhập đầy đủ thông tin!`,
+           Vui lòng nhập đầy đủ THÔNG TIN !`,
       });
     } else {
-      const data = {
-        name: name,
-        email: email,
-        phone: phone,
-        address: address,
-        title: title,
-        description: description,
+      let data = {
+        HọTên: name,
+        Email: email,
+        SĐT: phone,
+        ĐC: address,
+        NộiDung: description,
       };
-      addDocument("orders", data).then(() => {
+      const response = await fetch(
+        "https://formsubmit.co/ajax/thanhnd2512@gmail.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (response.ok) {
         notification["success"]({
-          message: "Thành công!",
+          message: "Thành công !",
           description: `
-        Chúng tôi sẽ liên hệ bạn trong thời gian sớm nhất !`,
+             Chúng tôi sẽ liên hệ trong thời gian sớm nhất !`,
         });
-        setIsRefetch("add order");
-        HandleDiscard();
-      });
+      } else {
+        notification["error"]({
+          message: "Lỗi !",
+          description: `
+             Lỗi không xác định !`,
+        });
+      }
     }
   };
 
@@ -149,7 +165,10 @@ const Contact = () => {
               />
             </div>
             <div className="border w-[400px]  ">
-              <div className="flex flex-col gap-3 mb-5 p-3 w-full bg-white h-full shadow-xl">
+              <form
+                onSubmit={HandleSubmit}
+                className="flex flex-col gap-3 mb-5 p-3 w-full bg-white h-full shadow-xl"
+              >
                 <Input
                   text="Họ Tên(*)"
                   Value={name}
@@ -186,17 +205,15 @@ const Contact = () => {
                   setValue={setDescription}
                   Input={false}
                 />
-                <div
-                  onClick={() => {
-                    HandleUpload();
-                  }}
-                  className=" "
-                >
-                  <span className="uppercase py-2 px-6 bg-maincontent text-white cursor-pointer hover:bg-main bg-green-500 hover:bg-green-600">
+                <div className=" ">
+                  <button
+                    type="submit"
+                    className="uppercase py-2 px-6 bg-maincontent text-white cursor-pointer hover:bg-main bg-green-500 hover:bg-green-600"
+                  >
                     gửi đi
-                  </span>
+                  </button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>

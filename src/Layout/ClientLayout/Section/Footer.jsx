@@ -5,6 +5,7 @@ import { MdOutlineLocationOn } from "react-icons/md";
 import { IconMapping, SocialMediaCustom } from "../../../Utils/item";
 import { BiPhoneCall } from "react-icons/bi";
 import { AiOutlineMail } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const { TradeMarkData, ContactData, SocialMedia, branches } = useData();
@@ -104,19 +105,23 @@ const Footer = () => {
                     </p>
                     <p>
                       <strong>Website:</strong>{" "}
-                      <span className="underline text-blue-500">
-                        {" "}
-                        {items.website}
-                      </span>
+                      <a
+                        href="https://thaongonail.com"
+                        className="underline text-blue-500 hover:text-blue-600"
+                      >
+                        ThaoNgoNail.com
+                      </a>
                     </p>
                   </div>
                 </div>
               </>
             ))}
           </div>
-          <div className="bg-mainblue text-white py-3 px-6 uppercase text-center font-bold text-[26px] hover:text-red-500 hover:bg-white hover:border-red-500 border cursor-pointer">
-            Liên hệ ngay
-          </div>
+          <Link to="/lien-he">
+            <div className="bg-mainblue text-white py-3 px-6 uppercase text-center font-bold text-[26px] hover:text-red-500 hover:bg-white hover:border-red-500 border cursor-pointer">
+              Liên hệ ngay
+            </div>
+          </Link>
         </div>
       </div>
     </>
