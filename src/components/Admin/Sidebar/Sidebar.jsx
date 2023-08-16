@@ -41,6 +41,7 @@ const Sidebar = ({}) => {
 
               return (
                 <div
+                  key={idx}
                   className={`flex gap-3 items-center cursor-pointer hover:scale-125 duration-300 ${
                     isSelected === idx ? "text-blue-400" : "border-white"
                   }`}
@@ -67,6 +68,7 @@ const Sidebar = ({}) => {
 
               return (
                 <div
+                  key={idx}
                   className={`flex gap-3 items-center cursor-pointer hover:scale-125 duration-300 ${
                     isSelected === idx + 5 ? "text-blue-400" : "border-white"
                   }`}

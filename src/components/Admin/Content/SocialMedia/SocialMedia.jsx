@@ -29,8 +29,8 @@ const SocialMedia = () => {
   };
 
   return (
-    <div className="">
-      <div className="  border rounded-md border-gray-500">
+    <div className="w-full ">
+      <div className="  border rounded-md border-gray-500 ">
         <h3 className="p-5 shadow-lg rounded-t-md text-[25px] bg-[#353535]">
           Các kênh truyền thông
         </h3>

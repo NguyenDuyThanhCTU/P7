@@ -42,13 +42,14 @@ const ListSlide = () => {
 
   return (
     <div className=" shadow-2xl bg-[#353535] flex-[30%] flex flex-col items-center">
-      <div className="p-3">
+      <div className="p-3 flex flex-col items-center">
         <div className="flex justify-between items-center text-[25px] pb-3">
           <p className="uppercase text-white text-center w-full">
             Danh sách hình ảnh
           </p>
         </div>
-        <div className="h-[200px] d:w-[350px] border  rounded-2xl p:w-[60vw]">
+
+        <div className="h-[200px] d:w-[350px] border  rounded-2xl p:w-[50vw]">
           <Swiper
             spaceBetween={30}
             centeredSlides={true}
@@ -73,8 +74,9 @@ const ListSlide = () => {
               </>
             ))}
           </Swiper>
-        </div>{" "}
-        <div className="h-[250px] d:w-[350px] border mt-5 rounded-2xl overflow-y-scroll  p:w-[60vw] ">
+        </div>
+
+        <div className="h-[250px] d:w-[350px] border mt-5 rounded-2xl overflow-y-scroll  p:w-[50vw] ">
           {ListProducts?.map((data, idx) => (
             <div
               key={idx}

@@ -58,7 +58,7 @@ const Fetch = () => {
     });
 
     getProducts("productTypes").then((data) => {
-      setProductType(data.reverse());
+      setProductType(data);
     });
 
     getProducts("products").then((data) => {

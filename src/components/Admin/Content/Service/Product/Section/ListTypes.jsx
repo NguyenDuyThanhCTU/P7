@@ -16,7 +16,7 @@ const ListProduct = () => {
       <div className="p-3">
         <div className="flex justify-between items-center text-[25px] p-3 flex-col gap-3">
           <p className="uppercase  text-center w-full from-yellow-400">
-            Tùy chọn sản phẩm
+            Danh mục sản phẩm
           </p>
           <div className="h-[400px] p:w-[60vw] d:w-[370px] border  rounded-2xl overflow-y-scroll ">
             <div className="flex flex-col cursor-pointer">
@@ -24,7 +24,7 @@ const ListProduct = () => {
                 <div className="flex gap-2 p-2 items-center">
                   <div>{idx + 1}</div>
 
-                  <div className="p-1 truncate">{items.type}</div>
+                  <div className="p-1 truncate">{items.name}</div>
                 </div>
               ))}
             </div>

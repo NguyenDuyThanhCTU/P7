@@ -7,6 +7,7 @@ import ProductDetail from "./DropDownItem/ProductDetail";
 import Profile from "./DropDownItem/Profile";
 import AddBranch from "./DropDownItem/AddBranch";
 import UpdateProduct from "./DropDownItem/UpdateProduct";
+import AddChildrenType from "./DropDownItem/AddChildrenType";
 
 const AdminDropDown = () => {
   const { isUploadProduct } = useStateProvider();
@@ -18,6 +19,8 @@ const AdminDropDown = () => {
     >
       {isUploadProduct === "add-types" ? (
         <AddType />
+      ) : isUploadProduct === "add-children-type" ? (
+        <AddChildrenType />
       ) : isUploadProduct === "add-post" ? (
         <AddPost />
       ) : isUploadProduct === "add-product" ? (

@@ -17,7 +17,7 @@ import { TypeProductItems } from "../../../../Utils/item";
 import diacritic from "diacritic";
 import { uploadImage } from "../Handle";
 
-const AddType = () => {
+const AddChildrenType = () => {
   const [Name, setName] = useState("");
   const [Params, setIsParams] = useState("");
   const [Parent, setParent] = useState("Cửa hàng");
@@ -25,8 +25,16 @@ const AddType = () => {
 
   const [imageUrl, setImageUrl] = useState("");
   const [isSelected, setSelected] = useState(false);
+  const [childrenType, setChildrenType] = useState();
+
   const { setIsRefetch, setIsUploadProduct } = useStateProvider();
-  const { productTypes, setUpdateId } = useData();
+  const { productTypes, updateId } = useData();
+
+  useEffect(() => {
+    const sort = productTypes.filter((item) => item.id === updateId);
+    if (sort) {
+    }
+  }, [updateId]);
 
   const handleDiscard = () => {
     setName("");
@@ -107,11 +115,6 @@ const AddType = () => {
     }
   };
 
-  const HandleAddChildren = (id) => {
-    setUpdateId(id);
-    setIsUploadProduct("add-children-type");
-  };
-
   return (
     <div
       className={`bg-[rgba(0,0,0,0.3)] w-full flex items-center justify-center 
@@ -123,7 +126,7 @@ const AddType = () => {
           <div className="flex w-[56vw]  justify-center gap-20 ">
             <div className="flex-1 h-[400px]">
               <p className="text-2xl font-bold text-center mb-3">
-                Danh mục sản phẩm
+                Danh sách loại sản phẩm
               </p>
               <div className="grid  cols-4 items-center py-2  justify-start  border-t border-l border-r border-black">
                 <p> </p>
@@ -145,13 +148,8 @@ const AddType = () => {
                       {isSelected && (
                         <>
                           {" "}
-                          <div className="w-[80px] bg-black opacity-90 absolute -top-2 h-8 left-5 rounded-lg">
+                          <div className="w-[40px] bg-black opacity-90 absolute -top-2 h-8 left-5 rounded-lg">
                             <div className="mx-3 flex  justify-between text-[24px] h-full items-center ">
-                              <FcAddDatabase
-                                className="hover:scale-125 duration-300"
-                                onClick={() => HandleAddChildren(data.id)}
-                              />
-
                               <Popconfirm
                                 title="Xóa sản phẩm"
                                 description="Bạn muốn xóa sản phẩm này?"
@@ -200,68 +198,25 @@ const AddType = () => {
 
             <div className="flex-1 ">
               <p className="text-2xl font-bold text-center mb-3">
-                Thêm danh mục
+                Thêm mục con
               </p>
 
               <div>
-                <Input text={`Tên danh mục`} Value={Name} setValue={setName} />
-                <div className="flex   gap-2 items-center">
-                  <div className="">
-                    <Input
-                      text="Liên kết hình ảnh"
-                      Value={imageUrl}
-                      setValue={setImageUrl}
-                      Input={true}
-                    />
-                  </div>
-                  <p className="text-red-500 italic">Hoặc</p>
-                  <label>
-                    <p className="bg-[#0047AB] hover:bg-[#0000FF] mt-8  text-center rounded text-white text-md font-medium p-2 w-52 outline-none">
-                      Chọn từ thiết bị
-                    </p>
-                    <input
-                      type="file"
-                      onChange={(e) => HandleUploadImage(e, "Types")}
-                      className="w-0 h-0"
-                      id="fileInput"
-                    />
-                  </label>
-                </div>
-                <div
-                  className={`flex flex-col gap-2 h-[100px] overflow-hidden`}
-                >
-                  <label className="text-md font-medium ">
-                    Chọn mục cần thêm:
-                  </label>
-                  <select
-                    className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
-                    onChange={handleTitleChange}
-                  >
-                    {TypeProductItems.map((item, idx) => (
-                      <option
-                        key={idx}
-                        className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
-                        value={item.name}
-                      >
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <Input text={`Tên mục con`} Value={Name} setValue={setName} />
 
                 <div className="flex gap-6 mt-10">
                   <button
-                    onClick={() => handleDiscard()}
+                    onClick={() => setIsUploadProduct("add-types")}
                     type="button"
-                    className="border-gray-300 border-2 text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
+                    className="border-blue-500 text-blue-500 hover:text-blue-700 hover:border-blue-700  border-2 text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
                   >
-                    Xóa
+                    Quay về
                   </button>
                   <button
                     //disabled={videoAsset?.url ? false : true}
                     onClick={() => HandleSubmit()}
                     type="button"
-                    className="bg-[#df6cad] hover:bg-red-500 focus:outline-none focus:shadow-outline text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
+                    className="bg-[#df6cad] hover:bg-red-500 duration-300 focus:outline-none focus:shadow-outline text-white text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
                   >
                     Tải lên
                   </button>
@@ -282,4 +237,4 @@ const AddType = () => {
   );
 };
 
-export default AddType;
+export default AddChildrenType;
