@@ -58,6 +58,7 @@ const Contact = () => {
       );
 
       if (response.ok) {
+        HandleDiscard();
         notification["success"]({
           message: "Thành công !",
           description: `
@@ -88,13 +89,13 @@ const Contact = () => {
             ></iframe>
           </>
         ) : (
-          <>
+          <div className=" w-screen h-[50vh] overflow-hidden cursor-pointer">
             <img
               src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/312755810_503545928456727_6996694448340822390_n.jpg?_nc_cat=109&cb=99be929b-3346023f&ccb=1-7&_nc_sid=300f58&_nc_ohc=02zKygIhm28AX-j48zj&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfDz-7LBZKK22TB_Hlobkn42QOpSdainTkM6HcElMfLw-Q&oe=64DDE07F"
               alt="banner"
-              className="w-screen h-[50vh] object-cover"
+              className="w-full h-full hover:scale-110 duration-300 object-cover"
             />
-          </>
+          </div>
         )}
       </div>
       <div className="flex flex-col items-center gap-5 py-5 mx-2 ">

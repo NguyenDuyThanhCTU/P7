@@ -11,7 +11,7 @@ const Section1 = () => {
   const { Slides, productTypes } = useData();
   return (
     <div className="flex flex-col">
-      <div className="relative w-full   ">
+      <div className="relative w-[100vw] max-h-[655px] overflow-hidden  ">
         <Swiper
           loop={true}
           autoplay={{
@@ -27,7 +27,7 @@ const Section1 = () => {
                 <img
                   src={items.image}
                   alt="banner"
-                  className="object-cover  w-full z-0 cursor-pointer max-h-[655px]"
+                  className="object-cover  w-full h-full  z-0 cursor-pointer hover:scale-110 duration-500 "
                   onClick={() => {
                     window.open("http://thaongonail.com/", "_self");
                   }}

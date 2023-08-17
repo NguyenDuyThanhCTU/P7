@@ -41,7 +41,7 @@ const ClientLayout = ({ children }) => {
       )}
 
       <Footer />
-      <div>
+      <div className="relative z-50">
         <OnTop />
         <Hotline />
       </div>

@@ -12,6 +12,7 @@ const Section3 = ({ title, idx, Data }) => {
     setCartItems((prevItems) => [...prevItems, id]);
     setOpenCart(true);
   };
+
   return (
     <>
       {" "}

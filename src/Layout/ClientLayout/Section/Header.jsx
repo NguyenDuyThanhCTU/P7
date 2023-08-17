@@ -17,6 +17,7 @@ const Header = () => {
   const [elementTop, setElementTop] = useState(95);
   const [IsTranslate, setTranslate] = useState(false);
   const [Search, setSearch] = useState("");
+  const [isOpenSubMenu, setIsOpenSubMenu] = useState(0);
   const targetPosition = 1;
   const { TradeMarkData, ContactData, productTypes } = useData();
 
@@ -41,6 +42,14 @@ const Header = () => {
       setTranslate(false);
     }
   }, [scrollPosition]);
+
+  const HandleOpenSubMenu = (idx) => {
+    if (idx === isOpenSubMenu) {
+      setIsOpenSubMenu(0);
+    } else {
+      setIsOpenSubMenu(idx);
+    }
+  };
 
   return (
     <div className="d:h-[126px] font-LexendDeca  p:h-auto">
@@ -82,7 +91,21 @@ const Header = () => {
                     Tìm kiếm
                   </div>
                 </div>
-                <BsCart3 className="text-[22px] " />
+
+                <div className="flex relative group/main">
+                  <span className="">Home</span>
+                  <div className="absolute -bottom-10 hidden group-hover/main:block ">
+                    <div className="group/sub">
+                      <span>1</span>
+                      <div className="hidden group-hover/sub:block">
+                        <span>1-1</span>
+                      </div>
+                    </div>
+                    <div className="">
+                      <span>2</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -153,7 +176,7 @@ const Header = () => {
                         items.params ? `/${items.params}` : `/${items.link}`
                       }`}
                     >
-                      <div className="group">
+                      <div className="group/main">
                         <div
                           className={`uppercase text-[18px] flex items-center justify-between  gap-2  hover:text-mainpink duration-500  ${
                             IsTranslate
@@ -172,31 +195,66 @@ const Header = () => {
                         >
                           <p> {items.name}</p>
                           {sort.length > 0 && (
-                            <AiFillCaretRight className="group-hover:rotate-90 duration-500" />
+                            <AiFillCaretRight className="group-hover/main:rotate-90 duration-500" />
                           )}
                         </div>
+
+                        {/*  */}
                         {sort.length > 0 && (
-                          <div className="group-hover:block hidden relative z-20">
+                          <div className="group-hover/main:block hidden relative z-20">
                             <div className="absolute h-10 w-full bg-none"></div>
-                            <div className="absolute  mt-5 w-max max-h-[300px]  shadow-xl rounded-b-lg bg-white  overflow-y-auto">
+                            <div className="  absolute  mt-5 w-[340px] max-h-[300px]  shadow-xl rounded-b-lg bg-white  overflow-y-auto overflow-x-visible">
                               {sort.map((items, idx) => (
-                                <div>
-                                  <Link
-                                    to={`${
-                                      items.parent === "album-anh"
-                                        ? `/album-anh/${items.params}`
-                                        : `/loai-san-pham/${items.params}`
-                                    }`}
-                                  >
-                                    <div className="py-4 px-8 font-light text-black hover:text-white hover:bg-mainpink">
-                                      {items.name}
+                                <div className="">
+                                  <div className="w-full">
+                                    <div
+                                      className="py-4 px-8 font-light text-black group duration-300 hover:text-white hover:bg-mainpink flex justify-between items-center w-full"
+                                      onClick={() => HandleOpenSubMenu(idx + 1)}
+                                    >
+                                      <Link
+                                        to={`${
+                                          items.parent === "album-anh"
+                                            ? `/album-anh/${items.params}`
+                                            : `/loai-san-pham/${items.params}`
+                                        }`}
+                                      >
+                                        <span>{items.name}</span>
+                                      </Link>
+                                      {items.children.length > 0 && (
+                                        <AiFillCaretRight
+                                          className={`${
+                                            isOpenSubMenu === idx + 1 &&
+                                            "rotate-90"
+                                          } duration-500 text-black`}
+                                        />
+                                      )}
                                     </div>
-                                  </Link>
+                                    <div
+                                      className={`${
+                                        isOpenSubMenu === idx + 1
+                                          ? " h-max"
+                                          : " h-0"
+                                      } overflow-hidden duration-500  block`}
+                                    >
+                                      {items.children.length > 0 && (
+                                        <>
+                                          {items.children.map((items) => (
+                                            <div className=" ">
+                                              <div className="py-4 px-8 pl-14 font-light duration-300 text-mainblue hover:text-white hover:bg-mainblue">
+                                                {items.name}
+                                              </div>
+                                            </div>
+                                          ))}
+                                        </>
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
                               ))}
                             </div>
                           </div>
                         )}
+                        {/*  */}
                       </div>
                     </Link>
                     <div
