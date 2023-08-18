@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useData } from "../../../Context/DataProviders";
+import { RxCross2 } from "react-icons/rx";
 
 const Video = () => {
   const { Videos } = useData();
@@ -14,11 +15,11 @@ const Video = () => {
   };
 
   return (
-    <div className="relative">
-      <h3 className="w-full flex justify-center items-center font-SVNDancing text-[50px] ">
+    <div className="relative d:mt-10 p:mt-0 ">
+      <h3 className="w-full flex justify-center items-center font-SVNDancing text-[50px] d:py-5 p:py-2 ">
         Video
       </h3>
-      <div className="flex justify-between mt-5 d:gap-0 p:gap-5 d:flex-row p:flex-col items-center">
+      <div className="grid d:grid-cols-4 p:grid-cols-1 grid-rows-4 gap-5 w-[1250px] mx-auto">
         {Videos.map((items) => (
           <div className=" w-60 h-60 relative">
             <iframe
@@ -34,10 +35,10 @@ const Video = () => {
           </div>
         ))}
       </div>
-      <div className="w-full h-full absolute">
-        {isVideo && (
+      {isVideo && (
+        <div className="w-full h-screen absolute -top-[126px] bg-[rgba(0,0,0,0.8)] flex justify-center items-center z-[9999]">
           <>
-            <div className="w-[50vw] h-[50vh]">
+            <div className="w-[50vw] h-[50vh] relative">
               <iframe
                 src={isVideo.embedurl}
                 className="w-full h-full"
@@ -46,8 +47,15 @@ const Video = () => {
               ></iframe>
             </div>
           </>
-        )}
-      </div>
+
+          <div
+            className="absolute top-2 right-2 rounded-full border text-[30px] text-black border-white bg-white hover:scale-110 duration-300 cursor-pointer"
+            onClick={() => setVideo()}
+          >
+            <RxCross2 className=" p-1" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

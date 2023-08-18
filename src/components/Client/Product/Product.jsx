@@ -8,7 +8,7 @@ import ShopCart from "../../../Layout/ClientLayout/Section/ShopCart";
 
 const Product = () => {
   const [SortProduct, SetSortProduct] = useState([]);
-  const { setOpenCart } = useStateProvider();
+  const { setOpenCart, OpenCart } = useStateProvider();
   const { Products, setCartItems } = useData();
   const location = useLocation();
   const { id } = useParams();
@@ -42,6 +42,7 @@ const Product = () => {
             <div className="bg-[url(http://thegioiphukiennails39.com/assets/images/title_main.png)] w-full h-14 bg-no-repeat bg-contain"></div>
           </h3>
         </div>
+
         <div className="grid d:grid-cols-4 p:grid-cols-2 grid-rows-5 mt-5">
           {SortProduct?.map((items, idx) => (
             <>
@@ -50,7 +51,7 @@ const Product = () => {
                   <div>
                     <div className="rounded-lg w-full h-[220px]  overflow-hidden  ">
                       <img
-                        src={items.image}
+                        src={items.image[0]}
                         alt="product image"
                         className="w-full h-full hover:scale-110 duration-500 object-cover "
                       />
@@ -85,7 +86,11 @@ const Product = () => {
           ))}
         </div>
       </div>
-      <div className="fixed bottom-36 right-[-52px] z-50">
+      <div
+        className={`fixed bottom-36 right-[-300px] ${
+          OpenCart ? " z-50" : "z-0"
+        }`}
+      >
         <ShopCart />
       </div>
     </div>

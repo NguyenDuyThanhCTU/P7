@@ -32,6 +32,11 @@ const ListProducts = ({ name }) => {
     setIsRefetch("deleted");
   };
 
+  const HandleEdit = (id) => {
+    setUpdateId(id);
+    setIsUploadProduct("edit-product");
+  };
+
   const HandleUpdate = (id) => {
     setUpdateId(id);
     setIsUploadProduct("update-product");
@@ -73,7 +78,7 @@ const ListProducts = ({ name }) => {
                             <SwiperSlide>
                               <img
                                 key={items.id}
-                                src={items.image}
+                                src={items.image[0]}
                                 alt="banner"
                                 className="h-[200px] w-full object-contain p-4"
                               />
@@ -114,11 +119,15 @@ const ListProducts = ({ name }) => {
                       key={idx}
                       className="grid  grid-cols-5 items-center my-2  ml-1 justify-start px-5 "
                     >
+                      {console.log(data)}
                       <div className="group relative ">
                         <FiEdit className="text-red-600 hover:scale-125 duration-300 " />
                         <div className="w-[120px] bg-white opacity-90 absolute -top-2 h-8 left-5 rounded-lg hidden group-hover:block ">
                           <div className="mx-3 flex  justify-between text-[24px] h-full items-center ">
-                            <FcViewDetails className="hover:scale-125 duration-300" />
+                            <FcViewDetails
+                              className="hover:scale-125 duration-300"
+                              onClick={() => HandleEdit(data.id)}
+                            />
                             <FiEdit
                               className="text-green-600 hover:scale-125 duration-300"
                               onClick={() => HandleUpdate(data.id)}
@@ -144,7 +153,7 @@ const ListProducts = ({ name }) => {
                       </div>
 
                       <img
-                        src={data.image}
+                        src={data.image[0]}
                         alt="product"
                         className="w-14 h-14 rounded-lg object-cover"
                       />

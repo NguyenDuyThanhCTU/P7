@@ -77,34 +77,31 @@ const Header = () => {
                 </div>
               </div>
 
-              <div className="flex gap-14 items-center">
+              <div className="flex gap-20 items-center">
                 <div className="relative text-black group  cursor-pointer">
                   <input
                     type="text"
                     onChange={(e) => setSearch(e.target.value)}
                     className="p-2 px-4 outline-none rounded-full bg-white border-mainpink border w-[300px]"
                   />
-                  <Link to={`/loai-san-pham/${Search}`}>
-                    <FiSearch className="inline-block bg-white w-[36px] h-[36px] p-2 font-bold rounded-full text-[#F67D08] absolute right-[4px] bottom-[3px] group-hover:-right-10 duration-300" />
+                  <Link to={`/cua-hang/tim-kiem/${Search}`}>
+                    <FiSearch
+                      className={`${
+                        Search && "-right-10 bg-[#F67D08] text-white"
+                      } group-hover:bg-[#F67D08] group-hover:text-white inline-block bg-white w-[36px] h-[36px] p-2 font-bold rounded-full text-[#F67D08] absolute right-[4px] bottom-[3px] group-hover:-right-10  duration-300 hover:scale-110`}
+                    />
                   </Link>
-                  <div className="bg-white absolute top-2 left-4 group-hover:-top-3 group-hover:left-5 px-2 duration-300">
+                  <div
+                    className={`${
+                      Search ? "-top-3 left-5  " : "top-2 left-4"
+                    } bg-white absolute   group-hover:-top-3 group-hover:left-5 px-2 duration-300`}
+                  >
                     Tìm kiếm
                   </div>
                 </div>
 
-                <div className="flex relative group/main">
-                  <span className="">Home</span>
-                  <div className="absolute -bottom-10 hidden group-hover/main:block ">
-                    <div className="group/sub">
-                      <span>1</span>
-                      <div className="hidden group-hover/sub:block">
-                        <span>1-1</span>
-                      </div>
-                    </div>
-                    <div className="">
-                      <span>2</span>
-                    </div>
-                  </div>
+                <div className="text-[24px]">
+                  <BsCart3 />
                 </div>
               </div>
             </div>
@@ -136,12 +133,13 @@ const Header = () => {
             <div
               className={`${
                 Hidden ? "h-screen" : "h-0 "
-              } w-full duration-700 bg-[rgba(253,253,253,0.9)] overflow-hidden`}
+              } w-full duration-700 bg-[rgba(253,253,253,0.9)] overflow-y-scroll`}
             >
               {HeaderItems.map((items, idx) => {
                 const sort = productTypes.filter(
-                  (item) => item.parent === items.link
+                  (item) => item.parentParams === items.link
                 );
+
                 return (
                   <DropDown
                     idx={idx}
@@ -239,11 +237,13 @@ const Header = () => {
                                       {items.children.length > 0 && (
                                         <>
                                           {items.children.map((items) => (
-                                            <div className=" ">
-                                              <div className="py-4 px-8 pl-14 font-light duration-300 text-mainblue hover:text-white hover:bg-mainblue">
+                                            <Link
+                                              to={`/loai-san-pham/${items.params}`}
+                                            >
+                                              <div className="py-4 px-8 pl-14 font-light duration-300 text-mainblue hover:text-white hover:bg-mainblue cursor-pointer">
                                                 {items.name}
                                               </div>
-                                            </div>
+                                            </Link>
                                           ))}
                                         </>
                                       )}

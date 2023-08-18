@@ -22,7 +22,9 @@ const Section3 = ({ title, idx, Data }) => {
             <div className="bg-[#89cde2] border-l-2 border-r-4 border-white h-[53px] w-3 ml-4"></div>
 
             <div className=" ">
-              <h3 className="font-SVNDancing text-[30px]">{title}</h3>
+              <h3 className="font-SVNDancing text-[30px] truncate w-[400px]">
+                {title}
+              </h3>
             </div>
             <div className="w-[53px] h-[53px] bg-white rounded-full  text-[#89cde2] flex items-center justify-center font-LexendDeca text-[20px] ml-5">
               <span> {idx}</span>
@@ -39,7 +41,7 @@ const Section3 = ({ title, idx, Data }) => {
                 <div>
                   <div className="rounded-lg w-full h-[220px]  overflow-hidden  ">
                     <img
-                      src={items.image}
+                      src={items.image[0]}
                       alt="product image"
                       className="w-full h-full hover:scale-110 duration-500 object-cover "
                     />

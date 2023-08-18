@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCloseCircle, AiOutlineDelete } from "react-icons/ai";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
 import { notification } from "antd";
@@ -14,15 +14,22 @@ import { uploadImage } from "../Handle";
 const AddProduct = ({}) => {
   const [Title, setTitle] = useState();
   const [imageUrl, setImageUrl] = useState();
+  const [listUrl, setListUrl] = useState([]);
   const [Content, setContent] = useState();
   const [Price, setPrice] = useState();
   const [isType, setIsType] = useState("");
   const [isTypeParams, setIsTypeParams] = useState("");
   const [isParent, setIsParent] = useState("Cửa Hàng");
   const [isParentParams, setIsParentParams] = useState("cua-hang");
+  const [color, setColor] = useState({
+    name: "",
+    image: "",
+  });
+
+  const [listColor, setListColor] = useState([]);
 
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
-  const { productTypes } = useData();
+  const { productTypes, Color } = useData();
 
   useEffect(() => {
     const sort = productTypes.filter((item) => item.parent === isParentParams);
@@ -41,7 +48,7 @@ const AddProduct = ({}) => {
   };
 
   const HandleSubmit = () => {
-    if (!imageUrl || !isParentParams || !isTypeParams) {
+    if (!listUrl || !Title || !Content) {
       notification["error"]({
         message: "Lỗi !!!",
         description: `Vui lòng bổ sung đầy đủ thông tin !`,
@@ -51,13 +58,16 @@ const AddProduct = ({}) => {
         title: Title,
         content: Content,
         price: Price,
+        image: listUrl,
         type: isType,
-        image: imageUrl,
         params: isTypeParams,
         parent: isParent,
         parentParams: isParentParams,
-        state: true,
+        state: "Còn hàng",
         sale: {},
+        sold: Math.floor(Math.random() * (1000 - 100 + 1)) + 100,
+        access: Math.floor(Math.random() * (10000 - 100 + 1)) + 100,
+        color: listColor,
       };
 
       addDocument("products", data).then(() => {
@@ -74,8 +84,29 @@ const AddProduct = ({}) => {
 
   const HandleUploadImage = (e, locate) => {
     uploadImage(e, locate).then((data) => {
-      setImageUrl(data);
+      setListUrl((prevUrls) => [...prevUrls, data]);
     });
+  };
+
+  const pushValue = (type) => {
+    if (type === "image") {
+      setListUrl((prevUrls) => [...prevUrls, imageUrl]);
+      setImageUrl("");
+    } else if (type === "color") {
+      setListColor((prevUrls) => [...prevUrls, color]);
+    }
+  };
+
+  const popValue = (indexToRemove, type) => {
+    if (type === "image") {
+      setListUrl((prevUrls) =>
+        prevUrls.filter((_, index) => index !== indexToRemove)
+      );
+    } else if (type === "color") {
+      setListColor((prevUrls) =>
+        prevUrls.filter((_, index) => index !== indexToRemove)
+      );
+    }
   };
 
   const HandleParentChange = (e) => {
@@ -98,6 +129,20 @@ const AddProduct = ({}) => {
       setIsTypeParams(selectedItem.params);
     }
   };
+  const HandleColorChange = (e) => {
+    const selectedName = e.target.value;
+    const selectedItem = Color.find((item) => item.name === selectedName);
+    if (selectedItem) {
+      setColor({
+        name: selectedItem.name,
+        image: selectedItem.image,
+      });
+    }
+  };
+
+  useEffect(() => {
+    pushValue("color");
+  }, [color, Color]);
 
   return (
     <div
@@ -118,70 +163,69 @@ const AddProduct = ({}) => {
                 </p>
               </div>
               <div className=" border-dashed rounded-xl border-4 border-gray-200 flex flex-col justify-center items-center  outline-none mt-5 w-[260px] h-[458px] p-10 cursor-pointer hover:border-red-300 hover:bg-gray-100">
-                {imageUrl ? (
-                  <div>
-                    <img
-                      src={imageUrl}
-                      className="w-[100%] h-[100%] object-cover"
-                      alt=""
-                    />
-                    <label>
-                      <p className="bg-[#F51997] text-center mt-8 rounded text-white text-md font-medium p-2 w-52 outline-none">
-                        Chọn lại
-                      </p>
-                      <input
-                        id="fileInput"
-                        type="file"
-                        onChange={(e) => uploadImage(e)}
-                        className="w-0 h-0"
-                      />
-                    </label>
-                  </div>
-                ) : (
-                  <label className="cursor-pointer">
-                    <div className="flex flex-col items-center justify-center h-full">
-                      <div className="flex flex-col justify-center items-center">
-                        <p className="font-bold text-xl">
-                          <FaCloudUploadAlt className="text-gray-300 text-6xl" />
+                <label className="cursor-pointer">
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <div className="flex flex-col  items-center">
+                      <label>
+                        <p className="bg-[#0047AB] hover:bg-[#0000FF]  text-center rounded text-white text-md font-medium p-2 w-52 outline-none">
+                          Chọn từ thiết bị
                         </p>
-                        <p className="text-xl font-semibold">
-                          Chọn hình ảnh để tải lên
-                        </p>
-                      </div>
-                      <p className="text-gray-400  text-center mt-10 text-sm leading-10">
-                        Định dạng jpg hoặc png <br />
-                      </p>
-                      <div className="flex flex-col gap-2 items-center">
-                        <label>
-                          <p className="bg-[#0047AB] hover:bg-[#0000FF] mt-8  text-center rounded text-white text-md font-medium p-2 w-52 outline-none">
-                            Chọn từ thiết bị
-                          </p>
-                          <input
-                            type="file"
-                            onChange={(e) => HandleUploadImage(e, "products")}
-                            className="w-0 h-0"
-                            id="fileInput"
-                          />
-                        </label>
-                        <p className="text-red-500 italic">Hoặc</p>
-                        <div className="">
-                          <Input
-                            text="Liên kết hình ảnh"
-                            Value={imageUrl}
-                            setValue={setImageUrl}
-                            Input={true}
-                          />
-                        </div>
+                        <input
+                          type="file"
+                          onChange={(e) => HandleUploadImage(e, "products")}
+                          className="w-0 h-0"
+                          id="fileInput"
+                        />
+                      </label>
+                      <p className="text-red-500 italic">Hoặc</p>
+                      <div className="">
+                        <Input
+                          text="Liên kết hình ảnh"
+                          setValue={setImageUrl}
+                          Value={imageUrl}
+                          Input={true}
+                        />
                       </div>
                     </div>
-                    <input
-                      type="file"
-                      onChange={(e) => HandleUploadImage(e, "products")}
-                      className="w-0 h-0"
-                      id="fileInput"
-                    />
-                  </label>
+                  </div>
+                </label>
+                {imageUrl ? (
+                  <>
+                    <div
+                      className="p-2 px-5 bg-red-500 text-white rounded-lg "
+                      onClick={() => pushValue("image")}
+                    >
+                      Thêm
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="p-2 px-5 bg-red-300 text-white rounded-lg ">
+                      Thêm
+                    </div>
+                  </>
                 )}
+                <div className="overflow-y-auto border rounded-xl w-full  h-[200px] mt-5">
+                  <div className="p-1">
+                    {listUrl.map((items, idx) => (
+                      <div className=" ">
+                        <div className="my-2 relative w-[145px] h-[90px] group">
+                          <img
+                            src={items}
+                            alt="product img"
+                            className="w-full h-full object-cover "
+                          />
+                          <div
+                            className="w-full h-full  group-hover:flex justify-center items-center bg-[rgba(0,0,0,0.3)] text-[40px] absolute top-0  z-10 text-redPrimmary hidden"
+                            onClick={() => popValue(idx, "image")}
+                          >
+                            <AiOutlineDelete className="" />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
             <div className="flex items-center gap-10">
@@ -214,15 +258,57 @@ const AddProduct = ({}) => {
                   )}
 
                   <div className="  flex flex-col gap-3">
+                    <div className="flex gap-2 w-full">
+                      <div className="flex flex-col gap-2">
+                        <label className="text-md font-medium ">
+                          Mục bài viết:
+                        </label>
+                        <select
+                          className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
+                          onChange={HandleParentChange}
+                        >
+                          {TypeProductItems.map((item, idx) => (
+                            <option
+                              key={idx}
+                              className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
+                              value={item.name}
+                            >
+                              {item.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex flex-col gap-2 w-[190px]">
+                        <label className="text-md font-medium ">
+                          Loại bài viết
+                        </label>
+                        <select
+                          className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
+                          onChange={HandleTypeChange}
+                        >
+                          {productTypes
+                            ?.filter(
+                              (item) => item.parentParams === isParentParams
+                            )
+                            .map((item, idx) => (
+                              <option
+                                key={idx}
+                                className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
+                                value={item.name}
+                              >
+                                {item.name}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+                    </div>
                     <div className="flex flex-col gap-2">
-                      <label className="text-md font-medium ">
-                        Mục bài viết:
-                      </label>
+                      <label className="text-md font-medium ">Màu</label>
                       <select
                         className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
-                        onChange={HandleParentChange}
+                        onChange={HandleColorChange}
                       >
-                        {TypeProductItems.map((item, idx) => (
+                        {Color.map((item, idx) => (
                           <option
                             key={idx}
                             className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
@@ -232,27 +318,38 @@ const AddProduct = ({}) => {
                           </option>
                         ))}
                       </select>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label className="text-md font-medium ">
-                        Loại bài viết
-                      </label>
-                      <select
-                        className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
-                        onChange={HandleTypeChange}
-                      >
-                        {productTypes
-                          ?.filter((item) => item.parent === isParentParams)
-                          .map((item, idx) => (
-                            <option
-                              key={idx}
-                              className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
-                              value={item.name}
-                            >
-                              {item.name}
-                            </option>
-                          ))}
-                      </select>
+                      <div className="overflow-y-auto border rounded-xl w-full  h-[100px] mt-5">
+                        <div className="p-1 grid grid-cols-3 ">
+                          {listColor.map((items, idx) => {
+                            let image = items.image;
+
+                            return (
+                              <div className="my-2 relative w-[50px] h-[50px] group">
+                                <img
+                                  src={items.image}
+                                  alt="color img"
+                                  className="w-full h-full object-cover "
+                                />
+                                <div
+                                  className="w-full h-full  group-hover:flex justify-center items-center bg-[rgba(0,0,0,0.3)] text-[40px] absolute top-0  z-10 text-redPrimmary hidden"
+                                  onClick={() => popValue(idx, "color")}
+                                >
+                                  <AiOutlineDelete className="" />
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      <p className="italic text-gray-600 ml-2">
+                        không có màu bạn cần? <br />
+                        <span
+                          className="hover:text-blue-500 hover:underline underline"
+                          onClick={() => setIsUploadProduct("add-color")}
+                        >
+                          thêm màu
+                        </span>
+                      </p>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SortProductItems } from "../../../../Utils/item";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -15,11 +15,22 @@ const Section2 = () => {
   const { Products } = useData();
   const { setOpenCart } = useStateProvider();
   const { setCartItems } = useData();
+  const [sortProduct, setSortProduct] = useState([]);
 
   const HandleOrder = (id) => {
     setCartItems((prevItems) => [...prevItems, id]);
     setOpenCart(true);
   };
+
+  useEffect(() => {
+    const sort = [];
+    if (isSelected === 0) {
+      setSortProduct(Products.reverse());
+    } else if (isSelected === 1) {
+      setSortProduct(Products);
+    }
+  }, [Products, isSelected]);
+
   return (
     <div className="py-10">
       <div className="w-full flex flex-col items-center">
@@ -68,7 +79,7 @@ const Section2 = () => {
                     <Link to={`/san-pham/${items.id}`}>
                       <div className="rounded-lg w-[220px] h-[220px]  overflow-hidden ">
                         <img
-                          src={items.image}
+                          src={items.image[0]}
                           alt="product image"
                           className="w-full h-full hover:scale-110 duration-500 object-cover "
                         />
@@ -130,7 +141,7 @@ const Section2 = () => {
                     <Link to={`/san-pham/${items.id}`}>
                       <div className="rounded-lg w-[220px] h-[220px]  overflow-hidden ">
                         <img
-                          src={items.image}
+                          src={items.image[0]}
                           alt="product image"
                           className="w-full h-full hover:scale-110 duration-500 object-cover "
                         />

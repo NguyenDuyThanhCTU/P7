@@ -14,11 +14,12 @@ import { uploadImage } from "../Handle";
 const UpdateProduct = () => {
   const [imageUrl, setImageUrl] = useState();
   const [Title, setTitle] = useState();
+  const [Price, setPrice] = useState();
   const [Content, setContent] = useState();
   const [isType, setIsType] = useState("");
   const [isTypeParams, setIsTypeParams] = useState("");
-  const [isParent, setIsParent] = useState("Danh mục sản phẩm");
-  const [isParentParams, setIsParentParams] = useState("danh-muc-san-pham");
+  const [isParent, setIsParent] = useState("Cửa Hàng");
+  const [isParentParams, setIsParentParams] = useState("cua-hang");
 
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
   const { productTypes, Products, updateId } = useData();
@@ -28,6 +29,7 @@ const UpdateProduct = () => {
     setContent("");
     setTitle("");
   };
+  console.log(Products);
 
   useEffect(() => {
     const product = Products.filter((item) => item.id === updateId);
@@ -35,14 +37,19 @@ const UpdateProduct = () => {
       setProductSort(product[0]);
     }
   }, [Products, updateId]);
-  console.log(Products);
+
   const HandleUpdate = () => {
     const data = {
       title: `${Title ? Title : ProductSort?.title}`,
       content: `${Content ? Content : ProductSort?.content}`,
+      price: `${Price ? Price : ProductSort?.price}`,
+      type: `${isType ? isType : ProductSort?.type}`,
       image: `${imageUrl ? imageUrl : ProductSort?.image}`,
-      typeName: `${isType ? isType : ProductSort?.typeName}`,
-      type: `${isTypeParams ? isTypeParams : ProductSort?.type}`,
+      params: `${isTypeParams ? isTypeParams : ProductSort?.params}`,
+      parent: `${isParent ? isParent : ProductSort?.parent}`,
+      parentParams: `${
+        isParentParams ? isParentParams : ProductSort?.parentParams
+      }`,
     };
 
     updateDocument("products", updateId, data).then(() => {
@@ -128,6 +135,15 @@ const UpdateProduct = () => {
                         className="w-0 h-0"
                       />
                     </label>
+                    <p className="text-red-500 italic">Hoặc</p>
+                    <div className="">
+                      <Input
+                        text="Liên kết hình ảnh"
+                        Value={imageUrl}
+                        setValue={setImageUrl}
+                        Input={true}
+                      />
+                    </div>
                   </div>
                 ) : (
                   <label className="cursor-pointer">
@@ -160,23 +176,33 @@ const UpdateProduct = () => {
             <div className="flex items-center gap-10">
               <div class=" w-[700px] flex flex-col  items-center">
                 <div className="grid grid-cols-2 gap-5 w-full">
-                  <div className="  flex flex-col gap-3">
-                    <Input
-                      text="Tiêu đề"
-                      Value={`${Title ? Title : ProductSort?.title}`}
-                      setValue={setTitle}
-                    />
-                    <Input
-                      text="Nội dung"
-                      Value={`${Content ? Content : ProductSort?.content}`}
-                      setValue={setContent}
-                    />
-                    <Input
-                      text="Liên kết hình ảnh"
-                      Value={`${imageUrl ? imageUrl : ProductSort?.image}`}
-                      setValue={setImageUrl}
-                    />
-                  </div>
+                  {isParentParams === "album-anh" ? (
+                    <></>
+                  ) : (
+                    <>
+                      {" "}
+                      <div className="  flex flex-col gap-3">
+                        <Input
+                          text="Tên sản phẩm"
+                          Value={`${Title ? Title : ProductSort?.title}`}
+                          setValue={setTitle}
+                          Input={true}
+                        />
+                        <Input
+                          text="Giá sản phẩm"
+                          Value={`${Price ? Price : ProductSort?.price}`}
+                          setValue={setPrice}
+                          Input={true}
+                        />
+                        <Input
+                          text="Mô tả sản phẩm"
+                          Value={`${Content ? Content : ProductSort?.content}`}
+                          setValue={setContent}
+                        />
+                      </div>
+                    </>
+                  )}
+
                   <div className="  flex flex-col gap-3">
                     <div className="flex flex-col gap-2">
                       <label className="text-md font-medium ">
@@ -207,15 +233,15 @@ const UpdateProduct = () => {
                       >
                         {productTypes
                           ?.filter(
-                            (item) => item.parentParams === "nong-nghiep"
+                            (item) => item.parentParams === isParentParams
                           )
                           .map((item, idx) => (
                             <option
                               key={idx}
                               className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
-                              value={item.type}
+                              value={item.name}
                             >
-                              {item.type}
+                              {item.name}
                             </option>
                           ))}
                       </select>

@@ -25,9 +25,13 @@ export const DataProviders = ({ children }) => {
   const [branches, setBranches] = useState([]);
   const [orders, setOrders] = useState([]);
 
+  //custom
+  const [Color, setColor] = useState([]);
   return (
     <DataContext.Provider
       value={{
+        Color,
+        setColor,
         CartItems,
         setCartItems,
         updateId,

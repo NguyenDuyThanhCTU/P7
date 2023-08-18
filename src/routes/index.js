@@ -7,6 +7,7 @@ import Introduction from "../components/Client/Introduction/Introduction";
 import News from "../components/Client/News/News";
 import Product from "../components/Client/Product/Product";
 import ProductDetail from "../components/Client/Product/ProductDetail";
+import ProductSearch from "../components/Client/Product/ProductSearch";
 import Support from "../components/Client/Support/Support";
 import SupportDetail from "../components/Client/Support/SupportDetail";
 import Video from "../components/Client/Video/Video";
@@ -43,6 +44,11 @@ export const AllRoutes = [
   {
     path: "/cua-hang/",
     component: Product,
+    Layout: ClientLayout,
+  },
+  {
+    path: "/cua-hang/tim-kiem/:id",
+    component: ProductSearch,
     Layout: ClientLayout,
   },
   {

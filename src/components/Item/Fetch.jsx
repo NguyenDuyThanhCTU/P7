@@ -23,6 +23,9 @@ const Fetch = () => {
     setBranches,
     setVideos,
     setPosts,
+
+    //custom
+    setColor,
   } = useData();
 
   const { isRefetch, setIsRefetch } = useStateProvider();
@@ -59,6 +62,9 @@ const Fetch = () => {
 
     getProducts("productTypes").then((data) => {
       setProductType(data);
+    });
+    getProducts("colors").then((data) => {
+      setColor(data);
     });
 
     getProducts("products").then((data) => {

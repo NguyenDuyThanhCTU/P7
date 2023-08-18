@@ -11,7 +11,7 @@ import ShopCart from "../../../Layout/ClientLayout/Section/ShopCart";
 const ProductDetail = () => {
   const [SortProduct, setSortProduct] = useState();
   const [Product, SetProduct] = useState([]);
-  const { setOpenCart } = useStateProvider();
+  const { setOpenCart, OpenCart } = useStateProvider();
   const { Products, setCartItems } = useData();
   const [isCombo, setIsCombo] = useState(1);
   const { id } = useParams();
@@ -131,7 +131,7 @@ const ProductDetail = () => {
                     <div>
                       <div className="rounded-lg w-full h-[220px]  overflow-hidden  ">
                         <img
-                          src={items.image}
+                          src={items.image[0]}
                           alt="product image"
                           className="w-full h-full hover:scale-110 duration-500 object-cover "
                         />
@@ -167,7 +167,11 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-      <div className="fixed bottom-36 right-[-52px] z-50">
+      <div
+        className={`fixed bottom-36 right-[-300px] ${
+          OpenCart ? " z-50" : "z-0"
+        }`}
+      >
         <ShopCart />
       </div>
     </div>

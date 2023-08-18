@@ -8,6 +8,8 @@ import Profile from "./DropDownItem/Profile";
 import AddBranch from "./DropDownItem/AddBranch";
 import UpdateProduct from "./DropDownItem/UpdateProduct";
 import AddChildrenType from "./DropDownItem/AddChildrenType";
+import AddColor from "./DropDownItem/AddColor";
+import EditProduct from "./DropDownItem/EditProduct";
 
 const AdminDropDown = () => {
   const { isUploadProduct } = useStateProvider();
@@ -25,6 +27,10 @@ const AdminDropDown = () => {
         <AddPost />
       ) : isUploadProduct === "add-product" ? (
         <AddProduct />
+      ) : isUploadProduct === "edit-product" ? (
+        <EditProduct />
+      ) : isUploadProduct === "add-color" ? (
+        <AddColor />
       ) : isUploadProduct === "update-product" ? (
         <UpdateProduct />
       ) : isUploadProduct === "add-branch" ? (

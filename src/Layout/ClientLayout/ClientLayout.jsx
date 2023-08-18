@@ -27,7 +27,9 @@ const ClientLayout = ({ children }) => {
       </Helmet>
       <Loading />
       <Header />
-      {location.pathname === "/" || location.pathname === "/lien-he" ? (
+      {location.pathname === "/" ||
+      location.pathname === "/lien-he" ||
+      location.pathname === "/video" ? (
         <>
           {" "}
           <div className=" ">{children}</div>

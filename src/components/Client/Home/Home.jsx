@@ -16,7 +16,7 @@ const Home = () => {
   return (
     <div className="">
       <Section1 />
-      <div className="d:w-[1350px] mx-auto p:w-auto">
+      <div className="d:w-[1350px] mx-auto p:w-auto relative">
         <Section2 />
         {productTypes.map((items, idx) => {
           const sort = Products.filter((item) => item.params === items.params);
@@ -33,7 +33,7 @@ const Home = () => {
         })}
       </div>
       <div
-        className={`fixed bottom-36 right-[-52px] ${
+        className={`fixed bottom-36 right-[-300px] ${
           OpenCart ? " z-50" : "z-0"
         }`}
       >

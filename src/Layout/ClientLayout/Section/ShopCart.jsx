@@ -51,7 +51,7 @@ const ShopCart = () => {
     <>
       <div
         className={` w-80 min-h-[200px] transform  ${
-          OpenCart ? " -translate-x-[52px]" : "translate-x-56"
+          OpenCart ? " -translate-x-[300px]" : "-translate-x-[20px]"
         }
        
           transition duration-300 flex`}
