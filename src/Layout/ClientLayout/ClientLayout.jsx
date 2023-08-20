@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useData } from "../../Context/DataProviders";
 import { Helmet } from "react-helmet";
@@ -14,6 +14,10 @@ import { useLocation } from "react-router-dom";
 const ClientLayout = ({ children }) => {
   const { TradeMarkData } = useData();
   const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location.pathname]);
   return (
     <>
       <Helmet>

@@ -1,153 +1,69 @@
 import React, { useEffect, useState } from "react";
 import { AiFillCloseCircle, AiOutlineDelete } from "react-icons/ai";
-import { FaCloudUploadAlt } from "react-icons/fa";
 
 import { notification } from "antd";
 
-import Input from "../Input";
 import { useStateProvider } from "../../../../Context/StateProvider";
-import { addDocument } from "../../../../Config/Services/Firebase/FireStoreDB";
 import { useData } from "../../../../Context/DataProviders";
-import { TypeProductItems } from "../../../../Utils/item";
-import { uploadImage } from "../Handle";
+
 import TextEditor from "../../../Item/TextEditor";
+import { updateDocument } from "../../../../Config/Services/Firebase/FireStoreDB";
 
 const EditProduct = ({}) => {
-  const [Title, setTitle] = useState();
-  const [imageUrl, setImageUrl] = useState();
-  const [listUrl, setListUrl] = useState([]);
-  const [Content, setContent] = useState();
-  const [Price, setPrice] = useState();
-  const [isType, setIsType] = useState("");
-  const [isTypeParams, setIsTypeParams] = useState("");
-  const [isParent, setIsParent] = useState("Cửa Hàng");
-  const [isParentParams, setIsParentParams] = useState("cua-hang");
-  const [color, setColor] = useState({
-    name: "",
-    image: "",
-  });
-
-  //
-
+  const [discount, setDiscount] = useState(0);
+  const [newPrice, setNewPrice] = useState(0);
   const [productStatus, setProductStatus] = useState("Còn hàng");
-
-  const [listColor, setListColor] = useState([]);
-
+  const [DataSort, setDataSort] = useState();
+  const [editorData, setEditorData] = useState("");
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
-  const { productTypes, Color } = useData();
+  const { Products, updateId } = useData();
 
   useEffect(() => {
-    const sort = productTypes.filter((item) => item.parent === isParentParams);
+    const sort = Products.filter((item) => item.id === updateId);
 
     if (sort) {
-      setIsType(sort[0]?.name);
-      setIsTypeParams(sort[0]?.params);
+      setDataSort(sort[0]);
     }
-  }, [isParentParams, productTypes]);
+  }, [Products, updateId]);
+
+  const calculateNewPrice = () => {
+    if (discount === 0) {
+      setDiscount(0);
+      setNewPrice(0);
+    } else {
+      const discountedAmount = (DataSort?.price * discount) / 100;
+      const calculatedNewPrice = DataSort?.price - discountedAmount;
+      setNewPrice(calculatedNewPrice);
+    }
+  };
 
   const handleDiscard = () => {
-    setImageUrl("");
-    setTitle("");
-    setContent("");
-    setPrice("");
+    setDiscount(0);
+    setNewPrice(0);
+    setProductStatus("Còn hàng");
+    setEditorData("");
   };
 
   const HandleSubmit = () => {
-    if (!listUrl || !Title || !Content) {
-      notification["error"]({
-        message: "Lỗi !!!",
-        description: `Vui lòng bổ sung đầy đủ thông tin !`,
+    const data = {
+      sale: {
+        discount: discount,
+        newPrice: newPrice.toFixed(3),
+      },
+      ...(productStatus && { state: productStatus }),
+      ...(editorData && { detail: editorData }),
+    };
+
+    updateDocument("products", updateId, data).then(() => {
+      notification["success"]({
+        message: "Tải lên thành công!",
+        description: `Sản phẩm của bạn đã được cập nhật !`,
       });
-    } else {
-      const data = {
-        title: Title,
-        content: Content,
-        price: Price,
-        image: listUrl,
-        type: isType,
-        params: isTypeParams,
-        parent: isParent,
-        parentParams: isParentParams,
-        state: true,
-        sale: {},
-        sold: Math.floor(Math.random() * (1000 - 100 + 1)) + 100,
-        access: Math.floor(Math.random() * (10000 - 100 + 1)) + 100,
-        color: listColor,
-      };
 
-      addDocument("products", data).then(() => {
-        notification["success"]({
-          message: "Tải lên thành công!",
-          description: `Sản phẩm của bạn đã được tải lên !`,
-        });
-
-        setIsRefetch("upload successful");
-        handleDiscard();
-      });
-    }
-  };
-
-  const HandleUploadImage = (e, locate) => {
-    uploadImage(e, locate).then((data) => {
-      setListUrl((prevUrls) => [...prevUrls, data]);
+      setIsRefetch("upload successful");
+      handleDiscard();
     });
   };
-
-  const pushValue = (type) => {
-    if (type === "image") {
-      setListUrl((prevUrls) => [...prevUrls, imageUrl]);
-      setImageUrl("");
-    } else if (type === "color") {
-      setListColor((prevUrls) => [...prevUrls, color]);
-    }
-  };
-
-  const popValue = (indexToRemove, type) => {
-    if (type === "image") {
-      setListUrl((prevUrls) =>
-        prevUrls.filter((_, index) => index !== indexToRemove)
-      );
-    } else if (type === "color") {
-      setListColor((prevUrls) =>
-        prevUrls.filter((_, index) => index !== indexToRemove)
-      );
-    }
-  };
-
-  const HandleParentChange = (e) => {
-    const selectedName = e.target.value;
-    setIsParent(selectedName);
-    const selectedItem = TypeProductItems.find(
-      (item) => item.name === selectedName
-    );
-    if (selectedItem) {
-      setIsParentParams(selectedItem.params);
-    }
-  };
-  const HandleTypeChange = (e) => {
-    const selectedName = e.target.value;
-    setIsType(selectedName);
-    const selectedItem = productTypes.find(
-      (item) => item.name === selectedName
-    );
-    if (selectedItem) {
-      setIsTypeParams(selectedItem.params);
-    }
-  };
-  const HandleColorChange = (e) => {
-    const selectedName = e.target.value;
-    const selectedItem = Color.find((item) => item.name === selectedName);
-    if (selectedItem) {
-      setColor({
-        name: selectedItem.name,
-        image: selectedItem.image,
-      });
-    }
-  };
-
-  useEffect(() => {
-    pushValue("color");
-  }, [color, Color]);
 
   return (
     <div
@@ -157,7 +73,7 @@ const EditProduct = ({}) => {
     >
       <div className="w-auto h-auto bg-white relative p-10  font-LexendDeca cursor-pointer rounded-sm flex flex-col justify-center">
         <p className="text-2xl font-bold text-center text-[30px] mb-5">
-          Cập nhật sản phẩm của bạn
+          Cập nhật sản phẩm {DataSort?.title}
         </p>
         <div className="flex d:flex-row p:flex-col">
           <div className="justify-center w-full flex items-center gap-20">
@@ -166,7 +82,7 @@ const EditProduct = ({}) => {
               <div className=" border-dashed rounded-xl border-4 border-gray-200 flex flex-col justify-center items-center  outline-none mt-5 w-[260px] h-[458px] p-10 cursor-pointer hover:border-red-300 hover:bg-gray-100">
                 <div className="overflow-y-auto border rounded-xl w-full  h-[400px] mt-5">
                   <div className="p-1">
-                    {listUrl.map((items, idx) => (
+                    {DataSort?.image.map((items, idx) => (
                       <div className=" ">
                         <div className="my-2 relative w-[145px] h-[90px] group">
                           <img
@@ -174,12 +90,6 @@ const EditProduct = ({}) => {
                             alt="product img"
                             className="w-full h-full object-cover "
                           />
-                          <div
-                            className="w-full h-full  group-hover:flex justify-center items-center bg-[rgba(0,0,0,0.3)] text-[40px] absolute top-0  z-10 text-redPrimmary hidden"
-                            onClick={() => popValue(idx, "image")}
-                          >
-                            <AiOutlineDelete className="" />
-                          </div>
                         </div>
                       </div>
                     ))}
@@ -188,57 +98,86 @@ const EditProduct = ({}) => {
               </div>
             </div>
             <div className="flex items-center gap-10">
-              <div class=" w-[700px] flex flex-col  items-center">
-                <div className="grid grid-cols-2 gap-5 w-full">
-                  {isParentParams === "album-anh" ? (
-                    <></>
-                  ) : (
-                    <>
-                      {" "}
-                      <div className="  flex flex-col gap-3">
-                        <div className="border">
-                          <Input
-                            text="Phần trăm giảm giá"
-                            Value={Title}
-                            setValue={setTitle}
-                            Input={true}
-                          />
-                          <div className="flex flex-col">
-                            <span>giá gốc : 125125đ</span>
-                            <span>giá mới : 125125đ</span>
-                          </div>
+              <div class=" w-[700px] flex flex-col  items-center ">
+                <div className=" w-full grid grid-cols-2 gap-5 h-[400px]">
+                  <div className="  flex flex-col gap-10 ">
+                    <div className="p-2">
+                      <label className="uppercase font-bold ">
+                        Phần trăm giảm giá
+                      </label>
+                      <input
+                        type="number"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-5"
+                        value={discount}
+                        placeholder={DataSort?.sale.discount}
+                        onChange={(e) =>
+                          setDiscount(parseFloat(e.target.value))
+                        }
+                      />
+
+                      <div className="flex  justify-between mt-5">
+                        <div
+                          className="rounded-md p-3 bg-red-400 text-white hover:bg-red-600"
+                          onClick={calculateNewPrice}
+                        >
+                          Tiếp tục
                         </div>
-                        <div>
-                          <label>Trạng thái sản phẩm:</label>
-                          {["Còn hàng", "Hết hàng", "Đang cập nhật"].map(
-                            (status) => (
-                              <div key={status}>
-                                <input
-                                  type="radio"
-                                  value={status}
-                                  checked={productStatus === status}
-                                  onChange={(e) =>
-                                    setProductStatus(e.target.value)
-                                  }
-                                />
-                                <label className="ml-3">{status}</label>
-                              </div>
-                            )
-                          )}
+                        <div className="flex flex-col">
+                          <span>Giá gốc : {DataSort?.price} VNĐ</span>
+                          <span>Giá mới : {newPrice.toFixed(3)} VNĐ</span>
                         </div>
                       </div>
-                    </>
-                  )}
+                    </div>
 
-                  <div className="  flex flex-col gap-3">
-                    <h3>Chi tiết sản phẩm</h3>
-                    <TextEditor />
+                    <div>
+                      Trạng thái sản phẩm:{" "}
+                      <span
+                        className={`${
+                          DataSort?.state === "Còn hàng"
+                            ? "text-green-500 border-green-500"
+                            : DataSort?.state === "Hết hàng"
+                            ? "text-red-500 border-red-500"
+                            : DataSort?.state === "Đang cập nhật" &&
+                              "text-blue-500 border-blue-500"
+                        } ml-2 p-2 border-2`}
+                      >
+                        {DataSort?.state}
+                      </span>
+                    </div>
+                    <div>
+                      <label className="uppercase font-bold">
+                        Thay đổi Trạng thái sản phẩm:
+                      </label>
+                      {["Còn hàng", "Hết hàng", "Đang cập nhật"].map(
+                        (status) => (
+                          <div key={status}>
+                            <input
+                              type="radio"
+                              value={status}
+                              checked={productStatus === status}
+                              onChange={(e) => setProductStatus(e.target.value)}
+                            />
+                            <label className="ml-3">{status}</label>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="  flex flex-col gap-3 pt-3 h-[400px] overflow-y-auto">
+                    <h3 className="uppercase font-bold">Chi tiết sản phẩm</h3>
+                    <div className="">
+                      <TextEditor
+                        setEditorData={setEditorData}
+                        editorData={editorData}
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex gap-6 mt-10 ">
+                <div className="flex gap-6 w-full justify-center py-5  border-t border-black">
                   <button
-                    onClick={() => handleDiscard()}
+                    // onClick={() => handleDiscard()}
                     type="button"
                     className="border-gray-300 border-2 text-md font-medium p-2 rounded w-28 lg:w-44 outline-none"
                   >

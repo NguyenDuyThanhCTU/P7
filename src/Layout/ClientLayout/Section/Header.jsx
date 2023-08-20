@@ -9,6 +9,7 @@ import { AiFillCaretRight, AiOutlineSearch } from "react-icons/ai";
 
 import { BsCart3 } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
+import { useStateProvider } from "../../../Context/StateProvider";
 
 const Header = () => {
   const [isSelected, setIsSelected] = useState(0);
@@ -19,7 +20,8 @@ const Header = () => {
   const [Search, setSearch] = useState("");
   const [isOpenSubMenu, setIsOpenSubMenu] = useState(0);
   const targetPosition = 1;
-  const { TradeMarkData, ContactData, productTypes } = useData();
+  const { TradeMarkData, productTypes, CartItems } = useData();
+  const { setOpenCart, OpenCart } = useStateProvider();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,8 +102,16 @@ const Header = () => {
                   </div>
                 </div>
 
-                <div className="text-[24px]">
-                  <BsCart3 />
+                <div
+                  className="text-[24px] relative cursor-pointer"
+                  onClick={() => setOpenCart(!OpenCart)}
+                >
+                  <div>
+                    <BsCart3 />
+                  </div>
+                  <div className="text-redPrimmary rounded-full bg-white text-[14px]  absolute -bottom-2 -right-2 flex items-center justify-center border w-5 h-5">
+                    <span> {CartItems.length}</span>
+                  </div>
                 </div>
               </div>
             </div>

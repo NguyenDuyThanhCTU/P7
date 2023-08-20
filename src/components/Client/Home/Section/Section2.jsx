@@ -6,15 +6,14 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination } from "swiper";
 import { useData } from "../../../../Context/DataProviders";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useStateProvider } from "../../../../Context/StateProvider";
-import { Link } from "react-router-dom";
+import ProductCard from "../../Item/ProductCard";
 
 const Section2 = () => {
-  const [isSelected, setIsSelected] = useState(0);
-  const { Products } = useData();
+  const { Products, setCartItems } = useData();
   const { setOpenCart } = useStateProvider();
-  const { setCartItems } = useData();
+  const [isSelected, setIsSelected] = useState(0);
+
   const [sortProduct, setSortProduct] = useState([]);
 
   const HandleOrder = (id) => {
@@ -23,13 +22,31 @@ const Section2 = () => {
   };
 
   useEffect(() => {
-    const sort = [];
-    if (isSelected === 0) {
-      setSortProduct(Products.reverse());
-    } else if (isSelected === 1) {
-      setSortProduct(Products);
-    }
-  }, [Products, isSelected]);
+    const HandleChange = (idx) => {
+      if (idx === 0) {
+        const sort = Products;
+        if (sort) {
+          setSortProduct(Products);
+        }
+      } else if (idx === 1) {
+        const sort = Products.reverse();
+        if (sort) {
+          setSortProduct(sort);
+        }
+      } else if (idx === 2) {
+        const sort = Products.filter((item) => item?.sale?.discount !== 0);
+        if (sort) {
+          setSortProduct(sort);
+        }
+      } else if (idx === 3) {
+        const sort = Products.sort((a, b) => b.access - a.access);
+        if (sort) {
+          setSortProduct(sort);
+        }
+      }
+    };
+    HandleChange(isSelected);
+  }, [isSelected, Products, sortProduct]);
 
   return (
     <div className="py-10">
@@ -63,52 +80,21 @@ const Section2 = () => {
             delay: 2500,
             disableOnInteraction: false,
           }}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-          }}
-          modules={[Autoplay, Pagination]}
+          modules={[Autoplay]}
           className="mySwiper"
         >
-          {Products.map((items, idx) => (
+          {sortProduct?.map((items, idx) => (
             <>
               <SwiperSlide>
-                {" "}
-                <div className="">
-                  <div className="p-2 cursor-pointer flex flex-col items-center">
-                    <Link to={`/san-pham/${items.id}`}>
-                      <div className="rounded-lg w-[220px] h-[220px]  overflow-hidden ">
-                        <img
-                          src={items.image[0]}
-                          alt="product image"
-                          className="w-full h-full hover:scale-110 duration-500 object-cover "
-                        />
-                      </div>
-                    </Link>
-                    <div className="px-2 text-center mt-2 flex flex-col gap-2 font-LexendDeca">
-                      <Link to={`/san-pham/${items.id}`}>
-                        <p className="hover:text-mainblue">{items.title}</p>
-                      </Link>
-                      <div className="text-red-500 ">
-                        {items.price ? (
-                          <>
-                            {" "}
-                            {items.price}
-                            <sup>VNĐ</sup>
-                          </>
-                        ) : (
-                          <>Liên hệ</>
-                        )}
-                      </div>
-                      <div
-                        className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white px-2"
-                        onClick={() => HandleOrder(items.id)}
-                      >
-                        <AiOutlineShoppingCart />
-                        <p>Mua ngay</p>
-                      </div>
-                    </div>
-                  </div>
+                <div className="px-2">
+                  <ProductCard
+                    image={items.image[0]}
+                    price={items.price}
+                    title={items.title}
+                    id={items.id}
+                    newPrice={items.sale.newPrice}
+                    discount={items.sale.discount}
+                  />
                 </div>
               </SwiperSlide>
             </>
@@ -132,47 +118,18 @@ const Section2 = () => {
           modules={[Autoplay, Pagination]}
           className="mySwiper"
         >
-          {Products.map((items, idx) => (
+          {sortProduct?.map((items, idx) => (
             <>
               <SwiperSlide>
-                {" "}
                 <div className="pb-5">
-                  <div className="p-2 cursor-pointer flex flex-col items-center">
-                    <Link to={`/san-pham/${items.id}`}>
-                      <div className="rounded-lg w-[220px] h-[220px]  overflow-hidden ">
-                        <img
-                          src={items.image[0]}
-                          alt="product image"
-                          className="w-full h-full hover:scale-110 duration-500 object-cover "
-                        />
-                      </div>
-                    </Link>
-                    <div className="px-2 text-center mt-2 flex flex-col gap-2 font-LexendDeca">
-                      <Link to={`/san-pham/${items.id}`}>
-                        <p className="hover:text-mainblue truncate2">
-                          {items.title}
-                        </p>
-                      </Link>
-                      <div className="text-red-500 ">
-                        {items.price ? (
-                          <>
-                            {" "}
-                            {items.price}
-                            <sup>VNĐ</sup>
-                          </>
-                        ) : (
-                          <>Liên hệ</>
-                        )}
-                      </div>
-                      <div
-                        className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white px-2"
-                        onClick={() => HandleOrder(items.id)}
-                      >
-                        <AiOutlineShoppingCart />
-                        <p>Mua ngay</p>
-                      </div>
-                    </div>
-                  </div>
+                  <ProductCard
+                    image={items.image[0]}
+                    price={items.price}
+                    title={items.title}
+                    id={items.id}
+                    newPrice={items.sale.newPrice}
+                    discount={items.sale.discount}
+                  />
                 </div>
               </SwiperSlide>
             </>

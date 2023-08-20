@@ -1,23 +1,18 @@
-createDialog().then( config => {
-	return ClassicEditor
-		.create( document.querySelector( '.editor' ), {
-			licenseKey: config.licenseKey,
-			ckbox: {
-				tokenUrl: config.ckboxTokenUrl
-			}
-		} )
-		.then( editor => {
-			window.editor = editor;
-		} )
-		.catch( handleSampleError );
-} );
+ClassicEditor
+	.create( document.querySelector( '.editor' ), {
+		// Editor configuration.
+	} )
+	.then( editor => {
+		window.editor = editor;
+	} )
+	.catch( handleSampleError );
 
 function handleSampleError( error ) {
 	const issueUrl = 'https://github.com/ckeditor/ckeditor5/issues';
 
 	const message = [
 		'Oops, something went wrong!',
-		`Please, report the following error on ${ issueUrl } with the build id "5c0reyvxkc7b-4uan9d1tcbpy" and the error stack trace:`
+		`Please, report the following error on ${ issueUrl } with the build id "lrrkt3fou2x7-40ofxz9vj59m" and the error stack trace:`
 	].join( '\n' );
 
 	console.error( message );

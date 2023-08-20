@@ -3,13 +3,13 @@ import TextEditor from "../../../../Item/TextEditor";
 
 const Introduce = () => {
   const [editorData, setEditorData] = useState("");
+  console.log(editorData);
   return (
-    <div className="flex gap-5">
-      <div className="flex-1">
+    <div className=" gap-5 w-full">
+      <div className="text-black">
         {" "}
         <TextEditor editorData={editorData} setEditorData={setEditorData} />
       </div>
-      <div className="flex-1"></div>
     </div>
   );
 };

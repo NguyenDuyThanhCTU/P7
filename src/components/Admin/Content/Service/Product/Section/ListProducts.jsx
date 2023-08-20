@@ -117,7 +117,7 @@ const ListProducts = ({ name }) => {
                   {Products.map((data, idx) => (
                     <div
                       key={idx}
-                      className="grid  grid-cols-5 items-center my-2  ml-1 justify-start px-5 "
+                      className="grid  grid-cols-4 items-center my-2  ml-1 justify-start px-5 "
                     >
                       {console.log(data)}
                       <div className="group relative ">
@@ -157,11 +157,9 @@ const ListProducts = ({ name }) => {
                         alt="product"
                         className="w-14 h-14 rounded-lg object-cover"
                       />
-                      <div className="truncate w-[70px] text-[14px] ">
-                        {data.cartype}
-                      </div>
+
                       <div className="truncate w-[70px] text-[14px]">
-                        {data.price}
+                        {data.title}
                       </div>
                       <div>
                         {data.daysSinceCreation > 0 ? (

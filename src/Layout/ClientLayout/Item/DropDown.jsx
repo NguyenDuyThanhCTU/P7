@@ -54,7 +54,13 @@ const DropDown = ({ content, link, setHidden, idx, dropdown }) => {
                   }}
                 >
                   <Link to={`/loai-san-pham/${items.params}`}>
-                    {items.name}
+                    <h3
+                      onClick={() => {
+                        setHidden(false);
+                      }}
+                    >
+                      {items.name}
+                    </h3>
                   </Link>
                 </div>
                 <div>
@@ -76,7 +82,12 @@ const DropDown = ({ content, link, setHidden, idx, dropdown }) => {
                   <>
                     {items.children.map((items) => (
                       <Link to={`/loai-san-pham/${items.params}`}>
-                        <div className="py-4 px-8 pl-14 font-light duration-300 text-mainblue hover:text-white hover:bg-mainblue cursor-pointer">
+                        <div
+                          className="py-4 px-8 pl-14 font-light duration-300 text-mainblue hover:text-white hover:bg-mainblue cursor-pointer"
+                          onClick={() => {
+                            setHidden(false);
+                          }}
+                        >
                           {items.name}
                         </div>
                       </Link>

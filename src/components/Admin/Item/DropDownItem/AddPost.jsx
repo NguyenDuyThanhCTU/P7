@@ -4,10 +4,10 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { useStateProvider } from "../../../../Context/StateProvider";
 import { updateDocument } from "../../../../Config/Services/Firebase/FireStoreDB";
 
-// import TextEditor from "../../../Item/TextEditor";
 import { notification } from "antd";
 import { useData } from "../../../../Context/DataProviders";
 import { useEffect } from "react";
+import TextEditor from "../../../Item/TextEditor";
 
 const AddPost = () => {
   const [editorData, setEditorData] = useState("");
@@ -65,12 +65,12 @@ const AddPost = () => {
             </p>
 
             <div className=" w-[60vw] mx-auto overflow-y-auto h-[500px]">
-              {/* <TextEditor
+              <TextEditor
                 editorData={`${
                   PostSort?.content ? `${PostSort?.content}` : `${editorData}`
                 }`}
                 setEditorData={setEditorData}
-              /> */}
+              />
             </div>
             <div className="flex gap-6 mt-10">
               <button

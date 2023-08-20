@@ -5,6 +5,7 @@ import Section3 from "./Section/Section3";
 import { useData } from "../../../Context/DataProviders";
 import ShopCart from "../../../Layout/ClientLayout/Section/ShopCart";
 import { useStateProvider } from "../../../Context/StateProvider";
+import ScrollTop from "../../Item/ScrollTop";
 
 const Home = () => {
   const { productTypes, Products } = useData();
@@ -20,6 +21,7 @@ const Home = () => {
         <Section2 />
         {productTypes.map((items, idx) => {
           const sort = Products.filter((item) => item.params === items.params);
+
           return (
             <>
               <Section3

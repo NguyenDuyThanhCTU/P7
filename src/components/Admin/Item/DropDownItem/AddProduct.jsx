@@ -21,10 +21,7 @@ const AddProduct = ({}) => {
   const [isTypeParams, setIsTypeParams] = useState("");
   const [isParent, setIsParent] = useState("Cửa Hàng");
   const [isParentParams, setIsParentParams] = useState("cua-hang");
-  const [color, setColor] = useState({
-    name: "",
-    image: "",
-  });
+  const [color, setColor] = useState("");
 
   const [listColor, setListColor] = useState([]);
 
@@ -48,7 +45,7 @@ const AddProduct = ({}) => {
   };
 
   const HandleSubmit = () => {
-    if (!listUrl || !Title || !Content) {
+    if (!listUrl || !Title) {
       notification["error"]({
         message: "Lỗi !!!",
         description: `Vui lòng bổ sung đầy đủ thông tin !`,
@@ -56,7 +53,7 @@ const AddProduct = ({}) => {
     } else {
       const data = {
         title: Title,
-        content: Content,
+        describe: Content,
         price: Price,
         image: listUrl,
         type: isType,
@@ -64,8 +61,11 @@ const AddProduct = ({}) => {
         parent: isParent,
         parentParams: isParentParams,
         state: "Còn hàng",
-        sale: {},
-        sold: Math.floor(Math.random() * (1000 - 100 + 1)) + 100,
+        detail: "",
+        sale: {
+          discount: "0",
+          newPrice: "0",
+        },
         access: Math.floor(Math.random() * (10000 - 100 + 1)) + 100,
         color: listColor,
       };
@@ -94,6 +94,7 @@ const AddProduct = ({}) => {
       setImageUrl("");
     } else if (type === "color") {
       setListColor((prevUrls) => [...prevUrls, color]);
+      setColor("");
     }
   };
 
@@ -129,20 +130,6 @@ const AddProduct = ({}) => {
       setIsTypeParams(selectedItem.params);
     }
   };
-  const HandleColorChange = (e) => {
-    const selectedName = e.target.value;
-    const selectedItem = Color.find((item) => item.name === selectedName);
-    if (selectedItem) {
-      setColor({
-        name: selectedItem.name,
-        image: selectedItem.image,
-      });
-    }
-  };
-
-  useEffect(() => {
-    pushValue("color");
-  }, [color, Color]);
 
   return (
     <div
@@ -303,33 +290,38 @@ const AddProduct = ({}) => {
                       </div>
                     </div>
                     <div className="flex flex-col gap-2">
-                      <label className="text-md font-medium ">Màu</label>
-                      <select
-                        className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
-                        onChange={HandleColorChange}
-                      >
-                        {Color.map((item, idx) => (
-                          <option
-                            key={idx}
-                            className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
-                            value={item.name}
-                          >
-                            {item.name}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="flex gap-4  items-center">
+                        <Input
+                          Value={color}
+                          setValue={setColor}
+                          text="Mã màu"
+                          Input={true}
+                        />
+                        {color ? (
+                          <>
+                            {" "}
+                            <div
+                              className="p-2 bg-red-600 text-white rounded-lg "
+                              onClick={() => pushValue("color")}
+                            >
+                              Thêm
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            {" "}
+                            <div className="p-2 bg-red-300 hover:bg-red-600 text-white rounded-lg ">
+                              Thêm
+                            </div>
+                          </>
+                        )}
+                      </div>
                       <div className="overflow-y-auto border rounded-xl w-full  h-[100px] mt-5">
-                        <div className="p-1 grid grid-cols-3 ">
+                        <div className="p-1 grid grid-cols-4 ">
                           {listColor.map((items, idx) => {
-                            let image = items.image;
-
                             return (
-                              <div className="my-2 relative w-[50px] h-[50px] group">
-                                <img
-                                  src={items.image}
-                                  alt="color img"
-                                  className="w-full h-full object-cover "
-                                />
+                              <div className="my-2 relative w-[50px] h-[50px] group border flex justify-center items-center">
+                                <p className="">{items}</p>
                                 <div
                                   className="w-full h-full  group-hover:flex justify-center items-center bg-[rgba(0,0,0,0.3)] text-[40px] absolute top-0  z-10 text-redPrimmary hidden"
                                   onClick={() => popValue(idx, "color")}
@@ -341,15 +333,15 @@ const AddProduct = ({}) => {
                           })}
                         </div>
                       </div>
-                      <p className="italic text-gray-600 ml-2">
-                        không có màu bạn cần? <br />
+                      {/* <p className="italic text-gray-600 ml-2">
+                        không có màu bạn cần?{" "}
                         <span
                           className="hover:text-blue-500 hover:underline underline"
                           onClick={() => setIsUploadProduct("add-color")}
                         >
                           thêm màu
                         </span>
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                 </div>

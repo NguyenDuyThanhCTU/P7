@@ -16,6 +16,7 @@ const ProductDetail = () => {
   const [isCombo, setIsCombo] = useState(1);
   const { id } = useParams();
 
+  console.log(Product);
   const onMinus = () => {
     if (isCombo > 0) {
       setIsCombo(isCombo - 1);
@@ -29,6 +30,7 @@ const ProductDetail = () => {
     }
   }, [id, Products]);
 
+  // Similar products
   useEffect(() => {
     if (Product) {
       const sort = Products.filter((item) => item.params === Product?.params);
@@ -43,6 +45,8 @@ const ProductDetail = () => {
     setOpenCart(true);
   };
 
+  const contentArray = Product?.describe?.split("\n");
+
   return (
     <div className="flex gap-3 d:flex-row p:flex-col d:items-start p:items-center">
       <Category />
@@ -53,7 +57,7 @@ const ProductDetail = () => {
               Chi tiết sản phẩm
             </h3>
           </div>
-          <div className="flex mt-5 gap-5 pb-5 border-b d:flex-row p:flex-col">
+          <div className="flex mt-5 gap-5 pb-5 d:flex-row p:flex-col">
             <div className="h-[360px] w-[360px] overflow-hidden">
               <img
                 src={Product?.image}
@@ -65,13 +69,55 @@ const ProductDetail = () => {
               <h3 className="uppercase text-[22px] font-bold">
                 {Product?.title}
               </h3>
-              <p>Mã sản phẩm: </p>
-              <p>
-                Giá:{" "}
-                <span className="text-red-500">
-                  {Product?.price} <sup>VNĐ</sup>
-                </span>
-              </p>
+              {Product?.sale?.discount === 0 ? (
+                <>
+                  <p>
+                    Giá:{" "}
+                    <span className="text-red-500">
+                      {Product?.price} <sup>VNĐ</sup>
+                    </span>
+                  </p>
+                </>
+              ) : (
+                <div>
+                  <p>
+                    Giá cũ:{" "}
+                    <span className="text-[16px] line-through">
+                      {Product?.price} <sup>VNĐ</sup>
+                    </span>
+                  </p>
+                  <div className="flex items-end">
+                    <p>
+                      Giá mới:{" "}
+                      <span className="text-red-500 text-[20px]">
+                        {Product?.sale?.newPrice} <sup>VNĐ</sup>
+                      </span>{" "}
+                    </p>
+                    <div className="ml-5 border-2 border-red-500 bg-red-500 text-white p-2">
+                      Giảm {Product?.sale?.discount} %
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-col gap-2">
+                <label className="text-md font-medium ">Mã màu:</label>
+                <select
+                  className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
+                  // onChange={HandleParentChange}
+                >
+                  {Product?.color.map((item, idx) => (
+                    <option
+                      key={idx}
+                      className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300 "
+                      value={item}
+                    >
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <p>
                 {" "}
                 Tình trạng:{" "}
@@ -86,7 +132,7 @@ const ProductDetail = () => {
                 )}
               </p>
 
-              <div className="flex pb-3 mb-5 border-b gap-4">
+              <div className="flex pb-3  border-b gap-4">
                 <div className="flex justify-between items-center h-full  border-blue-500 border rounded-sm ">
                   <BiMinus
                     onClick={() => onMinus()}
@@ -104,15 +150,56 @@ const ProductDetail = () => {
                 </div>
                 <div
                   className="rounded-sm w-full text-[18px] text-primary bg-[#f0edf8] hover:bg-[#e1dbf0] flex items-center  py-2 justify-center cursor-pointer gap-1"
-                  onClick={() => HandleOrder(Product.id)}
+                  onClick={() => HandleOrder(Product?.id)}
                 >
                   <BsFillCartPlusFill className="text-[23px] " />
                   <p>Mua ngay</p>
                 </div>
               </div>
               <div>
-                <p>Mô tả:</p>
+                <div className="">
+                  Sỉ số lượng lớn vui lòng inbox shop or gọi qua số ĐT:
+                  <div className="flex gap-3">
+                    <div
+                      className="font-bold text-mainblue cursor-pointer hover:underline"
+                      onClick={() => window.open("tel:0909902335")}
+                    >
+                      0909 902 335
+                    </div>{" "}
+                    <div>Hoặc</div>
+                    <div
+                      className="font-bold text-mainpink cursor-pointer hover:underline"
+                      onClick={() => window.open("tel:0779741149")}
+                    >
+                      {" "}
+                      0779 741 149
+                    </div>
+                  </div>
+                  <p>Xin cảm ơn!</p>
+                </div>
+                <p className="italic text-gray-500 mt-2">
+                  Lượt xem: <span>{Product?.access}</span>
+                </p>
                 <p className="p:w-auto d:w-[615px]">{Product?.content}</p>
+              </div>
+            </div>
+          </div>
+          <div className="py-5 border-b border-t font-OpenSans">
+            <div className="flex flex-col">
+              <h3 className="uppercase font-bold">Thông tin sản phẩm:</h3>
+              <div
+                className="mt-2"
+                dangerouslySetInnerHTML={{ __html: Product?.detail }}
+              ></div>
+            </div>
+            <div className="flex flex-col mt-5">
+              <h3 className="uppercase font-bold">Mô tả sản phẩm:</h3>
+              <div className="">
+                {contentArray?.map((item, index) => (
+                  <p key={index} className="mt-3">
+                    {item}
+                  </p>
+                ))}
               </div>
             </div>
           </div>

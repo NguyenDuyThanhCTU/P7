@@ -40,16 +40,14 @@ const UpdateProduct = () => {
 
   const HandleUpdate = () => {
     const data = {
-      title: `${Title ? Title : ProductSort?.title}`,
-      content: `${Content ? Content : ProductSort?.content}`,
-      price: `${Price ? Price : ProductSort?.price}`,
-      type: `${isType ? isType : ProductSort?.type}`,
-      image: `${imageUrl ? imageUrl : ProductSort?.image}`,
-      params: `${isTypeParams ? isTypeParams : ProductSort?.params}`,
-      parent: `${isParent ? isParent : ProductSort?.parent}`,
-      parentParams: `${
-        isParentParams ? isParentParams : ProductSort?.parentParams
-      }`,
+      ...(Title && { title: Title }),
+      ...(Content && { content: Content }),
+      ...(Price && { price: Price }),
+      ...(isType && { type: isType }),
+      ...(imageUrl && { image: imageUrl }),
+      ...(isTypeParams && { params: isTypeParams }),
+      ...(isParent && { parent: isParent }),
+      ...(isParentParams && { parentParams: isParentParams }),
     };
 
     updateDocument("products", updateId, data).then(() => {
@@ -104,24 +102,19 @@ const UpdateProduct = () => {
        h-full
       z-50 absolute rounded-md duration-300 flex items-center justify-center`}
     >
-      <div className="w-auto h-auto bg-white relative p-5  font-LexendDeca cursor-pointer rounded-sm flex flex-col justify-center">
+      <div className="w-auto h-auto bg-white relative p-10  font-LexendDeca cursor-pointer rounded-sm flex flex-col justify-center">
         <p className="text-2xl font-bold text-center text-[30px] mb-5">
-          Cập nhật sản phẩm của bạn
+          Cập nhật sản phẩm {ProductSort?.title}
         </p>
         <div className="flex">
           <div className="justify-center   w-full flex items-center gap-20">
             <div className="">
-              <div className="">
-                <p className="text-md text-gray-400 mt-1">
-                  Chọn ảnh cho sản phẩm của bạn
-                </p>
-              </div>
               <div className=" border-dashed rounded-xl border-4 border-gray-200 flex flex-col justify-center items-center  outline-none mt-5 w-[260px] h-[458px] p-10 cursor-pointer hover:border-red-300 hover:bg-gray-100">
                 {ProductSort?.image ? (
                   <div>
                     <img
                       src={ProductSort?.image}
-                      className="w-[100%] h-[300px] object-cover"
+                      className="w-[100%] h-[200px] object-cover"
                       alt=""
                     />
                     <label>
@@ -184,19 +177,19 @@ const UpdateProduct = () => {
                       <div className="  flex flex-col gap-3">
                         <Input
                           text="Tên sản phẩm"
-                          Value={`${Title ? Title : ProductSort?.title}`}
+                          Value={Title}
                           setValue={setTitle}
                           Input={true}
                         />
                         <Input
                           text="Giá sản phẩm"
-                          Value={`${Price ? Price : ProductSort?.price}`}
+                          Value={Price}
                           setValue={setPrice}
                           Input={true}
                         />
                         <Input
                           text="Mô tả sản phẩm"
-                          Value={`${Content ? Content : ProductSort?.content}`}
+                          Value={Content}
                           setValue={setContent}
                         />
                       </div>

@@ -33,7 +33,7 @@ const Persona = () => {
         ) : isSelected === 3 ? (
           <>
             <div className="p-5 d:px-10 p:px-2 flex justify-start gap-10">
-              {/* <Post /> */}
+              <Post />
               <></>
             </div>
           </>

@@ -18,20 +18,22 @@ const Section1 = () => {
             delay: 2500,
             disableOnInteraction: false,
           }}
-          modules={[Autoplay]}
+          // modules={[Autoplay]}
           className="mySwiper -z-10"
         >
           {Slides.map((items) => (
             <>
               <SwiperSlide>
-                <img
-                  src={items.image}
-                  alt="banner"
-                  className="object-cover  w-full h-full  z-0 cursor-pointer hover:scale-110 duration-500 "
-                  onClick={() => {
-                    window.open("http://thaongonail.com/", "_self");
-                  }}
-                />
+                <div className="flex justify-center items-start w-screen d:h-[1440px] p:h-auto">
+                  <img
+                    src={items.image}
+                    alt="banner"
+                    className="object-contain  z-0 cursor-pointer hover:scale-110 duration-500 "
+                    onClick={() => {
+                      window.open("http://thaongonail.com/", "_self");
+                    }}
+                  />
+                </div>
               </SwiperSlide>
             </>
           ))}

@@ -5,6 +5,7 @@ import Contact from "../components/Client/Contact/Contact";
 import Home from "../components/Client/Home/Home";
 import Introduction from "../components/Client/Introduction/Introduction";
 import News from "../components/Client/News/News";
+import PostDetail from "../components/Client/PostDetail/PostDetail";
 import Product from "../components/Client/Product/Product";
 import ProductDetail from "../components/Client/Product/ProductDetail";
 import ProductSearch from "../components/Client/Product/ProductSearch";
@@ -79,6 +80,11 @@ export const AllRoutes = [
   {
     path: "/tin-lam-dep/",
     component: News,
+    Layout: ClientLayout,
+  },
+  {
+    path: "/tin-lam-dep/:id",
+    component: PostDetail,
     Layout: ClientLayout,
   },
   {

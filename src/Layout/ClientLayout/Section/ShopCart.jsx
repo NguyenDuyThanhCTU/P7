@@ -43,10 +43,6 @@ const ShopCart = () => {
     setCartItems(updatedCartItems);
   };
 
-  useEffect(() => {
-    console.log(cartProducts);
-  }, [cartProducts]);
-
   return (
     <>
       <div
@@ -98,13 +94,22 @@ const ShopCart = () => {
                       </div>
                       <h3 className=" text-start   w-full">{product.title}</h3>
                     </div>
-                    <p className="w-full text-right">
-                      Giá:{" "}
-                      <span className="text-mainpink">
-                        {" "}
-                        {product.price} <sup>VNĐ</sup>
-                      </span>
-                    </p>
+                    <div>
+                      <p className="w-full text-right">
+                        Giá:{" "}
+                        <span className="text-mainpink">
+                          {" "}
+                          {product.price} <sup>VNĐ</sup>
+                        </span>
+                      </p>
+                      <p className="w-full text-right">
+                        Giá:{" "}
+                        <span className="text-mainpink">
+                          {" "}
+                          {product.price} <sup>VNĐ</sup>
+                        </span>
+                      </p>
+                    </div>
                     <div
                       className="absolute top-2 right-2"
                       onClick={() => handleRemoveFromCart(product.id)}
