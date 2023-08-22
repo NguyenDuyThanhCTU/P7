@@ -25,10 +25,10 @@ const ProductSearch = () => {
     }
   }, [id, Products]);
 
-  const HandleOrder = (id) => {
-    setCartItems((prevItems) => [...prevItems, id]);
-    setOpenCart(true);
-  };
+  // const HandleOrder = (id) => {
+  //   setCartItems((prevItems) => [...prevItems, id]);
+  //   setOpenCart(true);
+  // };
   return (
     <div className="flex gap-3 d:flex-row p:flex-col p:items-center d:items-start">
       <div>
@@ -68,10 +68,7 @@ const ProductSearch = () => {
                         <>Liên hệ</>
                       )}
                     </div>
-                    <div
-                      className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white"
-                      onClick={() => HandleOrder(items.id)}
-                    >
+                    <div className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white">
                       <AiOutlineShoppingCart />
                       <p>Mua ngay</p>
                     </div>

@@ -15,7 +15,7 @@ const ProductCard = ({ image, title, price, id, newPrice, discount }) => {
     <div>
       <div className="p-2 cursor-pointer flex flex-col items-center">
         <Link to={`/san-pham/${id}`}>
-          <div className="rounded-lg w-[220px] h-[220px]  overflow-hidden relative">
+          <div className="rounded-lg p:w-auto  d:w-[220px] h-[220px]  overflow-hidden relative">
             <img
               src={image}
               alt="product image"
@@ -28,7 +28,7 @@ const ProductCard = ({ image, title, price, id, newPrice, discount }) => {
                   <img
                     src="https://ntd.vieclam24h.vn/img/price-list/label-discount.png"
                     alt="discount"
-                    className="w-[100px] h-[40px]"
+                    className="p:w-auto d:w-[100px] h-[40px]"
                   />
                   <p className="absolute top-1 right-3 text-white text-[13px]">
                     giảm {discount} %
@@ -37,48 +37,49 @@ const ProductCard = ({ image, title, price, id, newPrice, discount }) => {
               </>
             )}
           </div>
-        </Link>
-        <div className="px-2 text-center mt-2 flex flex-col gap-2 font-LexendDeca justify-between h-[150px]">
-          <Link to={`/san-pham/${id}`}>
-            <p className="hover:text-mainblue truncate2 text-[18px]">{title}</p>
-          </Link>
 
-          <div>
-            {discount === 0 ? (
-              <div className="text-red-500 font-bold text-[20px] mt-2">
-                {" "}
-                {price ? (
-                  <>
+          <div className="px-2 text-center mt-2 flex flex-col gap-2 font-LexendDeca justify-between h-[150px]">
+            <p className="hover:text-mainblue truncate2 text-[18px]">
+              {title}1
+            </p>
+
+            <div>
+              {discount === 0 ? (
+                <div className="text-red-500 font-bold text-[20px] mt-2">
+                  {" "}
+                  {price ? (
+                    <>
+                      {" "}
+                      {price}
+                      <sup>VNĐ</sup>
+                    </>
+                  ) : (
+                    <>Liên hệ</>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <p className="text-[14px] line-through text-gray-400">
                     {" "}
                     {price}
                     <sup>VNĐ</sup>
-                  </>
-                ) : (
-                  <>Liên hệ</>
-                )}
-              </div>
-            ) : (
-              <div>
-                <p className="text-[14px] line-through text-gray-400">
-                  {" "}
-                  {price}
-                  <sup>VNĐ</sup>
-                </p>
-                <p className="text-red-500  font-bold text-[20px] mt-2">
-                  {newPrice}
-                  <sup>VNĐ</sup>
-                </p>
-              </div>
-            )}
+                  </p>
+                  <p className="text-red-500  font-bold text-[20px] mt-2">
+                    {newPrice}
+                    <sup>VNĐ</sup>
+                  </p>
+                </div>
+              )}
+            </div>
+            <div
+              className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white px-2"
+              // onClick={() => HandleOrder(id)}
+            >
+              <AiOutlineShoppingCart />
+              <p>Mua ngay</p>
+            </div>
           </div>
-          <div
-            className="flex items-center gap-2 w-full justify-center border py-2 hover:bg-mainpink hover:text-white px-2"
-            onClick={() => HandleOrder(id)}
-          >
-            <AiOutlineShoppingCart />
-            <p>Mua ngay</p>
-          </div>
-        </div>
+        </Link>
       </div>
     </div>
   );

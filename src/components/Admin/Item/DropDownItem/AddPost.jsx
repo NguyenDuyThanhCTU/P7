@@ -22,8 +22,6 @@ const AddPost = () => {
     }
   }, [Posts, updateId]);
 
-  console.log("hi");
-
   const HandleDiscard = () => {
     setEditorData("");
   };

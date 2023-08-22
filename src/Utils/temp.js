@@ -129,3 +129,42 @@ export const BranchesItems = [
     map: "goo.gl/maps/7Lx4mEKSbZLXitey6",
   },
 ];
+
+export const ProductItems = [
+  {
+    type: "",
+    image: "",
+  },
+  {
+    type: "",
+    image: "",
+  },
+  {
+    type: "",
+    image: "",
+  },
+  {
+    type: "",
+    image: "",
+  },
+  {
+    type: "",
+    image: "",
+  },
+  {
+    type: "",
+    image: "",
+  },
+  {
+    type: "",
+    image: "",
+  },
+  {
+    type: "",
+    image: "",
+  },
+  {
+    type: "",
+    image: "",
+  },
+];

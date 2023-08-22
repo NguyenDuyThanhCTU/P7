@@ -3,6 +3,7 @@ import Input from "../../Admin/Item/Input";
 import { RxCross2 } from "react-icons/rx";
 import { useData } from "../../../Context/DataProviders";
 import { useStateProvider } from "../../../Context/StateProvider";
+import { notification } from "antd";
 
 const Cart = () => {
   const [name, setName] = useState("");
@@ -13,46 +14,137 @@ const Cart = () => {
   const [street, setStreet] = useState("");
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
-
-  const { OpenCart, setOpenCart } = useStateProvider();
-
+  const [format, setFormat] = useState([]);
+  const [TotalAmount, setTotalAmount] = useState();
   const { CartItems, Products, setCartItems } = useData();
 
-  useEffect(() => {
-    console.log(CartItems);
-  }, [CartItems]);
-
   const cartMap = {};
-  CartItems.forEach((itemId) => {
-    cartMap[itemId] = (cartMap[itemId] || 0) + 1;
+
+  CartItems?.forEach((itemId) => {
+    cartMap[itemId.id] = (cartMap[itemId.id] || 0) + 1;
   });
 
   const cartProducts = [];
-  let totalAmount = 0.0; // Tổng tiền hóa đơn (số thực)
-
+  let totalAmount = 0.0;
+  let FinalCount = 0;
   Object.keys(cartMap).forEach((itemId) => {
     const product = Products.find((product) => product.id === itemId);
-    if (product) {
+    const listcolor = CartItems.filter((items) => items.id === itemId);
+    const colors = listcolor.map((item) => item.color);
+
+    if (product && colors) {
       const itemCount = cartMap[itemId];
       const itemTotal = product.price * itemCount;
-      totalAmount += itemTotal;
 
+      totalAmount += itemTotal;
+      FinalCount += itemCount;
       cartProducts.push({
         ...product,
         count: itemCount,
         total: itemTotal,
+        ListColor: colors,
       });
     }
   });
 
   const handleRemoveFromCart = (productId) => {
-    const updatedCartItems = CartItems.filter((itemId) => itemId !== productId);
+    const updatedCartItems = CartItems.filter(
+      (itemId) => itemId.id !== productId
+    );
     setCartItems(updatedCartItems);
   };
 
+  const HandleDiscard = () => {
+    setAddress("");
+    setStreet("");
+    setCity("");
+    setDescription("");
+    setDistrict("");
+    setName("");
+    setPhone("");
+    setEmail("");
+  };
+
+  const HandleSubmit = async (e) => {
+    e.preventDefault();
+    if (!phone || !name || !email || !address || !district || !city) {
+      notification["warning"]({
+        message: "Thao tác KHÔNG thành công !",
+        description: `
+           Vui lòng nhập đầy đủ THÔNG TIN !`,
+      });
+    } else {
+      const currentTime = new Date();
+
+      const dataFields = [
+        { title: "Họ Tên", value: name },
+        { title: "Email", value: email },
+        { title: "SĐT", value: phone },
+        { title: "ĐC", value: `${address} ${street}, ${district}, ${city}` },
+        { title: "Yêu Cầu Khác", value: description },
+        { title: "Tổng số lượng sản phẩm", value: `${FinalCount} Sản phẩm` },
+        {
+          title: "Chi tiết hóa đơn",
+          value: `${cartProducts
+            .map((items, idx) => {
+              return `----------------------------------------------- Sản phẩm ${idx} ------------------------------------------------- \nTên sản phẩm: ${items.title} \n số lượng: ${items.count} \n mã sản phẩm: ${items.ListColor} \n loại: ${items.type} \n Giá: ${items.price} VNĐ \n `;
+            })
+            .join("")}
+        `,
+        },
+        {
+          title: "Tổng Giá trị hóa đơn",
+          value: `${totalAmount.toFixed(3)} VNĐ`,
+        },
+        { title: "Thời gian đặt", value: currentTime },
+      ];
+
+      const data = {};
+
+      dataFields.forEach((field) => {
+        data[field.title] = field.value;
+      });
+
+      const response = await fetch(
+        "https://formsubmit.co/ajax/thanhnd2512@gmail.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (response.ok) {
+        // HandleDiscard();
+        notification["success"]({
+          message: "Thành công !",
+          description: `
+             Chúng tôi sẽ liên hệ trong thời gian sớm nhất !`,
+        });
+      } else {
+        notification["error"]({
+          message: "Lỗi !",
+          description: `
+             Lỗi không xác định !`,
+        });
+      }
+    }
+  };
+
   useEffect(() => {
-    console.log(cartProducts);
-  }, [cartProducts]);
+    const data = {
+      name: "",
+      color: [],
+    };
+    cartProducts.map((items, idx) => {
+      data.color.push(items.ListColor);
+      data.name = items.title;
+    });
+    // console.log(data);
+  }, []);
 
   return (
     <div className="grid d:grid-cols-2 gap-5 p:grid-cols-1">
@@ -68,7 +160,7 @@ const Cart = () => {
                   key={product.id}
                   className="flex flex-col px-2 gap-1 items-start py-4 w-full border-b border-black relative"
                 >
-                  <div className="flex w-full justify-between gap-2 ">
+                  <div className="flex w-full justify-start gap-2 ">
                     <div className="w-14 h-14 rounded-lg relative">
                       <img
                         src={product.image}
@@ -79,7 +171,17 @@ const Cart = () => {
                         <span> {product.count}</span>
                       </div>
                     </div>
-                    <h3 className=" text-start   w-full">{product.title}</h3>
+                    <div className="flex flex-col text-start ">
+                      <h3 className="   w-full">{product.title}</h3>
+
+                      <div className="w-full flex gap-2">
+                        {product.ListColor.map((items, idx) => (
+                          <>
+                            <p>{items}</p>
+                          </>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                   <p className="w-full text-right">
                     Giá:{" "}
@@ -116,7 +218,7 @@ const Cart = () => {
           <h3 className="text-mainblue uppercase text-[18px] font-semibold border-b w-full pb-2">
             Thông tin giao hàng
           </h3>
-          <div>
+          <form onSubmit={HandleSubmit}>
             <div className="flex gap-2 ">
               <Input
                 text="Họ tên "
@@ -169,10 +271,13 @@ const Cart = () => {
               setValue={setDescription}
               Input={false}
             />
-            <div className="py-2 bg-blue-500 hover:bg-blue-600 text-white cursor-pointer text-center uppercase font-semibold ">
+            <button
+              className="py-2 w-full bg-blue-500 hover:bg-blue-600 text-white cursor-pointer text-center uppercase font-semibold "
+              type="submit"
+            >
               Đặt hàng
-            </div>
-          </div>
+            </button>
+          </form>
         </div>
       </div>
     </div>

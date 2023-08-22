@@ -7,7 +7,7 @@ import { BiMinus, BiPlus } from "react-icons/bi";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import ShopCart from "../../../Layout/ClientLayout/Section/ShopCart";
-import { Modal, notification } from "antd";
+import { notification } from "antd";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -15,7 +15,7 @@ import "swiper/css/navigation";
 import { Autoplay, Pagination } from "swiper";
 import { RxCross2 } from "react-icons/rx";
 
-const ProductDetail = () => {
+const Demo = () => {
   const [SortProduct, setSortProduct] = useState();
   const [Product, SetProduct] = useState();
   const [color, setColor] = useState();
@@ -23,7 +23,6 @@ const ProductDetail = () => {
   const { setOpenCart, OpenCart } = useStateProvider();
   const { Products, setCartItems } = useData();
   const [isImage, setImage] = useState();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { id } = useParams();
 
@@ -83,13 +82,6 @@ const ProductDetail = () => {
     }
   };
 
-  const HandleSelectColor = (type, image) => {
-    setColor(type);
-
-    setIsModalOpen(true);
-    setImage(image);
-  };
-
   return (
     <div className="flex gap-10 d:flex-row p:flex-col d:items-start p:items-center ">
       <div className="w-full flex justify-center">
@@ -106,32 +98,13 @@ const ProductDetail = () => {
             <div>
               <div
                 className="h-[350px] p:w-[90vw] d:w-[400px] overflow-hidden "
-                onClick={() => HandleSelectColor("", Product?.image[0])}
+                onClick={() => HandleSelectImage(Product?.image[0])}
               >
-                <Swiper
-                  spaceBetween={30}
-                  centeredSlides={true}
-                  slidesPerView={1}
-                  loop={true}
-                  autoplay={{
-                    delay: 2500,
-                    disableOnInteraction: false,
-                  }}
-                  modules={[Autoplay]}
-                  className="mySwiper"
-                >
-                  {Product?.image?.map((items, idx) => (
-                    <>
-                      <SwiperSlide>
-                        <img
-                          src={items}
-                          alt="product"
-                          className="w-full h-full hover:scale-110 duration-500 object-contain"
-                        />
-                      </SwiperSlide>
-                    </>
-                  ))}
-                </Swiper>
+                <img
+                  src={Product?.image[0]}
+                  alt="product image"
+                  className="w-full h-full hover:scale-110 duration-500 object-contain"
+                />
               </div>
               <div className="p:w-[100vw] d:w-[400px] h-[150px]  flex items-center">
                 <div className="p-2 w-full border-4 bg-gray-100">
@@ -147,17 +120,15 @@ const ProductDetail = () => {
                     modules={[Autoplay]}
                     className="mySwiper"
                   >
-                    {Product?.color?.map((items, idx) => (
+                    {Product?.image?.map((items, idx) => (
                       <>
                         <SwiperSlide>
                           <div
                             className=" w-[100px] h-[100px] overflow-hidden"
-                            onClick={() =>
-                              HandleSelectColor(items.type, items.image)
-                            }
+                            onClick={() => HandleSelectImage(items)}
                           >
                             <img
-                              src={items.image}
+                              src={items}
                               alt="product image"
                               className="w-full h-full hover:scale-110 duration-300"
                             />
@@ -206,43 +177,7 @@ const ProductDetail = () => {
               )}
 
               <div className="flex flex-col gap-2">
-                <label className="text-md font-medium ">Danh sách màu:</label>
-                <div className="w-max">
-                  <div className={`grid-cols-${Product?.column} grid gap-3 `}>
-                    {Product?.color?.map((items, idx) => (
-                      <div
-                        className={`hover:bg-mainblue hover:text-white ${
-                          items.type === color
-                            ? "bg-mainblue text-white"
-                            : "bg-white text-black"
-                        }   cursor-pointer my-2 relative w-[50px] h-[50px] group border flex justify-center items-center`}
-                        onClick={() =>
-                          HandleSelectColor(items.type, items.image)
-                        }
-                      >
-                        <p>{items.type}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <>
-                  <Modal
-                    title={`Hình ảnh màu ${color}`}
-                    open={isModalOpen}
-                    onCancel={() => setIsModalOpen(false)}
-                    className=""
-                  >
-                    <div className="w-full flex items-center justify-center border rounded-lg border-mainpink">
-                      <div className="w-full h-full overflow-hidden p-3">
-                        <img
-                          src={isImage}
-                          alt="product"
-                          className="w-full h-full hover:scale-110 duration-300"
-                        />
-                      </div>
-                    </div>
-                  </Modal>
-                </>
+                <label className="text-md font-medium ">Mã màu:</label>
               </div>
 
               <p>
@@ -268,7 +203,7 @@ const ProductDetail = () => {
                   <input
                     type="text"
                     value={isCombo}
-                    className=" focus-visible:outline-none w-full text-center border-0 px-0 py-[8px] h-auto text-13 "
+                    className=" focus-visible:outline-none w-full text-center border-0 px-0 py-[9px] h-auto text-13 "
                   />
                   <BiPlus
                     onClick={() => setIsCombo(isCombo + 1)}
@@ -330,11 +265,16 @@ const ProductDetail = () => {
               </div>
             </div>
           </div>
-          {/* {isImage && (
-            <div className="d:hidden d:w-screen p:block p:w-full h-screen absolute  p:top-0 d:-top-[166px]  -right-1  z-[9999]">
-              <div className="w-full items-center flex bg-[rgba(0,0,0,0.34)] justify-center h-full ">
+          {isImage && (
+            <div className="d:hidden d:w-full  p:w-full h-screen absolute  p:top-0 d:-top-[166px] bg-[rgba(0,0,0,0.34)] p:flex justify-center items-center z-[9999]">
+              <>
                 <div className="d:w-[500px] d:h-[500px] p:w-[90vw] h-[60vh] relative flex justify-center ">
-                  <img src={isImage} className="w-full h-full"></img>
+                  <iframe
+                    src={isImage}
+                    className="w-full h-full"
+                    title="YouTube Image"
+                    allowFullScreen
+                  ></iframe>
                   <div
                     className="absolute -top-9 right-0 rounded-full border text-[30px] text-black border-white bg-white hover:scale-110 duration-300 cursor-pointer"
                     onClick={() => setImage()}
@@ -342,9 +282,9 @@ const ProductDetail = () => {
                     <RxCross2 className=" p-1" />
                   </div>
                 </div>
-              </div>
+              </>
             </div>
-          )}{" "} */}
+          )}{" "}
         </div>
         <div className="w-full mt-10">
           <div className="w-full flex justify-center items-center font-SVNDancing text-[50px] ">
@@ -361,7 +301,7 @@ const ProductDetail = () => {
                       <div className="rounded-lg w-full h-[220px]  overflow-hidden  ">
                         <img
                           src={items.image[0]}
-                          alt="product"
+                          alt="product image"
                           className="w-full h-full hover:scale-110 duration-500 object-cover "
                         />
                       </div>
@@ -407,4 +347,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default Demo;

@@ -29,6 +29,7 @@ const Contact = () => {
     setTitle("");
     setDescription("");
   };
+
   const HandleSubmit = async (e) => {
     e.preventDefault();
     if (!phone || !name || !email || !title || !description) {

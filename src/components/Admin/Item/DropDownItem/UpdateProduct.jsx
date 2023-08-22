@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCloseCircle, AiOutlineDelete } from "react-icons/ai";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
 import { notification } from "antd";
@@ -10,6 +10,7 @@ import { updateDocument } from "../../../../Config/Services/Firebase/FireStoreDB
 import { useData } from "../../../../Context/DataProviders";
 import { TypeProductItems } from "../../../../Utils/item";
 import { uploadImage } from "../Handle";
+import Product from "../../Content/Service/Product/Product";
 
 const UpdateProduct = () => {
   const [imageUrl, setImageUrl] = useState();
@@ -18,9 +19,13 @@ const UpdateProduct = () => {
   const [Content, setContent] = useState();
   const [isType, setIsType] = useState("");
   const [isTypeParams, setIsTypeParams] = useState("");
-  const [isParent, setIsParent] = useState("Cửa Hàng");
-  const [isParentParams, setIsParentParams] = useState("cua-hang");
-
+  const [isParent, setIsParent] = useState("");
+  const [isParentParams, setIsParentParams] = useState("");
+  const [color, setColor] = useState("");
+  const [colorImage, setColorImage] = useState();
+  const [listColor, setListColor] = useState([]);
+  const [column, setColumn] = useState();
+  const [listUrl, setListUrl] = useState([]);
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
   const { productTypes, Products, updateId } = useData();
   //
@@ -29,7 +34,6 @@ const UpdateProduct = () => {
     setContent("");
     setTitle("");
   };
-  console.log(Products);
 
   useEffect(() => {
     const product = Products.filter((item) => item.id === updateId);
@@ -37,6 +41,10 @@ const UpdateProduct = () => {
       setProductSort(product[0]);
     }
   }, [Products, updateId]);
+
+  useEffect(() => {
+    setListColor(ProductSort.color);
+  }, []);
 
   const HandleUpdate = () => {
     const data = {
@@ -48,6 +56,8 @@ const UpdateProduct = () => {
       ...(isTypeParams && { params: isTypeParams }),
       ...(isParent && { parent: isParent }),
       ...(isParentParams && { parentParams: isParentParams }),
+      ...(column && { column: column }),
+      color: listColor,
     };
 
     updateDocument("products", updateId, data).then(() => {
@@ -66,6 +76,7 @@ const UpdateProduct = () => {
       setImageUrl(data);
     });
   };
+
   const HandleParentChange = (e) => {
     const selectedName = e.target.value;
     setIsParent(selectedName);
@@ -76,6 +87,7 @@ const UpdateProduct = () => {
       setIsParentParams(selectedItem.params);
     }
   };
+
   useEffect(() => {
     const sortType = productTypes?.filter(
       (item) => item.parent === isParentParams
@@ -85,6 +97,7 @@ const UpdateProduct = () => {
       setIsTypeParams(sortType[0]?.params);
     }
   }, [isParent, isParentParams, productTypes]);
+
   const HandleTypeChange = (e) => {
     const selectedName = e.target.value;
     setIsType(selectedName);
@@ -93,6 +106,40 @@ const UpdateProduct = () => {
     );
     if (selectedItem) {
       setIsTypeParams(selectedItem.params);
+    }
+  };
+
+  const popValue = (indexToRemove, type) => {
+    if (type === "image") {
+      setListUrl((prevUrls) =>
+        prevUrls.filter((_, index) => index !== indexToRemove)
+      );
+    } else if (type === "color") {
+      setListColor((prevUrls) =>
+        prevUrls.filter((_, index) => index !== indexToRemove)
+      );
+    }
+  };
+
+  const pushValue = (type) => {
+    if (type === "image") {
+      setListUrl((prevUrls) => [...prevUrls, imageUrl]);
+      setImageUrl("");
+    } else if (type === "color") {
+      const data = {
+        type: color,
+        image: colorImage,
+      };
+
+      setListColor((prevUrls) => [...prevUrls, data]);
+      setColor("");
+      setColorImage("");
+      // for (let i = 0; i <= 555; i++) {
+      //   let formattedNumber = i.toString().padStart(0, "0");
+      //   setListColor((prevUrls) => [...prevUrls, formattedNumber]);
+      // }
+
+      // console.log(listColor);
     }
   };
 
@@ -124,7 +171,7 @@ const UpdateProduct = () => {
                       <input
                         id="fileInput"
                         type="file"
-                        onChange={(e) => uploadImage(e)}
+                        onChange={(e) => HandleUploadImage(e, "product")}
                         className="w-0 h-0"
                       />
                     </label>
@@ -166,6 +213,7 @@ const UpdateProduct = () => {
                 )}
               </div>
             </div>
+
             <div className="flex items-center gap-10">
               <div class=" w-[700px] flex flex-col  items-center">
                 <div className="grid grid-cols-2 gap-5 w-full">
@@ -180,55 +228,37 @@ const UpdateProduct = () => {
                           Value={Title}
                           setValue={setTitle}
                           Input={true}
+                          PlaceHolder={ProductSort.title}
                         />
+
                         <Input
                           text="Giá sản phẩm"
                           Value={Price}
                           setValue={setPrice}
                           Input={true}
+                          PlaceHolder={ProductSort.price}
                         />
                         <Input
                           text="Mô tả sản phẩm"
                           Value={Content}
                           setValue={setContent}
+                          PlaceHolder={ProductSort.describe}
                         />
                       </div>
                     </>
                   )}
 
                   <div className="  flex flex-col gap-3">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-md font-medium ">
-                        Mục bài viết:
-                      </label>
-                      <select
-                        className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
-                        onChange={HandleParentChange}
-                      >
-                        {TypeProductItems.map((item, idx) => (
-                          <option
-                            key={idx}
-                            className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
-                            value={item.name}
-                          >
-                            {item.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label className="text-md font-medium ">
-                        Loại bài viết
-                      </label>
-                      <select
-                        className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
-                        onChange={HandleTypeChange}
-                      >
-                        {productTypes
-                          ?.filter(
-                            (item) => item.parentParams === isParentParams
-                          )
-                          .map((item, idx) => (
+                    <div className="flex gap-2 w-full">
+                      <div className="flex flex-col gap-2">
+                        <label className="text-md font-medium ">
+                          Mục bài viết:
+                        </label>
+                        <select
+                          className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
+                          onChange={HandleParentChange}
+                        >
+                          {TypeProductItems.map((item, idx) => (
                             <option
                               key={idx}
                               className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
@@ -237,7 +267,120 @@ const UpdateProduct = () => {
                               {item.name}
                             </option>
                           ))}
-                      </select>
+                        </select>
+                      </div>
+                      <div className="flex flex-col gap-2 w-[190px]">
+                        <label className="text-md font-medium ">
+                          Loại bài viết
+                        </label>
+                        <select
+                          className="outline-none lg:w-650 border-2 border-gray-200 text-md capitalize lg:p-4 p-2 rounded cursor-pointer"
+                          onChange={HandleTypeChange}
+                        >
+                          {productTypes
+                            ?.filter(
+                              (item) => item.parentParams === isParentParams
+                            )
+                            .map((item, idx) => (
+                              <option
+                                key={idx}
+                                className=" outline-none capitalize bg-white text-gray-700 text-md p-2 hover:bg-slate-300"
+                                value={item.name}
+                              >
+                                {item.name}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <div className="grid grid-cols-2 gap-2  items-end">
+                        <div>
+                          <Input
+                            Value={color}
+                            setValue={setColor}
+                            text="Mã màu"
+                            Input={true}
+                          />
+                        </div>
+                        <label>
+                          <p className="bg-[#0047AB] hover:bg-[#0000FF]  text-center rounded text-white text-md font-medium p-2  outline-none">
+                            Chọn từ thiết bị
+                          </p>
+                          <input
+                            type="file"
+                            onChange={(e) =>
+                              HandleUploadImage(e, "color", "color")
+                            }
+                            className="w-0 h-0"
+                            id="fileInput"
+                          />
+                        </label>
+                      </div>
+                      <Input
+                        Value={column}
+                        setValue={setColumn}
+                        text="Số cột"
+                        Input={true}
+                        PlaceHolder={ProductSort.column}
+                      />
+                      <div className="text-center">
+                        {color && colorImage ? (
+                          <>
+                            {" "}
+                            <div
+                              className="p-2 bg-red-600 text-white rounded-lg "
+                              onClick={() => pushValue("color")}
+                            >
+                              Thêm
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            {" "}
+                            <div
+                              className="p-2 bg-red-300 hover:bg-red-600 text-white rounded-lg "
+                              onClick={() => {
+                                notification["error"]({
+                                  message: "Lỗi !!!",
+                                  description: `Vui lòng bổ sung đầy đủ thông tin !`,
+                                });
+                              }}
+                            >
+                              Thêm
+                            </div>
+                          </>
+                        )}
+                      </div>
+                      <div className="overflow-y-auto border rounded-xl w-full  h-[100px] mt-5">
+                        <div className="p-1 grid grid-cols-4 ">
+                          {listColor.map((items, idx) => {
+                            return (
+                              <div className="my-2 relative w-[50px] h-[50px] group border flex justify-center items-center">
+                                <img src={items.image} alt="" />
+                                <div className="w-full h-full flex justify-center items-center ] text-[25px] absolute top-0  z-10 text-redPrimmary ">
+                                  <p>{items.type}</p>
+                                </div>
+                                <div
+                                  className="w-full h-full  group-hover:flex justify-center items-center bg-[rgba(0,0,0,0.3)] text-[40px] absolute top-0  z-10 text-redPrimmary hidden"
+                                  onClick={() => popValue(idx, "color")}
+                                >
+                                  <AiOutlineDelete className="" />
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      {/* <p className="italic text-gray-600 ml-2">
+                        không có màu bạn cần?{" "}
+                        <span
+                          className="hover:text-blue-500 hover:underline underline"
+                          onClick={() => setIsUploadProduct("add-color")}
+                        >
+                          thêm màu
+                        </span>
+                      </p> */}
                     </div>
                   </div>
                 </div>

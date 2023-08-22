@@ -80,10 +80,10 @@ const Section1 = () => {
             ))}
           </Swiper>
         </div>
-        <div className="w-[310px] mx-auto  d:hidden p:block">
+        <div className="w-full   d:hidden p:block">
           <Swiper
             centeredSlides={true}
-            slidesPerView={1}
+            slidesPerView={2}
             loop={true}
             autoplay={{
               delay: 2500,

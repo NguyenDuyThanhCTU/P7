@@ -70,11 +70,11 @@ const Section2 = () => {
           ))}
         </div>
       </div>
-      <div className="mt-10 d:hidden p:flex items-center justify-center">
+      <div className="mt-10 d:hidden p:flex items-center justify-center w-screen">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
-          slidesPerView={1}
+          slidesPerView={2}
           loop={true}
           autoplay={{
             delay: 2500,

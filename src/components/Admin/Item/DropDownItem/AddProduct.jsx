@@ -10,6 +10,7 @@ import { addDocument } from "../../../../Config/Services/Firebase/FireStoreDB";
 import { useData } from "../../../../Context/DataProviders";
 import { TypeProductItems } from "../../../../Utils/item";
 import { uploadImage } from "../Handle";
+import Column from "antd/es/table/Column";
 
 const AddProduct = ({}) => {
   const [Title, setTitle] = useState();
@@ -22,20 +23,22 @@ const AddProduct = ({}) => {
   const [isParent, setIsParent] = useState("Cửa Hàng");
   const [isParentParams, setIsParentParams] = useState("cua-hang");
   const [color, setColor] = useState("");
-
+  const [colorImage, setColorImage] = useState();
   const [listColor, setListColor] = useState([]);
-
+  const [column, setColumn] = useState();
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
   const { productTypes, Color } = useData();
 
   useEffect(() => {
-    const sort = productTypes.filter((item) => item.parent === isParentParams);
+    const sort = productTypes.filter(
+      (item) => item.parentParams === isParentParams
+    );
 
     if (sort) {
       setIsType(sort[0]?.name);
       setIsTypeParams(sort[0]?.params);
     }
-  }, [isParentParams, productTypes]);
+  }, [isParentParams, productTypes, Title]);
 
   const handleDiscard = () => {
     setImageUrl("");
@@ -43,9 +46,9 @@ const AddProduct = ({}) => {
     setContent("");
     setPrice("");
   };
-
+  console.log(isType);
   const HandleSubmit = () => {
-    if (!listUrl || !Title) {
+    if (!listUrl || !Title || !column) {
       notification["error"]({
         message: "Lỗi !!!",
         description: `Vui lòng bổ sung đầy đủ thông tin !`,
@@ -62,30 +65,37 @@ const AddProduct = ({}) => {
         parentParams: isParentParams,
         state: "Còn hàng",
         detail: "",
+        column: column,
         sale: {
-          discount: "0",
-          newPrice: "0",
+          discount: 0,
+          newPrice: "0.000",
         },
         access: Math.floor(Math.random() * (10000 - 100 + 1)) + 100,
         color: listColor,
       };
+      console.log(data);
+      // addDocument("products", data).then(() => {
+      //   notification["success"]({
+      //     message: "Tải lên thành công!",
+      //     description: `Sản phẩm của bạn đã được tải lên !`,
+      //   });
 
-      addDocument("products", data).then(() => {
-        notification["success"]({
-          message: "Tải lên thành công!",
-          description: `Sản phẩm của bạn đã được tải lên !`,
-        });
-
-        setIsRefetch("upload successful");
-        handleDiscard();
-      });
+      //   setIsRefetch("upload successful");
+      //   // handleDiscard();
+      // });
     }
   };
 
-  const HandleUploadImage = (e, locate) => {
-    uploadImage(e, locate).then((data) => {
-      setListUrl((prevUrls) => [...prevUrls, data]);
-    });
+  const HandleUploadImage = (e, locate, type) => {
+    if (type === "image") {
+      uploadImage(e, locate).then((data) => {
+        setListUrl((prevUrls) => [...prevUrls, data]);
+      });
+    } else if (type === "color") {
+      uploadImage(e, locate).then((data) => {
+        setColorImage(data);
+      });
+    }
   };
 
   const pushValue = (type) => {
@@ -93,8 +103,20 @@ const AddProduct = ({}) => {
       setListUrl((prevUrls) => [...prevUrls, imageUrl]);
       setImageUrl("");
     } else if (type === "color") {
-      setListColor((prevUrls) => [...prevUrls, color]);
+      const data = {
+        type: color,
+        image: colorImage,
+      };
+
+      setListColor((prevUrls) => [...prevUrls, data]);
       setColor("");
+      setColorImage("");
+      // for (let i = 0; i <= 555; i++) {
+      //   let formattedNumber = i.toString().padStart(0, "0");
+      //   setListColor((prevUrls) => [...prevUrls, formattedNumber]);
+      // }
+
+      // console.log(listColor);
     }
   };
 
@@ -159,7 +181,9 @@ const AddProduct = ({}) => {
                         </p>
                         <input
                           type="file"
-                          onChange={(e) => HandleUploadImage(e, "products")}
+                          onChange={(e) =>
+                            HandleUploadImage(e, "products", "image")
+                          }
                           className="w-0 h-0"
                           id="fileInput"
                         />
@@ -290,14 +314,37 @@ const AddProduct = ({}) => {
                       </div>
                     </div>
                     <div className="flex flex-col gap-2">
-                      <div className="flex gap-4  items-center">
-                        <Input
-                          Value={color}
-                          setValue={setColor}
-                          text="Mã màu"
-                          Input={true}
-                        />
-                        {color ? (
+                      <div className="grid grid-cols-2 gap-2  items-end">
+                        <div>
+                          <Input
+                            Value={color}
+                            setValue={setColor}
+                            text="Mã màu"
+                            Input={true}
+                          />
+                        </div>
+                        <label>
+                          <p className="bg-[#0047AB] hover:bg-[#0000FF]  text-center rounded text-white text-md font-medium p-2  outline-none">
+                            Chọn từ thiết bị
+                          </p>
+                          <input
+                            type="file"
+                            onChange={(e) =>
+                              HandleUploadImage(e, "color", "color")
+                            }
+                            className="w-0 h-0"
+                            id="fileInput"
+                          />
+                        </label>
+                      </div>
+                      <Input
+                        Value={column}
+                        setValue={setColumn}
+                        text="Số cột"
+                        Input={true}
+                      />
+                      <div className="text-center">
+                        {color && colorImage ? (
                           <>
                             {" "}
                             <div
@@ -310,7 +357,15 @@ const AddProduct = ({}) => {
                         ) : (
                           <>
                             {" "}
-                            <div className="p-2 bg-red-300 hover:bg-red-600 text-white rounded-lg ">
+                            <div
+                              className="p-2 bg-red-300 hover:bg-red-600 text-white rounded-lg "
+                              onClick={() => {
+                                notification["error"]({
+                                  message: "Lỗi !!!",
+                                  description: `Vui lòng bổ sung đầy đủ thông tin !`,
+                                });
+                              }}
+                            >
                               Thêm
                             </div>
                           </>
@@ -321,7 +376,10 @@ const AddProduct = ({}) => {
                           {listColor.map((items, idx) => {
                             return (
                               <div className="my-2 relative w-[50px] h-[50px] group border flex justify-center items-center">
-                                <p className="">{items}</p>
+                                <img src={items.image} alt="" />
+                                <div className="w-full h-full flex justify-center items-center ] text-[25px] absolute top-0  z-10 text-redPrimmary ">
+                                  <p>{items.type}</p>
+                                </div>
                                 <div
                                   className="w-full h-full  group-hover:flex justify-center items-center bg-[rgba(0,0,0,0.3)] text-[40px] absolute top-0  z-10 text-redPrimmary hidden"
                                   onClick={() => popValue(idx, "color")}

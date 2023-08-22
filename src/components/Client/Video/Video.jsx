@@ -5,7 +5,6 @@ import { RxCross2 } from "react-icons/rx";
 const Video = () => {
   const { Videos } = useData();
   const [isVideo, setVideo] = useState();
-  const [isOpen, setOpen] = useState(false);
 
   const HandleSelectVideo = (id) => {
     const sort = Videos.filter((item) => item.id === id);
@@ -36,7 +35,7 @@ const Video = () => {
         ))}
       </div>
       {isVideo && (
-        <div className="w-full h-screen absolute -top-[126px] bg-[rgba(0,0,0,0.8)] flex justify-center items-center z-[9999]">
+        <div className="w-full h-screen absolute p:-top-[90px] d:-top-[166px] bg-[rgba(0,0,0,0.8)] flex justify-center items-center z-[9999]">
           <>
             <div className="w-[50vw] h-[50vh] relative">
               <iframe

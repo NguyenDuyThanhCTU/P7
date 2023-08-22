@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import { useData } from "../../../Context/DataProviders";
 import { RxCross2 } from "react-icons/rx";
@@ -11,13 +10,11 @@ const ShopCart = () => {
 
   const { CartItems, Products, setCartItems } = useData();
 
-  useEffect(() => {
-    console.log(CartItems);
-  }, [CartItems]);
-
   const cartMap = {};
+  const listColor = [];
   CartItems.forEach((itemId) => {
-    cartMap[itemId] = (cartMap[itemId] || 0) + 1;
+    cartMap[itemId.id] = (cartMap[itemId.id] || 0) + 1;
+    listColor.push(itemId.color);
   });
 
   const cartProducts = [];
@@ -34,6 +31,7 @@ const ShopCart = () => {
         ...product,
         count: itemCount,
         total: itemTotal,
+        ListColor: listColor,
       });
     }
   });
@@ -81,7 +79,7 @@ const ShopCart = () => {
                     key={product.id}
                     className="flex flex-col px-2 gap-1 items-start py-4 w-full border-b border-black relative"
                   >
-                    <div className="flex w-full justify-between gap-2 ">
+                    <div className="flex w-full justify-start gap-2 ">
                       <div className="w-14 h-14 rounded-lg relative">
                         <img
                           src={product.image}
@@ -92,16 +90,28 @@ const ShopCart = () => {
                           <span> {product.count}</span>
                         </div>
                       </div>
-                      <h3 className=" text-start   w-full">{product.title}</h3>
+                      <div className="flex flex-col text-start ">
+                        <h3 className="   w-full">{product.title}</h3>
+                        <p className="italic text-[14px] text-gray-500">
+                          Mã màu:
+                        </p>
+                        <div className="w-full grid grid-cols-5 gap-2 grid-row-2">
+                          {product.ListColor.map((items, idx) => (
+                            <>
+                              <p>{items}</p>
+                            </>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                     <div>
-                      <p className="w-full text-right">
+                      {/* <p className="w-full text-right">
                         Giá:{" "}
                         <span className="text-mainpink">
                           {" "}
                           {product.price} <sup>VNĐ</sup>
                         </span>
-                      </p>
+                      </p> */}
                       <p className="w-full text-right">
                         Giá:{" "}
                         <span className="text-mainpink">

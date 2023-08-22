@@ -44,7 +44,7 @@ const AddBranch = () => {
         email: BranchEmail,
         location: BranchLocation,
       };
-      console.log(data);
+
       addDocument("branches", data).then(() => {
         notification["success"]({
           message: "Thành công!",
