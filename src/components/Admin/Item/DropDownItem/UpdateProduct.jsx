@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiFillCloseCircle, AiOutlineDelete } from "react-icons/ai";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
-import { notification } from "antd";
+import { Drawer, notification } from "antd";
 
 import Input from "../Input";
 import { useStateProvider } from "../../../../Context/StateProvider";
@@ -11,6 +11,7 @@ import { useData } from "../../../../Context/DataProviders";
 import { TypeProductItems } from "../../../../Utils/item";
 import { uploadImage } from "../Handle";
 import Product from "../../Content/Service/Product/Product";
+import TextEditor from "../../../Item/TextEditor";
 
 const UpdateProduct = () => {
   const [imageUrl, setImageUrl] = useState();
@@ -19,8 +20,8 @@ const UpdateProduct = () => {
   const [Content, setContent] = useState();
   const [isType, setIsType] = useState("");
   const [isTypeParams, setIsTypeParams] = useState("");
-  const [isParent, setIsParent] = useState("");
-  const [isParentParams, setIsParentParams] = useState("");
+  const [isParent, setIsParent] = useState("Cửa Hàng");
+  const [isParentParams, setIsParentParams] = useState("cua-hang");
   const [color, setColor] = useState("");
   const [colorImage, setColorImage] = useState();
   const [listColor, setListColor] = useState([]);
@@ -28,6 +29,10 @@ const UpdateProduct = () => {
   const [listUrl, setListUrl] = useState([]);
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
   const { productTypes, Products, updateId } = useData();
+  const [open, setOpen] = useState(false);
+  const [openDescription, setOpenDescription] = useState(false);
+  const [describe, setDescribe] = useState("");
+
   //
   const [ProductSort, setProductSort] = useState([]);
   const handleDiscard = () => {
@@ -48,17 +53,23 @@ const UpdateProduct = () => {
 
   const HandleUpdate = () => {
     const data = {
-      ...(Title && { title: Title }),
-      ...(Content && { content: Content }),
-      ...(Price && { price: Price }),
-      ...(isType && { type: isType }),
-      ...(imageUrl && { image: imageUrl }),
-      ...(isTypeParams && { params: isTypeParams }),
-      ...(isParent && { parent: isParent }),
-      ...(isParentParams && { parentParams: isParentParams }),
-      ...(column && { column: column }),
+      title: Title,
+      content: Content,
+      price: Price,
+      type: isType,
+      image: imageUrl,
+      params: isTypeParams,
+      parent: isParent,
+      parentParams: isParentParams,
+      column: column,
       color: listColor,
     };
+
+    for (let key in data) {
+      if (data[key] === undefined || data[key] === "") {
+        delete data[key];
+      }
+    }
 
     updateDocument("products", updateId, data).then(() => {
       notification["success"]({
@@ -142,7 +153,9 @@ const UpdateProduct = () => {
       // console.log(listColor);
     }
   };
-
+  const initial1 =
+    "<p>Chất liệu: </p> <br/> <p>Màu sắc: </p> <br/> <p>Size: </p> <br/> <p>Chiều dài: </p> <br/> <p>Chiều rộng: </p> <br/> <p>Chiều cao: </p> <br/> <p>Trọng lượng: </p> <br/> <p>Thương hiệu: </p> <br/> <p>Xuất xứ: </p> <br/> <p>Chất liệu";
+  const initDescribe = "<p> mô tả sản phẩm </p>";
   return (
     <div
       className={`bg-[rgba(0,0,0,0.3)] w-full 
@@ -238,12 +251,24 @@ const UpdateProduct = () => {
                           Input={true}
                           PlaceHolder={ProductSort.price}
                         />
-                        <Input
-                          text="Mô tả sản phẩm"
-                          Value={Content}
-                          setValue={setContent}
-                          PlaceHolder={ProductSort.describe}
-                        />
+                        <div className="">
+                          <label>Thông tin sản phẩm</label>
+                          <div
+                            className="bg-red-400 hover:bg-red-600 duration-300 mt-2 py-3 text-center hover:text-white cursor-pointer"
+                            onClick={() => setOpen(true)}
+                          >
+                            Thêm thông tin sản phẩm
+                          </div>
+                        </div>
+                        <div className="">
+                          <label>Mô tả sản phẩm</label>
+                          <div
+                            className="bg-red-400 hover:bg-red-600 duration-300 mt-2 py-3 text-center hover:text-white cursor-pointer"
+                            onClick={() => setOpenDescription(true)}
+                          >
+                            Thêm mô tả sản phẩm
+                          </div>
+                        </div>
                       </div>
                     </>
                   )}
@@ -354,22 +379,27 @@ const UpdateProduct = () => {
                       </div>
                       <div className="overflow-y-auto border rounded-xl w-full  h-[100px] mt-5">
                         <div className="p-1 grid grid-cols-4 ">
-                          {listColor.map((items, idx) => {
-                            return (
-                              <div className="my-2 relative w-[50px] h-[50px] group border flex justify-center items-center">
-                                <img src={items.image} alt="" />
-                                <div className="w-full h-full flex justify-center items-center ] text-[25px] absolute top-0  z-10 text-redPrimmary ">
-                                  <p>{items.type}</p>
-                                </div>
-                                <div
-                                  className="w-full h-full  group-hover:flex justify-center items-center bg-[rgba(0,0,0,0.3)] text-[40px] absolute top-0  z-10 text-redPrimmary hidden"
-                                  onClick={() => popValue(idx, "color")}
-                                >
-                                  <AiOutlineDelete className="" />
-                                </div>
-                              </div>
-                            );
-                          })}
+                          {listColor && (
+                            <>
+                              {" "}
+                              {listColor.map((items, idx) => {
+                                return (
+                                  <div className="my-2 relative w-[50px] h-[50px] group border flex justify-center items-center">
+                                    <img src={items.image} alt="" />
+                                    <div className="w-full h-full flex justify-center items-center ] text-[25px] absolute top-0  z-10 text-redPrimmary ">
+                                      <p>{items.type}</p>
+                                    </div>
+                                    <div
+                                      className="w-full h-full  group-hover:flex justify-center items-center bg-[rgba(0,0,0,0.3)] text-[40px] absolute top-0  z-10 text-redPrimmary hidden"
+                                      onClick={() => popValue(idx, "color")}
+                                    >
+                                      <AiOutlineDelete className="" />
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </>
+                          )}
                         </div>
                       </div>
                       {/* <p className="italic text-gray-600 ml-2">
@@ -414,6 +444,38 @@ const UpdateProduct = () => {
           }}
         />
       </div>
+      <>
+        <Drawer
+          title="Thêm thông tin sản phẩm"
+          placement="right"
+          onClose={() => setOpen(false)}
+          open={open}
+          width={800}
+        >
+          <TextEditor
+            onChange={setContent}
+            initialValue={`${
+              ProductSort?.content ? ProductSort.content : initial1
+            }`}
+          />
+        </Drawer>
+      </>
+      <>
+        <Drawer
+          title="Thêm mô tả sản phẩm"
+          placement="right"
+          onClose={() => setOpenDescription(false)}
+          open={openDescription}
+          width={800}
+        >
+          <TextEditor
+            onChange={setDescribe}
+            initialValue={`${
+              ProductSort?.describe ? ProductSort.describe : initDescribe
+            }`}
+          />
+        </Drawer>
+      </>
     </div>
   );
 };

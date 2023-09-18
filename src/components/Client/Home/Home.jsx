@@ -10,6 +10,7 @@ import ScrollTop from "../../Item/ScrollTop";
 const Home = () => {
   const { productTypes, Products } = useData();
   const { OpenCart } = useStateProvider();
+  console.log(OpenCart);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);

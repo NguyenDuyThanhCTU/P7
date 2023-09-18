@@ -42,7 +42,7 @@ const Introduction = () => {
           <div className="w-full flex justify-center">
             <div>
               <img
-                src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t1.6435-9/75625260_101967804608195_9061722863836332032_n.jpg?_nc_cat=103&cb=99be929b-3346023f&ccb=1-7&_nc_sid=300f58&_nc_ohc=ANMoCuoNfqwAX_R-Ike&_nc_ht=scontent.fsgn2-9.fna&oh=00_AfC1oHQt1bcss6EUjRcxq8MrG_GCvaJd0hDfDM38cvCXKA&oe=64FFFF6A"
+                src="https://firebasestorage.googleapis.com/v0/b/fir-d82f9.appspot.com/o/Nail%2F75625260_101967804608195_9061722863836332032_n.jpg?alt=media&token=29cd616f-86b8-4bad-9ddd-e9991b12affe"
                 alt="intro1"
               />
               <p className="text-center italic">
@@ -73,7 +73,7 @@ const Introduction = () => {
           <div className="w-full flex justify-center">
             <div>
               <img
-                src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t39.30808-6/312755810_503545928456727_6996694448340822390_n.jpg?_nc_cat=109&cb=99be929b-3346023f&ccb=1-7&_nc_sid=300f58&_nc_ohc=02zKygIhm28AX9cWYLA&_nc_ht=scontent.fsgn2-4.fna&oh=00_AfDDKctAL3gfZJ2pX8UxXIxWo8eNiYsUjCp-LJjgY331Ug&oe=64DDE07F"
+                src="https://firebasestorage.googleapis.com/v0/b/fir-d82f9.appspot.com/o/Nail%2F312273554_502869175191069_4208497842372560474_n.jpg?alt=media&token=920cbb57-2496-4ec3-bb43-03566947c40c"
                 alt="intro1"
               />
               <p className="text-center italic">
@@ -112,7 +112,7 @@ const Introduction = () => {
           <div className="w-full flex justify-center">
             <div>
               <img
-                src="https://scontent.fsgn2-9.fna.fbcdn.net/v/t39.30808-6/278174367_553278972810407_1374336591982777869_n.jpg?_nc_cat=103&cb=99be929b-3346023f&ccb=1-7&_nc_sid=300f58&_nc_ohc=_7hXIrTSXjMAX8MPecr&_nc_ht=scontent.fsgn2-9.fna&oh=00_AfC8SQKUNh2GqLDTuBsOmWgEqesYiXiUmaHTdI50tVVIsg&oe=64DD10D0"
+                src="https://firebasestorage.googleapis.com/v0/b/fir-d82f9.appspot.com/o/Nail%2F312755810_503545928456727_6996694448340822390_n.jpg?alt=media&token=ee7f7a7f-516d-4b39-a0d4-e6d57fdd47ec"
                 alt="intro1"
               />
               <p className="text-center italic">
@@ -133,10 +133,7 @@ const Introduction = () => {
               {ContactData.phone}
             </p>
             <p>
-              <strong className="font-bold">Web:</strong>
-            </p>
-            <p>
-              <strong className="font-bold">Fanpage: </strong>
+              <strong className="font-bold">Web: www.ThaoNgoNail.com</strong>
             </p>
           </div>
         </div>

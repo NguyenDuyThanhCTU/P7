@@ -70,17 +70,10 @@ export const IconMapping = {
 
 export const ProductSidebarAdmin = [
   {
-    name: "Giới thiệu",
-    icon: "AiOutlineSlack",
-  },
-  {
     name: "Sản phẩm",
     icon: "FaFirstOrderAlt",
   },
-  {
-    name: "Đơn hàng",
-    icon: "AiOutlineUnorderedList",
-  },
+  ,
   {
     name: "Chi nhánh",
     icon: "CgListTree",

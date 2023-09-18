@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AiFillCloseCircle, AiOutlineDelete } from "react-icons/ai";
 import { FaCloudUploadAlt } from "react-icons/fa";
 
-import { notification } from "antd";
+import { Drawer, notification } from "antd";
 
 import Input from "../Input";
 import { useStateProvider } from "../../../../Context/StateProvider";
@@ -10,7 +10,7 @@ import { addDocument } from "../../../../Config/Services/Firebase/FireStoreDB";
 import { useData } from "../../../../Context/DataProviders";
 import { TypeProductItems } from "../../../../Utils/item";
 import { uploadImage } from "../Handle";
-import Column from "antd/es/table/Column";
+import TextEditor from "../../../Item/TextEditor";
 
 const AddProduct = ({}) => {
   const [Title, setTitle] = useState();
@@ -26,9 +26,11 @@ const AddProduct = ({}) => {
   const [colorImage, setColorImage] = useState();
   const [listColor, setListColor] = useState([]);
   const [column, setColumn] = useState();
+  const [describe, setDescribe] = useState();
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
   const { productTypes, Color } = useData();
-
+  const [open, setOpen] = useState(false);
+  const [openDescription, setOpenDescription] = useState(false);
   useEffect(() => {
     const sort = productTypes.filter(
       (item) => item.parentParams === isParentParams
@@ -46,9 +48,9 @@ const AddProduct = ({}) => {
     setContent("");
     setPrice("");
   };
-  console.log(isType);
+
   const HandleSubmit = () => {
-    if (!listUrl || !Title || !column) {
+    if (!Title || !column) {
       notification["error"]({
         message: "Lỗi !!!",
         description: `Vui lòng bổ sung đầy đủ thông tin !`,
@@ -72,17 +74,18 @@ const AddProduct = ({}) => {
         },
         access: Math.floor(Math.random() * (10000 - 100 + 1)) + 100,
         color: listColor,
+        describe: describe,
       };
-      console.log(data);
-      // addDocument("products", data).then(() => {
-      //   notification["success"]({
-      //     message: "Tải lên thành công!",
-      //     description: `Sản phẩm của bạn đã được tải lên !`,
-      //   });
 
-      //   setIsRefetch("upload successful");
-      //   // handleDiscard();
-      // });
+      addDocument("products", data).then(() => {
+        notification["success"]({
+          message: "Tải lên thành công!",
+          description: `Sản phẩm của bạn đã được tải lên !`,
+        });
+
+        setIsRefetch("upload successful");
+        // handleDiscard();
+      });
     }
   };
 
@@ -152,7 +155,9 @@ const AddProduct = ({}) => {
       setIsTypeParams(selectedItem.params);
     }
   };
-
+  const initial1 =
+    "<p>Chất liệu: </p> <br/> <p>Màu sắc: </p> <br/> <p>Size: </p> <br/> <p>Chiều dài: </p> <br/> <p>Chiều rộng: </p> <br/> <p>Chiều cao: </p> <br/> <p>Trọng lượng: </p> <br/> <p>Thương hiệu: </p> <br/> <p>Xuất xứ: </p> <br/> <p>Chất liệu";
+  const initDescribe = "<p> mô tả sản phẩm </p>";
   return (
     <div
       className={`bg-[rgba(0,0,0,0.3)] w-full 
@@ -259,11 +264,24 @@ const AddProduct = ({}) => {
                           setValue={setPrice}
                           Input={true}
                         />
-                        <Input
-                          text="Mô tả sản phẩm"
-                          Value={Content}
-                          setValue={setContent}
-                        />
+                        <div className="">
+                          <label>Thông tin sản phẩm</label>
+                          <div
+                            className="bg-red-400 hover:bg-red-600 duration-300 mt-2 py-3 text-center hover:text-white cursor-pointer"
+                            onClick={() => setOpen(true)}
+                          >
+                            Thêm thông tin sản phẩm
+                          </div>
+                        </div>
+                        <div className="">
+                          <label>Mô tả sản phẩm</label>
+                          <div
+                            className="bg-red-400 hover:bg-red-600 duration-300 mt-2 py-3 text-center hover:text-white cursor-pointer"
+                            onClick={() => setOpenDescription(true)}
+                          >
+                            Thêm mô tả sản phẩm
+                          </div>
+                        </div>
                       </div>
                     </>
                   )}
@@ -433,6 +451,28 @@ const AddProduct = ({}) => {
           }}
         />
       </div>
+      <>
+        <Drawer
+          title="Thêm thông tin sản phẩm"
+          placement="right"
+          onClose={() => setOpen(false)}
+          open={open}
+          width={800}
+        >
+          <TextEditor onChange={setContent} initialValue={initial1} />
+        </Drawer>
+      </>
+      <>
+        <Drawer
+          title="Thêm mô tả sản phẩm"
+          placement="right"
+          onClose={() => setOpenDescription(false)}
+          open={openDescription}
+          width={800}
+        >
+          <TextEditor onChange={setDescribe} initialValue={initDescribe} />
+        </Drawer>
+      </>
     </div>
   );
 };

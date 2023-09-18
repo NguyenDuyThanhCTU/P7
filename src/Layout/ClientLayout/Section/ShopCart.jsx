@@ -12,6 +12,7 @@ const ShopCart = () => {
 
   const cartMap = {};
   const listColor = [];
+
   CartItems.forEach((itemId) => {
     cartMap[itemId.id] = (cartMap[itemId.id] || 0) + 1;
     listColor.push(itemId.color);
@@ -51,7 +52,7 @@ const ShopCart = () => {
           transition duration-300 flex`}
       >
         <div
-          className="w-[43px] h-[43px] flex items-center justify-center bg-mainblue text-white hover:bg-mainpink duration-300 group"
+          className="w-[43px] h-[43px] flex items-center justify-center bg-main text-white hover:bg-mainpink duration-300 group"
           onClick={() => setOpenCart(!OpenCart)}
         >
           {OpenCart ? (
@@ -68,7 +69,7 @@ const ShopCart = () => {
         </div>
         <div className="bg-[#fdf1d8] w-full font-LexendDeca">
           <div className=" w-full">
-            <h3 className="uppercase font-iCielBCCubano bg-gradient-to-l from-blue-300 to-blue-600 text-white text-center py-[10px] bg-no-repeat bg-cover font-bold">
+            <h3 className="uppercase font-LexendDeca bg-gradient-to-l from-blue-300 to-blue-600 text-white text-center py-[10px] bg-no-repeat bg-cover font-bold">
               Giỏ hàng của bạn
             </h3>
             <div className="border-t-4 h-2 w-full border-solid bg-gradient-to-r from-blue-300 to-blue-600 mt-1"></div>

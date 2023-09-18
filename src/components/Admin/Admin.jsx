@@ -5,7 +5,7 @@ import Header from "./Header/Header";
 
 import Sidebar from "./Sidebar/Sidebar";
 
-import Content from "../Admin/Content/Content";
+import Content from "./Content/Content";
 import AdminDropDown from "./Item/AdminDropDown";
 
 const Admin = () => {

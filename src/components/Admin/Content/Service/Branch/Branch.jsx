@@ -9,7 +9,7 @@ import { useData } from "../../../../../Context/DataProviders";
 const Branch = () => {
   const { setIsUploadProduct, setIsRefetch } = useStateProvider();
   const { branches } = useData();
-  console.log(branches);
+
   const HandleDelete = (id) => {
     delDocument("branches", id).then(() => {
       notification["success"]({

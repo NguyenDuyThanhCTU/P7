@@ -1,18 +1,18 @@
-import { Popconfirm, message, notification } from "antd";
+// import { Popconfirm, message, notification } from "antd";
 import React from "react";
-import { FcViewDetails } from "react-icons/fc";
-import { FiEdit } from "react-icons/fi";
-import { MdDeleteForever } from "react-icons/md";
-import { delDocument } from "../../../../../../Config/Services/Firebase/FireStoreDB";
-import { useStateProvider } from "../../../../../../Context/StateProvider";
-import { useData } from "../../../../../../Context/DataProviders";
-import { SlOptions } from "react-icons/sl";
-import DropDown from "../../../../Item/AdminDropDown";
-import { IconMapping, OrderDashboardItems } from "../../../../../../Utils/item";
+// import { FcViewDetails } from "react-icons/fc";
+// import { FiEdit } from "react-icons/fi";
+// import { MdDeleteForever } from "react-icons/md";
+// import { delDocument } from "../../../../../../Config/Services/Firebase/FireStoreDB";
+// import { useStateProvider } from "../../../../../../Context/StateProvider";
+// import { useData } from "../../../../../../Context/DataProviders";
+// import { SlOptions } from "react-icons/sl";
+// import DropDown from "../../../../Item/AdminDropDown";
+// import { IconMapping, OrderDashboardItems } from "../../../../../../Utils/item";
 
 const ListOrder = () => {
-  const { setIsRefetch } = useStateProvider();
-  const { orders } = useData();
+  // const { setIsRefetch } = useStateProvider();
+  // const { orders } = useData();
 
   return (
     <div>

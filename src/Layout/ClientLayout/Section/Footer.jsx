@@ -11,7 +11,7 @@ const Footer = () => {
   const { TradeMarkData, ContactData, SocialMedia, branches } = useData();
   return (
     <>
-      <div className="bg-[url(http://thegioiphukiennails39.com/assets/images/bgf.png)] w-full d:h-[450px]   p:h-auto p:bg-cover">
+      <div className="bg-[url(https://firebasestorage.googleapis.com/v0/b/fir-d82f9.appspot.com/o/Nail%2Fbgf.png?alt=media&token=4bebc6e9-fafc-40d4-bf6d-b8058a0e0161)] w-full d:h-[450px]   p:h-auto p:bg-cover">
         <div className="d:w-[1200px] p:w-auto mx-auto py-8 flex flex-col items-center justify-between h-full d:gap-0 p:gap-10">
           <div>
             <img

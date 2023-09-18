@@ -38,7 +38,7 @@ const AdminDropDown = () => {
       ) : isUploadProduct === "product-detail" ? (
         <ProductDetail />
       ) : isUploadProduct === "profile" ? (
-        <Profile type="Home" />
+        <Profile />
       ) : null}
     </div>
   );

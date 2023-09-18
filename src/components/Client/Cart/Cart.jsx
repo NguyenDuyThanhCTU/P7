@@ -106,7 +106,7 @@ const Cart = () => {
       });
 
       const response = await fetch(
-        "https://formsubmit.co/ajax/thanhnd2512@gmail.com",
+        "https://formsubmit.co/ajax/thequyen335853@gmail.com",
         {
           method: "POST",
           headers: {

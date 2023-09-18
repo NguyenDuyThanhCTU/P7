@@ -119,7 +119,6 @@ const ListProducts = ({ name }) => {
                       key={idx}
                       className="grid  grid-cols-4 items-center my-2  ml-1 justify-start px-5 "
                     >
-                      {console.log(data)}
                       <div className="group relative ">
                         <FiEdit className="text-red-600 hover:scale-125 duration-300 " />
                         <div className="w-[120px] bg-white opacity-90 absolute -top-2 h-8 left-5 rounded-lg hidden group-hover:block ">

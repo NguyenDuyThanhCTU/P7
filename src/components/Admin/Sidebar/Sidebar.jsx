@@ -108,7 +108,7 @@ const Sidebar = ({}) => {
             : isSelected === 6
             ? "translate-y-[549px]"
             : isSelected === 7
-            ? "translate-y-[619px]"
+            ? "translate-y-[549px]"
             : isSelected === 8
             ? "translate-y-[689px]"
             : null

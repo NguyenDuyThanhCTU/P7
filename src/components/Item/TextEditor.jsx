@@ -1,39 +1,24 @@
-import Editor from "ckeditor5-custom-build/build/ckeditor";
+import React, { useEffect, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-const TextEditor = ({ editorData, setEditorData }) => {
+const TextEditor = ({ initialValue, onChange }) => {
+  const [editorData, setEditorData] = useState(initialValue);
+
+  useEffect(() => {
+    setEditorData(initialValue);
+  }, [initialValue]);
+
   const handleEditorChange = (event, editor) => {
     const data = editor.getData();
     setEditorData(data);
+    onChange(data);
   };
 
-  // const editorConfiguration = {
-  //   toolbar: {
-  //     items: [
-  //       // ... your existing toolbar items
-  //       "imageUpload", // Include the image upload button
-  //     ],
-  //     shouldNotGroupWhenFull: true,
-  //   },
-  //   upload: {
-  //     upload: async (file) => {
-  //       try {
-  //         const url = await uploadImage(file, "ckeditor"); // Adjust the location as needed
-  //         if (url) {
-  //           return { default: url };
-  //         }
-  //       } catch (error) {
-  //         console.error("Error uploading file:", error);
-  //         return null;
-  //       }
-  //     },
-  //   },
-  // };
-
   return (
-    <div className="CKEditor">
+    <div>
       <CKEditor
-        editor={Editor}
+        editor={ClassicEditor}
         data={editorData}
         onChange={handleEditorChange}
       />

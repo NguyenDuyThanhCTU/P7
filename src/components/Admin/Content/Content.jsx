@@ -46,27 +46,26 @@ const Persona = () => {
         ) : isSelected === 5 ? (
           <>
             <div className="p-5 d:px-10 p:px-2 flex justify-start gap-10">
-              <Introduce />
+              <Product />
               <></>
             </div>
           </>
         ) : isSelected === 6 ? (
           <>
-            <div className="p-5 d:px-10 p:px-2 flex justify-start gap-10">
-              <Product />
-            </div>
+            <div className="p-5 d:px-10 p:px-2 flex justify-start gap-10"></div>
           </>
         ) : isSelected === 7 ? (
           <>
             <div className="p-5 d:px-10 p:px-2 flex justify-start gap-10">
-              <Order />
-              <></>
+              <>
+                {" "}
+                <Branch />
+              </>
             </div>
           </>
         ) : isSelected === 8 ? (
           <>
             <div className="p-5 d:px-10 p:px-2 flex justify-start gap-10">
-              <Branch />
               <></>
             </div>
           </>
